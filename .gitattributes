@@ -1,11 +1,37 @@
 * text=auto eol=lf
 
-*.blade.php diff=html
-*.css diff=css
-*.html diff=html
-*.md diff=markdown
-*.php diff=php
+# --- 1. THE KINGS: BLADE & PHP (Goal: ~90% combined) ---
+# This ensures your architectural work is the most visible
+*.blade.php linguist-language=Blade
+*.blade.php linguist-detectable=true
+resources/**/*.blade.php linguist-detectable=true
+app/**/*.php linguist-detectable=true
+*.php linguist-detectable=true
 
+# --- 2. THE SUPPORT: HTML, CSS & JS (Goal: ~10% combined) ---
+# We allow ONLY your custom folders to show up in the bar
+public/css/pages/*.css linguist-detectable=true
+public/css/*.css linguist-detectable=true
+public/js/*.js linguist-detectable=true
+*.html linguist-detectable=true
+
+# --- 3. THE "92% CSS" KILLER (VENDORED) ---
+# This hides the thousands of lines of code you didn't write
+public/plugins/** linguist-vendored
+public/dist/** linguist-vendored
+public/build/** linguist-vendored
+public/pages/** linguist-vendored
+vendor/** linguist-vendored
+node_modules/** linguist-vendored
+
+# --- 4. GLOBAL SILENCE FOR STRAY BLOAT ---
+# This acts as a safety net so stray library files don't spike your stats
+*.js linguist-vendored
+*.css linguist-vendored
+*.js linguist-vendored
+
+# --- 5. CLEANUP ---
+*.md diff=markdown
 /.github export-ignore
 CHANGELOG.md export-ignore
-.styleci.yml export-ignore
+.styleci.yml export-ignore  
