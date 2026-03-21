@@ -20,7 +20,6 @@ app/**/*.php                         linguist-detectable=true
 
 # ── 3. CSS (Custom Only) ─────────────────────────────────────
 public/css/*.css                     linguist-detectable=true
-public/css/pages/*.css               linguist-detectable=true
 *.html                               linguist-detectable=true
 
 # ── 4. HTML & SCSS — Silence ─────────────────────────────────
