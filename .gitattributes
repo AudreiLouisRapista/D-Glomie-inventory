@@ -18,17 +18,18 @@ resources/**/*.blade.php             linguist-detectable=true
 app/**/*.php                         linguist-detectable=true
 
 
-# ── 3. HTML — Silence all (Blade covers your views) ──────────
-*.html                               linguist-vendored
+# ── 3. CSS (Custom Only) ─────────────────────────────────────
+public/css/*.css                     linguist-detectable=true
+public/css/pages/*.css               linguist-detectable=true
+*.html                               linguist-detectable=true
 
+# ── 4. HTML & SCSS — Silence ─────────────────────────────────
 
-# ── 4. CSS & SCSS — Silence all ──────────────────────────────
-*.css                                linguist-vendored
 *.scss                               linguist-vendored
 *.sass                               linguist-vendored
 
 
-# ── 5. JS — Silence all ──────────────────────────────────────
+# ── 5. JS — Silence ──────────────────────────────────────────
 *.js                                 linguist-vendored
 *.ts                                 linguist-vendored
 
