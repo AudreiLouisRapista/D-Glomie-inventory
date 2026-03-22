@@ -52,83 +52,47 @@
                      </a>
                  </li>
                  <li class="nav-item">
-                     <a href="{{ route('view_section') }}"
-                         class="nav-link {{ request()->routeIs('view_section') ? 'active' : '' }}">
+                     <a href="{{ route('product') }}"
+                         class="nav-link {{ request()->routeIs('product') ? 'active' : '' }}">
                          <i class="nav-icon fas fa-box"></i>
                          <p>
-                             Product Management
+                             Product
 
                          </p>
                      </a>
                  </li>
                  <li class="nav-item">
-                     <a href="{{ route('view_schedule') }}"
-                         class="nav-link {{ request()->routeIs('view_schedule') ? 'active' : '' }}">
+                     <a href="{{ route('inventory') }}"
+                         class="nav-link {{ request()->routeIs('inventory') ? 'active' : '' }}">
 
                          <i class="nav-icon fas fa-boxes"></i>
                          <p>
-                             Inventory Management
+                             Inventory
 
                          </p>
                      </a>
                  </li>
 
-
+                 <li class="nav-header">Reports</li>
                  <li class="nav-item">
                      <a href="#" class="nav-link">
-                         <i class="nav-icon fas fa-tree"></i>
+                         <i class="bi bi-clipboard-data-fill"></i>
                          <p>
-                             UI Elements
+                             Inventory Report
                              <i class="fas fa-angle-left right"></i>
                          </p>
                      </a>
                      <ul class="nav nav-treeview">
                          <li class="nav-item">
-                             <a href="pages/UI/general.html" class="nav-link">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>General</p>
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <a href="pages/UI/icons.html" class="nav-link">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>Icons</p>
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <a href="pages/UI/buttons.html" class="nav-link">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>Buttons</p>
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <a href="pages/UI/sliders.html" class="nav-link">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>Sliders</p>
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <a href="pages/UI/modals.html" class="nav-link">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>Modals & Alerts</p>
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <a href="pages/UI/navbar.html" class="nav-link">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>Navbar & Tabs</p>
-                             </a>
-                         </li>
-                         <li class="nav-item">
                              <a href="pages/UI/timeline.html" class="nav-link">
                                  <i class="far fa-circle nav-icon"></i>
-                                 <p>Timeline</p>
+                                 <p>Stock Report</p>
                              </a>
                          </li>
                          <li class="nav-item">
                              <a href="pages/UI/ribbons.html" class="nav-link">
                                  <i class="far fa-circle nav-icon"></i>
-                                 <p>Ribbons</p>
+                                 <p>Inventory Sales Report</p>
                              </a>
                          </li>
                      </ul>
@@ -197,13 +161,13 @@
                          </li>
                      </ul>
                  </li>
-                 <li class="nav-header">EXAMPLES</li>
+                 <li class="nav-header">Invoice</li>
                  <li class="nav-item">
-                     <a href="pages/calendar.html" class="nav-link">
-                         <i class="nav-icon fas fa-calendar-alt"></i>
+                     <a href="{{ route('invoiceEncoder') }}"
+                         class="nav-link {{ request()->routeIs('invoiceEncoder') ? 'active' : '' }}">
+                         <i class="nav-icon bi bi-card-heading"></i>
                          <p>
-                             Calendar
-                             <span class="badge badge-info right">2</span>
+                             Invoice Encoder
                          </p>
                      </a>
                  </li>
@@ -223,6 +187,16 @@
                          </p>
                      </a>
                  </li>
+                 <li class="nav-header">Imports</li>
+                 <li class="nav-item">
+                     <a href="pages/kanban.html" class="nav-link">
+                         <i class="nav-icon fas fa-columns"></i>
+                         <p>
+                             Import History
+                         </p>
+                     </a>
+                 </li>
+
              </ul>
 
          </nav>

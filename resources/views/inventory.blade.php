@@ -89,34 +89,34 @@
             <table id="example2" class="table table-bordered table-hover">
                 <thead style="text-align: center; background-color: #f8fafc;">
                     <tr>
-                        <th>Product ID</th>
-                        <th>Name</th>
+                        <th>Inventory ID</th>
+                        <th>Product</th>
                         <th>Category</th>
-                        <th>Perishable Type</th>
-                        <th>Quantity</th>
-                        <th>Pack Size</th>
+                        <th>Cost</th>
+                        <th>Selling Price</th>
+                        <th>Starting Quantity</th>
+                        <th>New Quantity</th>
+                        <th>Total Sold</th>
+                        <th>Remaining Stock</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Misc</td>
-                        <td>PSP browser</td>
-                        <td>PSP</td>
-                        <td>-</td>
-                        <td>C</td>
-                        <td>-</td>
-                        <td>C</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
-                    <tr>
-                        <td>Other browsers</td>
-                        <td>All others</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>U</td>
-                        <td>-</td>
-                        <td>C</td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>
@@ -162,6 +162,7 @@
                                         </div>
                                         <select id="categorySelect" name="category" class="form-control bg-light select2"
                                             style="border-radius: 0 10px 10px 0;">
+                                            <option value="">Select Category</option>
                                             <option value="1">Beverages</option>
                                             <option value="2">Dairy</option>
                                             <option value="3">Frozen Goods</option>
@@ -182,6 +183,7 @@
                                         </div>
                                         <select id="productSelect" name="product" class="form-control bg-light select2"
                                             style="border-radius: 0 10px 10px 0;">
+                                            <option value="">Select Product</option>
                                             <option value="1">Beer</option>
                                             <option value="2">Surf</option>
                                             <option value="3">Downy</option>
@@ -191,37 +193,18 @@
                                     </div>
                                 </div>
 
-                                {{-- Perishable Type --}}
-                                <div class="col-md-6 mb-3">
-                                    <label class="font-weight-bold" style="color: #475569;">Perishable Type</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text bg-light" style="border-radius: 10px 0 0 10px;">
-                                                <i class="fas fa-tag text-muted"></i>
-                                            </span>
-                                        </div>
-                                        <select id="perishableTypeSelect" name="perishable_type"
-                                            class="form-control bg-white"
-                                            style="border-radius: 0 10px 10px 0; height: 45px;" required>
-                                            <option value="">Select Perishable Type</option>
-                                            <option value="1">Perishable</option>
-                                            <option value="2">Non-Perishable</option>
-                                            <option value="3">Semi-Perishable</option>
-                                        </select>
-                                    </div>
-                                </div>
 
                             </div>
                         </div>
 
-                        {{-- Bundle Size --}}
+                        {{-- Price --}}
                         <p class="text-muted small font-weight-bold text-uppercase mb-3 border-bottom pb-1">
-                            Bundle Size
+                            Price & Quantity.
                         </p>
                         <div class="form-row mb-4">
 
                             <div class="col-md-4 mb-3">
-                                <label class="font-weight-bold">Quantity</label>
+                                <label class="font-weight-bold">Cost Price</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">#</span>
@@ -232,7 +215,7 @@
                             </div>
 
                             <div class="col-md-4 mb-3">
-                                <label class="font-weight-bold">Pack Size</label>
+                                <label class="font-weight-bold">Selling Price</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">#</span>
@@ -241,7 +224,16 @@
                                         step="0.01" placeholder="0.00" required>
                                 </div>
                             </div>
-
+                            <div class="col-md-4 mb-3">
+                                <label class="font-weight-bold">Available Qty.</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">#</span>
+                                    </div>
+                                    <input type="number" name="pack_size" id="packSizeInput" class="form-control"
+                                        step="0.01" placeholder="0.00" required>
+                                </div>
+                            </div>
                         </div>
 
                         {{-- Footer Buttons --}}

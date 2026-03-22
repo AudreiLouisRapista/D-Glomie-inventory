@@ -21,7 +21,7 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-            <table id="example2" class="table table-bordered table-hover">
+            <table id="example2" class="table table-bordered table-hover text-center">
                 <thead style="text-align: center; background-color: #f8fafc;">
                     <tr>
                         <th>Product ID</th>
@@ -34,24 +34,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Misc</td>
-                        <td>PSP browser</td>
-                        <td>PSP</td>
-                        <td>-</td>
-                        <td>C</td>
-                        <td>-</td>
-                        <td>C</td>
-                    </tr>
-                    <tr>
-                        <td>Other browsers</td>
-                        <td>All others</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>U</td>
-                        <td>-</td>
-                        <td>C</td>
-                    </tr>
+                    @foreach ($products as $prod)
+                        <tr>
+                            <td>PRDCT-{{ $prod->id }}</td>
+                            <td>{{ $prod->product_name }}</td>
+                            <td>{{ $prod->category_name }}</td>
+                            <td>{{ $prod->perishable_type }}</td>
+                            <td>{{ $prod->product_quantity }}</td>
+                            <td>{{ $prod->product_size }}</td>
+                            <td><button type="button" class="btn btn-success"><i class="bi bi-pencil-square"></i></button>
+                                <button type="button" class="btn btn-danger"><i class="bi bi-trash3"></i></button>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -65,6 +60,8 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
 
+                @include('layout.partials.alerts')
+
                 {{-- Modal Header --}}
                 <div class="modal-header bg-dark text-white py-3">
                     <h5 class="modal-title font-weight-bold" id="registerProductModalLabel">
@@ -77,8 +74,9 @@
 
                 {{-- Modal Body --}}
                 <div class="modal-body p-4">
-                    <form id="registerProductForm" method="POST" enctype="multipart/form-data">
-
+                    <form id="registerProductForm" action="{{ route('save_product') }}" method="POST"
+                        enctype="multipart/form-data">
+                        @csrf
                         {{-- Basic Information --}}
                         <div class="mb-4">
                             <p class="text-muted small font-weight-bold text-uppercase mb-3 border-bottom">
@@ -98,11 +96,10 @@
                                         <select id="categorySelect" name="category" class="form-control bg-light"
                                             style="border-radius: 0 10px 10px 0; height: 45px;" required>
                                             <option value="">Select Category</option>
-                                            <option value="1">Beverages</option>
-                                            <option value="2">Dairy</option>
-                                            <option value="3">Frozen Goods</option>
-                                            <option value="4">Snacks</option>
-                                            <option value="5">Condiments</option>
+
+                                            @foreach ($categories as $cat)
+                                                <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -116,7 +113,7 @@
                                                 <i class="fas fa-box text-muted"></i>
                                             </span>
                                         </div>
-                                        <input type="text" name="product_name" id="productNameInput"
+                                        <input type="text" name="productName" id="productNameInput"
                                             class="form-control bg-light shadow-none" placeholder="Enter product name..."
                                             style="border-radius: 0 10px 10px 0; height: 45px;" required>
                                     </div>
@@ -131,7 +128,7 @@
                                                 <i class="fas fa-tag text-muted"></i>
                                             </span>
                                         </div>
-                                        <select id="perishableTypeSelect" name="perishable_type"
+                                        <select id="perishableTypeSelect" name="perishableType"
                                             class="form-control bg-light"
                                             style="border-radius: 0 10px 10px 0; height: 45px;" required>
                                             <option value="">Select Perishable Type</option>
@@ -168,7 +165,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">#</span>
                                     </div>
-                                    <input type="number" name="pack_size" id="packSizeInput" class="form-control"
+                                    <input type="number" name="packSize" id="packSizeInput" class="form-control"
                                         step="0.01" placeholder="0.00" required>
                                 </div>
                             </div>

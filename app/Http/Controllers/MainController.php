@@ -142,31 +142,106 @@ public function admin_profile()
    public function dashboard()
 {
  
-    return view('dashboard');
+    $totalProduct = DB::table('product')->count();
+    return view('dashboard', compact('totalProduct'));
     
 }
 
 
 
 
+// PRODUCT SDIE
+public function product() {
 
-public function view_section() {
+$products = DB::table('product')
+    ->Join('category', 'product.id', '=', 'category.id' )
+    ->Join('perishable', 'product.id', '=', 'perishable.id' )
+    ->select('product.*',
+    'category.category_name',
+    'perishable.perishable_type')
+    ->get();
 
- return view('product');
+
+    $categories = DB::table('category')->select('category.*')->get();
+    return view('product', compact ('products', 'categories'));
+}
 
 
+public function save_product(Request $request)
+{
+    $request->validate([
+        'productName'  => 'required|string|max:255',
+        'category'   => 'required|integer',
+        'perishableType' => 'required|integer',
+        'quantity'    => 'required|numeric|min:0',
+        'packSize'       => 'required|numeric|min:0',
+    ]);
+
+    $product    = $request->productName;
+    $category   = $request->category;
+    $perishable = $request->perishableType;
+    $productQuantity = $request->quantity;
+    $productSize    = $request->packSize;
+
+
+    $duplicate = DB::table('product')
+        ->where('category_id', $category)
+        ->where('product_name', $product)
+        ->where('perishable_id', $perishable)
+        ->where('product_quantity', $productQuantity)
+        ->where('product_size', $productSize)
+        ->whereNull('deleted_at')
+        ->exists();
+
+    if ($duplicate) {
+        return redirect()->back([
+            'duplicate' => "The product '$product' with these specific bundle details already exists."
+        ], 422);
+    }
+
+
+    try {
+            DB::table('product')->insert([
+                'product_name'  => $product,
+                'category_id'   => $category,
+                'perishable_id' => $perishable,
+                'product_quantity' => $productQuantity,
+                'product_size'     => $productSize,
+                'created_at'    => now(),
+                'updated_at'    => now()
+            ]);
+
+
+            // Create Activity Log
+             $userName = session('name');
+            $this->logActivity('added', 
+            "Added Product | Name: {$request->product_name} | Responsible: {$userName} | Bundle Number: {$request->tie_number} | Bundle Size: {$request->tie_qty}" );
+    
+       session()->flash('save', 'Product Added successfully.');
+        return redirect()->back();
+
+    } catch (\Exception $e) {
+        return redirect()->back([
+            'errorMessage' => 'An error occurred while saving the product. Please try again.'
+        ], 500);
+    }
 }
 
 
 
-public function view_schedule() {
-
-
+// INVENTORY PART
+public function inventory() {
     return view('inventory');
 }
 
 
 
+// INVOICE ENCODER
+
+public function invoiceEncoder(){
+
+return view('invoiceEncoder');
+}
 
    
 

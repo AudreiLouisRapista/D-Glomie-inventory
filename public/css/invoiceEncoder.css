@@ -1,0 +1,227 @@
+
+        .inv-hero {
+            background: #1a56db;
+            border-radius: 10px;
+            padding: 28px 30px 22px;
+            margin-bottom: 22px;
+            color: #fff;
+        }
+
+        .inv-hero h2 {
+            font-size: 24px;
+            font-weight: 800;
+            margin: 0 0 6px;
+        }
+
+        .inv-hero p {
+            font-size: 13px;
+            opacity: .8;
+            margin: 0;
+        }
+
+        .form-panel {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, .08);
+            padding: 26px 28px;
+            margin-bottom: 24px;
+        }
+
+        .inv-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #374151;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .inv-label .req {
+            color: #e53935;
+        }
+
+        .inv-input {
+            height: 42px;
+            border: 1.5px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 13px;
+            color: #111;
+            background: #fff;
+            transition: border .15s, box-shadow .15s;
+        }
+
+        .inv-input:focus {
+            border-color: #1a56db;
+            box-shadow: 0 0 0 3px rgba(26, 86, 219, .12);
+            outline: none;
+        }
+
+        .inv-input[readonly] {
+            background: #f9fafb;
+            color: #555;
+        }
+
+        .inv-divider {
+            border: none;
+            border-top: 1.5px solid #e5e7eb;
+            margin: 20px 0 18px;
+        }
+
+        .items-hd {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .items-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #111;
+            margin: 0;
+        }
+
+        .btn-add-item {
+            background: #1a56db;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .btn-add-item:hover {
+            background: #1446b8;
+            color: #fff;
+        }
+
+        .inv-table thead tr {
+            background: #f3f4f6;
+        }
+
+        .inv-table thead th {
+            font-size: 12px;
+            font-weight: 700;
+            color: #374151;
+            border-bottom: 2px solid #e5e7eb;
+            padding: 10px 12px;
+            white-space: nowrap;
+        }
+
+        .inv-table tbody tr {
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .inv-table tbody td {
+            padding: 9px 12px;
+            vertical-align: middle;
+        }
+
+        .inv-table .form-control {
+            height: 38px;
+            font-size: 13px;
+            border: 1.5px solid #d1d5db;
+            border-radius: 7px;
+        }
+
+        .inv-table .form-control:focus {
+            border-color: #1a56db;
+            box-shadow: 0 0 0 3px rgba(26, 86, 219, .12);
+        }
+
+        .td-total {
+            font-size: 14px;
+            font-weight: 700;
+            color: #111;
+            text-align: right;
+        }
+
+        .btn-del {
+            background: none;
+            border: none;
+            color: #dc3545;
+            font-size: 15px;
+            cursor: pointer;
+            padding: 4px 7px;
+            border-radius: 5px;
+        }
+
+        .btn-del:hover {
+            background: #fff1f1;
+        }
+
+        .summary-section {
+            margin-top: 18px;
+            border-top: 1.5px solid #e5e7eb;
+            padding-top: 16px;
+        }
+
+        .sum-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 7px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .sum-label {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .sum-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #111;
+        }
+
+        .sum-divider {
+            border: none;
+            border-top: 1.5px solid #e5e7eb;
+            margin: 8px 0;
+        }
+
+        .sum-grand {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+        }
+
+        .sum-grand-label {
+            font-size: 15px;
+            font-weight: 800;
+            color: #111;
+        }
+
+        .sum-grand-value {
+            font-size: 22px;
+            font-weight: 900;
+            color: #1a56db;
+        }
+
+        .save-footer {
+            border-top: 1.5px solid #e5e7eb;
+            margin-top: 20px;
+            padding-top: 18px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-save-invoice {
+            background: #1a56db;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-save-invoice:hover {
+            background: #1406a9;
+            color: #fff;
+        }
