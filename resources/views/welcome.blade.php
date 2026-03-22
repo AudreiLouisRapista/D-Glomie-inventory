@@ -7,7 +7,7 @@
     <title>LOME Inventory Management — Login</title>
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@300;400;500&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
@@ -23,228 +23,262 @@
         :root {
             --maroon: #6b0f1a;
             --maroon-dark: #4a0a12;
-            --maroon-light: #8b1a28;
+            --maroon-deep: #2e0509;
             --red: #c0392b;
-            --red-light: #e74c3c;
             --yellow: #f0c040;
-            --yellow-light: #f5d060;
             --cream: #fdf6f0;
             --text-dark: #1a0a0d;
             --text-mid: #6b2d37;
             --text-muted: #a07070;
-            --border: rgba(107, 15, 26, 0.12);
-            --input-bg: rgba(107, 15, 26, 0.04);
+            --border: rgba(107, 15, 26, 0.1);
         }
 
         html,
         body {
             height: 100%;
             font-family: 'DM Sans', sans-serif;
-            background: var(--cream);
-            color: var(--text-dark);
+            background: var(--maroon-deep);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 24px;
         }
 
-        .page {
+        /* ── Ambient background ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 50%, rgba(107, 15, 26, 0.6) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 80% at 80% 50%, rgba(74, 10, 18, 0.4) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Subtle dot grid */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+            background-size: 28px 28px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── Card ── */
+        .card {
+            position: relative;
+            z-index: 1;
             display: flex;
-            min-height: 100vh;
+            width: 100%;
+            max-width: 920px;
+            min-height: 560px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow:
+                0 40px 80px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.06);
+            animation: cardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        @keyframes cardIn {
+            from {
+                opacity: 0;
+                transform: translateY(24px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         /* ── Left Panel ── */
-        .left-panel {
-            width: 550px;
+        .left {
+            width: 45%;
             flex-shrink: 0;
-            background: var(--maroon-dark);
+            background: linear-gradient(145deg, #6b0f1a 0%, #4a0a12 50%, #2e0509 100%);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 52px 48px;
+            padding: 48px 44px;
             position: relative;
             overflow: hidden;
         }
 
-        .left-panel::before {
+        /* Decorative rings */
+        .left::before {
             content: '';
             position: absolute;
-            width: 420px;
-            height: 420px;
+            width: 380px;
+            height: 380px;
             border-radius: 50%;
-            border: 60px solid rgba(240, 192, 64, 0.07);
-            bottom: -140px;
-            right: -140px;
+            border: 1px solid rgba(240, 192, 64, 0.12);
+            bottom: -120px;
+            right: -120px;
             pointer-events: none;
         }
 
-        .left-panel::after {
+        .left::after {
             content: '';
             position: absolute;
-            width: 200px;
-            height: 200px;
+            width: 240px;
+            height: 240px;
             border-radius: 50%;
-            border: 40px solid rgba(192, 57, 43, 0.12);
-            top: -60px;
-            left: -60px;
+            border: 1px solid rgba(240, 192, 64, 0.08);
+            bottom: -60px;
+            right: -60px;
             pointer-events: none;
         }
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            animation: fadeUp 0.5s ease both;
-        }
-
-        .brand-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 10px;
-            background: var(--yellow);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 17px;
-            color: var(--maroon-dark);
-        }
-
-        .brand-name {
-            font-family: 'Syne', sans-serif;
-            font-size: 18px;
-            font-weight: 800;
-            color: white;
-            letter-spacing: 0.5px;
-        }
-
-        .brand-name span {
-            color: var(--yellow);
-        }
-
-        .left-center {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 48px 0 32px;
-        }
-
-        .left-tag {
-            font-size: 10px;
-            font-weight: 500;
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-            color: var(--yellow);
-            margin-bottom: 20px;
-            animation: fadeUp 0.5s 0.1s ease both;
-        }
-
-        .left-headline {
-            font-family: 'Syne', sans-serif;
-            font-size: 38px;
-            font-weight: 800;
-            line-height: 1.1;
-            color: white;
-            margin-bottom: 20px;
-            animation: fadeUp 0.5s 0.15s ease both;
-        }
-
-        .left-headline em {
-            font-style: normal;
-            color: var(--yellow);
-        }
-
-        .left-desc {
-            font-size: 13px;
-            line-height: 1.75;
-            color: rgba(255, 255, 255, 0.45);
-            max-width: 300px;
-            margin-bottom: 44px;
-            animation: fadeUp 0.5s 0.2s ease both;
-        }
-
-        .feature-list {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            animation: fadeUp 0.5s ease both;
-        }
-
-        .feature-item:nth-child(1) {
-            animation-delay: 0.25s;
-        }
-
-        .feature-item:nth-child(2) {
-            animation-delay: 0.32s;
-        }
-
-        .feature-item:nth-child(3) {
-            animation-delay: 0.39s;
-        }
-
-        .feature-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--yellow);
-            flex-shrink: 0;
-            margin-top: 6px;
-        }
-
-        .feature-text {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.4);
-            line-height: 1.5;
-        }
-
-        .feature-text strong {
-            display: block;
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 2px;
-        }
-
-        .left-footer {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.2);
-            letter-spacing: 0.5px;
-            animation: fadeUp 0.5s 0.5s ease both;
-        }
-
-        /* ── Right Panel ── */
-        .right-panel {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 48px 40px;
-            background: var(--cream);
-            position: relative;
-        }
-
-        .right-panel::before {
-            content: '';
+        /* Gold top accent line */
+        .left-accent {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--maroon), var(--red), var(--yellow));
+            background: linear-gradient(90deg, var(--yellow), rgba(240, 192, 64, 0.3), transparent);
+        }
+
+        /* Brand */
+        .brand {
+            position: relative;
+            z-index: 1;
+            animation: fadeUp 0.5s 0.2s ease both;
+        }
+
+        .brand-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 52px;
+            font-weight: 900;
+            color: white;
+            line-height: 1;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+        }
+
+        .brand-logo span {
+            color: var(--yellow);
+        }
+
+        .brand-sub {
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+        /* Center text */
+        .left-body {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 32px 0;
+        }
+
+        .left-tagline {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: white;
+            line-height: 1.3;
+            margin-bottom: 16px;
+            animation: fadeUp 0.5s 0.3s ease both;
+        }
+
+        .left-tagline em {
+            font-style: italic;
+            color: var(--yellow);
+        }
+
+        .left-desc {
+            font-size: 13px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.4);
+            max-width: 280px;
+            animation: fadeUp 0.5s 0.35s ease both;
+        }
+
+        /* Stats */
+        .left-stats {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            gap: 0;
+            animation: fadeUp 0.5s 0.45s ease both;
+        }
+
+        .stat {
+            flex: 1;
+            padding-right: 20px;
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .stat:last-child {
+            border-right: none;
+            padding-right: 0;
+            padding-left: 20px;
+        }
+
+        .stat:not(:first-child):not(:last-child) {
+            padding-left: 20px;
+        }
+
+        .stat-val {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--yellow);
+            margin-bottom: 2px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ── Right Panel ── */
+        .right {
+            flex: 1;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 52px 48px;
+            position: relative;
+        }
+
+        /* Yellow bottom accent */
+        .right::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--red), var(--yellow));
         }
 
         .form-wrap {
             width: 100%;
-            max-width: 380px;
+            max-width: 340px;
         }
 
+        /* Accent bar */
         .accent-bar {
             display: flex;
-            gap: 4px;
-            margin-bottom: 32px;
-            animation: fadeUp 0.5s ease both;
+            gap: 5px;
+            margin-bottom: 28px;
+            animation: fadeUp 0.5s 0.1s ease both;
         }
 
         .accent-bar span {
@@ -252,42 +286,43 @@
             border-radius: 2px;
         }
 
-        .accent-bar .bar-1 {
-            width: 32px;
-            background: var(--maroon);
+        .bar-1 {
+            width: 36px;
+            background: var(--maroon-dark);
         }
 
-        .accent-bar .bar-2 {
-            width: 16px;
+        .bar-2 {
+            width: 18px;
             background: var(--red);
         }
 
-        .accent-bar .bar-3 {
-            width: 8px;
+        .bar-3 {
+            width: 9px;
             background: var(--yellow);
         }
 
+        /* Form header */
         .form-header {
-            margin-bottom: 36px;
-            animation: fadeUp 0.5s 0.1s ease both;
+            margin-bottom: 32px;
+            animation: fadeUp 0.5s 0.15s ease both;
         }
 
         .form-eyebrow {
             font-size: 10px;
             font-weight: 500;
-            letter-spacing: 2.5px;
+            letter-spacing: 2px;
             text-transform: uppercase;
             color: var(--red);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .form-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 34px;
+            font-family: 'Playfair Display', serif;
+            font-size: 30px;
             font-weight: 800;
             color: var(--text-dark);
-            line-height: 1.1;
-            margin-bottom: 8px;
+            line-height: 1.15;
+            margin-bottom: 6px;
         }
 
         .form-subtitle {
@@ -297,7 +332,7 @@
 
         /* Fields */
         .field {
-            margin-bottom: 18px;
+            margin-bottom: 16px;
             animation: fadeUp 0.5s ease both;
         }
 
@@ -306,17 +341,17 @@
         }
 
         .field:nth-child(2) {
-            animation-delay: 0.28s;
+            animation-delay: 0.27s;
         }
 
         .field-label {
             display: block;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 500;
-            letter-spacing: 0.8px;
+            letter-spacing: 1px;
             text-transform: uppercase;
             color: var(--text-mid);
-            margin-bottom: 8px;
+            margin-bottom: 7px;
         }
 
         .field-wrap {
@@ -325,10 +360,10 @@
 
         .field-icon {
             position: absolute;
-            left: 16px;
+            left: 15px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-muted);
             pointer-events: none;
             transition: color 0.2s;
@@ -336,15 +371,15 @@
 
         .field-input {
             width: 100%;
-            padding: 13px 16px 13px 44px;
-            background: white;
+            padding: 12px 16px 12px 42px;
+            background: var(--cream);
             border: 1.5px solid var(--border);
             border-radius: 10px;
             font-family: 'DM Sans', sans-serif;
             font-size: 14px;
             color: var(--text-dark);
             outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
         }
 
         .field-input::placeholder {
@@ -352,23 +387,24 @@
         }
 
         .field-input:focus {
-            border-color: var(--maroon-light);
-            box-shadow: 0 0 0 3px rgba(107, 15, 26, 0.08);
+            border-color: var(--maroon);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(107, 15, 26, 0.07);
         }
 
         .field-wrap:focus-within .field-icon {
-            color: var(--maroon-light);
+            color: var(--maroon);
         }
 
         .toggle-pass {
             position: absolute;
-            right: 14px;
+            right: 13px;
             top: 50%;
             transform: translateY(-50%);
             background: none;
             border: none;
             color: var(--text-muted);
-            font-size: 13px;
+            font-size: 12px;
             cursor: pointer;
             padding: 0;
             transition: color 0.2s;
@@ -378,19 +414,20 @@
             color: var(--maroon);
         }
 
+        /* Meta row */
         .meta-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 28px;
-            animation: fadeUp 0.5s 0.36s ease both;
+            margin-bottom: 24px;
+            animation: fadeUp 0.5s 0.34s ease both;
         }
 
         .remember {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-muted);
             cursor: pointer;
             user-select: none;
@@ -398,27 +435,27 @@
 
         .remember input[type="checkbox"] {
             appearance: none;
-            width: 15px;
-            height: 15px;
+            width: 14px;
+            height: 14px;
             border: 1.5px solid var(--border);
-            border-radius: 4px;
-            background: white;
+            border-radius: 3px;
+            background: var(--cream);
             cursor: pointer;
             position: relative;
-            transition: background 0.2s, border-color 0.2s;
+            transition: all 0.2s;
             flex-shrink: 0;
         }
 
         .remember input[type="checkbox"]:checked {
-            background: var(--maroon);
-            border-color: var(--maroon);
+            background: var(--maroon-dark);
+            border-color: var(--maroon-dark);
         }
 
         .remember input[type="checkbox"]:checked::after {
             content: '';
             position: absolute;
-            left: 3px;
-            top: 1px;
+            left: 2px;
+            top: 0px;
             width: 5px;
             height: 8px;
             border: 2px solid white;
@@ -436,23 +473,24 @@
         }
 
         .forgot-link:hover {
-            opacity: 0.7;
+            opacity: 0.65;
         }
 
+        /* Button */
         .btn-login {
             width: 100%;
-            padding: 14px;
+            padding: 13px;
             background: var(--maroon-dark);
             color: white;
             border: none;
             border-radius: 10px;
-            font-family: 'Syne', sans-serif;
+            font-family: 'Playfair Display', serif;
             font-size: 15px;
             font-weight: 700;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.5px;
             cursor: pointer;
             transition: background 0.2s, transform 0.15s;
-            animation: fadeUp 0.5s 0.42s ease both;
+            animation: fadeUp 0.5s 0.4s ease both;
             position: relative;
             overflow: hidden;
         }
@@ -476,12 +514,13 @@
             transform: translateY(0);
         }
 
+        /* Divider */
         .divider {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin: 28px 0 20px;
-            animation: fadeUp 0.5s 0.5s ease both;
+            gap: 10px;
+            margin: 24px 0 18px;
+            animation: fadeUp 0.5s 0.48s ease both;
         }
 
         .divider::before,
@@ -500,10 +539,11 @@
             white-space: nowrap;
         }
 
+        /* Socials */
         .socials {
             display: flex;
-            gap: 10px;
-            animation: fadeUp 0.5s 0.56s ease both;
+            gap: 8px;
+            animation: fadeUp 0.5s 0.54s ease both;
         }
 
         .social-btn {
@@ -511,51 +551,53 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 7px;
-            padding: 10px 8px;
-            background: white;
+            gap: 6px;
+            padding: 9px 6px;
+            background: var(--cream);
             border: 1.5px solid var(--border);
-            border-radius: 9px;
+            border-radius: 8px;
             color: var(--text-mid);
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 500;
             text-decoration: none;
             font-family: 'DM Sans', sans-serif;
-            transition: border-color 0.2s, color 0.2s;
+            transition: border-color 0.2s, color 0.2s, background 0.2s;
         }
 
         .social-btn:hover {
-            border-color: var(--maroon-light);
+            border-color: var(--maroon);
             color: var(--maroon);
+            background: white;
         }
 
+        /* Footer */
         .form-footer {
-            margin-top: 36px;
+            margin-top: 28px;
             text-align: center;
             font-size: 11px;
             color: var(--text-muted);
-            letter-spacing: 0.3px;
-            animation: fadeUp 0.5s 0.62s ease both;
+            animation: fadeUp 0.5s 0.6s ease both;
         }
 
+        /* Alert */
         .alert {
-            padding: 11px 14px;
-            border-radius: 9px;
+            padding: 10px 14px;
+            border-radius: 8px;
             font-size: 13px;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             border: 1px solid transparent;
         }
 
         .alert-danger {
-            background: rgba(192, 57, 43, 0.08);
-            border-color: rgba(192, 57, 43, 0.2);
+            background: rgba(192, 57, 43, 0.07);
+            border-color: rgba(192, 57, 43, 0.18);
             color: var(--red);
         }
 
         @keyframes fadeUp {
             from {
                 opacity: 0;
-                transform: translateY(14px);
+                transform: translateY(12px);
             }
 
             to {
@@ -564,23 +606,35 @@
             }
         }
 
-        @media (max-width: 860px) {
-            .left-panel {
+        /* ── Responsive ── */
+        @media (max-width: 760px) {
+            .left {
                 display: none;
             }
 
-            .right-panel {
-                padding: 60px 32px;
+            .right {
+                padding: 52px 32px;
+            }
+
+            .card {
+                border-radius: 20px;
             }
         }
 
         @media (max-width: 480px) {
-            .right-panel {
-                padding: 48px 24px;
+            body {
+                padding: 0;
             }
 
-            .form-title {
-                font-size: 28px;
+            .card {
+                border-radius: 0;
+                min-height: 100vh;
+            }
+
+            .right {
+                padding: 48px 28px;
+                align-items: flex-start;
+                padding-top: 72px;
             }
         }
     </style>
@@ -588,59 +642,45 @@
 
 <body>
 
-    <div class="page">
+    <div class="card">
 
-        <!-- Left Panel -->
-        <div class="left-panel">
+        {{-- ── Left Panel ── --}}
+        <div class="left">
+            <div class="left-accent"></div>
+
             <div class="brand">
-                <div class="brand-icon">
-                    <i class="fas fa-boxes"></i>
-                </div>
-                <div class="brand-name">LOME <span>IMS</span></div>
+                <div class="brand-logo"><span>D'</span>Glomie</div>
+                <div class="brand-sub">Inventory Management System</div>
             </div>
 
-            <div class="left-center">
-                <div class="left-tag">Inventory Management System</div>
-                <h1 class="left-headline">
-                    Stock smart.<br>Manage <em>better.</em>
-                </h1>
+            <div class="left-body">
+                <h2 class="left-tagline">
+                    Efficiently manage<br>your stock with <em>precision.</em>
+                </h2>
                 <p class="left-desc">
                     A centralized platform to track, manage, and optimize
-                    your inventory — keeping your operations accurate and efficient every day.
+                    your inventory — keeping your operations accurate every day.
                 </p>
-
-                <div class="feature-list">
-                    <div class="feature-item">
-                        <div class="feature-dot"></div>
-                        <div class="feature-text">
-                            <strong>Real-time Stock Tracking</strong>
-                            Monitor inventory levels across all categories instantly.
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-dot"></div>
-                        <div class="feature-text">
-                            <strong>Product Management</strong>
-                            Organize products by category, type, and bundle size.
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-dot"></div>
-                        <div class="feature-text">
-                            <strong>Stock Reports & Alerts</strong>
-                            Clear insights on stock levels and out-of-stock warnings.
-                        </div>
-                    </div>
-                </div>
             </div>
 
-            <div class="left-footer">
-                &copy; 2025 LOME Inventory Management System
+            <div class="left-stats">
+                <div class="stat">
+                    <div class="stat-val">100%</div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-val">Live</div>
+                    <div class="stat-label">Stock Updates</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-val">Secure</div>
+                    <div class="stat-label">Access</div>
+                </div>
             </div>
         </div>
 
-        <!-- Right Panel -->
-        <div class="right-panel">
+        {{-- ── Right Panel ── --}}
+        <div class="right">
             <div class="form-wrap">
 
                 <div class="accent-bar">
@@ -651,11 +691,11 @@
 
                 <div class="form-header">
                     <div class="form-eyebrow">Secure Access</div>
-                    <h2 class="form-title">Sign in to<br>your account.</h2>
-                    <p class="form-subtitle">Enter your credentials to continue.</p>
+                    <h2 class="form-title">Welcome<br>back.</h2>
+                    <p class="form-subtitle">Log in to your account to continue.</p>
                 </div>
 
-                {{-- @include('layout.partials.alerts') --}}
+                @include('layout.partials.alerts')
 
                 <form action="{{ route('auth_user') }}" method="POST">
                     @csrf
@@ -690,7 +730,7 @@
                     </div>
 
                     <button type="submit" class="btn-login">
-                        Sign In &nbsp;<i class="fas fa-arrow-right"></i>
+                        Log In &nbsp;<i class="fas fa-arrow-right"></i>
                     </button>
                 </form>
 

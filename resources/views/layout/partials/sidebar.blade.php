@@ -1,5 +1,8 @@
  <!-- Main Sidebar Container -->
  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+     <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
+
      <!-- Brand Logo -->
      <a href="{{ route('admin.dashboard') }}" class="brand-link">
          <img src="{{ asset('dist/img/LOME-logo.jpg') }}" alt="LOME Logo" class="brand-image img-circle elevation-5"
@@ -8,9 +11,9 @@
      </a>
 
      <!-- Sidebar -->
-     <div class="sidebar">
+     <div class="sidebar d-flex flex-column" style="height: 100%">
          <!-- Sidebar user panel (optional) -->
-         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+         <div class="user-panel mt-3 pb-3 mb-3">
              <div class="image">
                  <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
              </div>
@@ -20,7 +23,7 @@
          </div>
 
          <!-- SidebarSearch Form -->
-         <div class="form-inline">
+         <div class="form-inline d-flex">
              <div class="input-group" data-widget="sidebar-search">
                  <input class="form-control form-control-sidebar" type="search" placeholder="Search"
                      aria-label="Search">
@@ -33,9 +36,9 @@
          </div>
 
          <!-- Sidebar Menu -->
-         <nav class="mt-2">
-             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                 data-accordion="false">
+         <nav class="mt-2 flex-column">
+             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+
 
 
                  <li class="nav-item">
@@ -220,20 +223,21 @@
                          </p>
                      </a>
                  </li>
-
-                 <div class="w-100 border-top border-secondary pt-2 pb-2">
-                     <ul class="nav nav-sidebar">
-                         <li class="nav-item">
-                             <a href="{{ route('logout') }}" class="nav-link">
-                                 <i class="nav-icon fas fa-sign-out-alt"></i>
-                                 <p>Log out</p>
-                             </a>
-                         </li>
-                     </ul>
-                 </div>
              </ul>
+
          </nav>
+         <div class="user-panel mt-auto border-top border-secondary">
+             <ul class="nav nav-pills nav-sidebar flex-column">
+                 <li class="nav-item">
+                     <a href="{{ route('logout') }}" class="nav-link">
+                         <i class="nav-icon fas fa-sign-out-alt"></i>
+                         <p>Log out</p>
+                     </a>
+                 </li>
+             </ul>
+         </div>
          <!-- /.sidebar-menu -->
      </div>
+
      <!-- /.sidebar -->
  </aside>

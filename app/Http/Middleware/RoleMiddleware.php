@@ -5,36 +5,41 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Session;
 
 class RoleMiddleware
 {
-    public function handle(Request $request, Closure $next, $roles): Response
+    public function handle(Request $request, Closure $next, $role): Response
     {
-        // 1. Get role from session (lowercase)
-        $userRole = $request->session()->get('user_role', '');
-
-        // 2. Not logged in?
-        if (empty($userRole)) {
-            return redirect('/login')->with('error', 'Please log in.');
+        // Step 1: Check if the user is logged in
+        // We check 'id' because that's what we store during login
+        // Your original code checked 'urs_id' which was a typo — it never matched!
+        if (!Session::has('id') || !Session::has('user_role')) {
+            return redirect()->route('login')
+                ->with('errorMessage', 'Please log in first.');
         }
 
-        // 3. ADMIN can access everything
-        if ($userRole === 'admin') {
-            return $next($request);
+        // Step 2: Check if their role matches the required role for this route
+        // Example: middleware('role:admin') → $role = 'admin'
+        if (Session::get('user_role') !== $role) {
+            return redirect()->route('login')
+                ->with('errorMessage', 'You do not have permission to access this page.');
         }
 
-        // 4. Check if the current user role is allowed for this specific route
-        $allowedRoles = explode('|', $roles); // expects 'teacher' or 'admin|teacher'
-        
-        if (in_array($userRole, $allowedRoles)) {
-            return $next($request);
+        // Step 3: Pass the request to the next step (the actual page/controller)
+        $response = $next($request);
+
+        // Step 4: Add security headers to prevent browser from caching
+        // admin pages — so sensitive data isn't stored in browser history
+        if (method_exists($response, 'header')) {
+            return $response
+                ->header('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate')
+                ->header('Pragma', 'no-cache')
+                ->header('Expires', 'Sat, 01 Jan 1990 00:00:00 GMT');
         }
 
-        // 5. If a Teacher tries to go to an Admin page, send them back to TeacherUI
-        if ($userRole === 'Teacher') {
-            return redirect()->route('Teacher.TeacherUI')->with('error', 'Access Denied.');
-        }
-
-        return redirect('/');
+        return $response;
     }
 }
+
+?>
