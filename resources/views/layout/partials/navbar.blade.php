@@ -9,14 +9,7 @@
      <!-- Google Font: Source Sans Pro -->
      <link rel="stylesheet"
          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-     <!-- Font Awesome -->
-     <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
-     <!-- SweetAlert2 -->
-     <link rel="stylesheet" href="../../plugins/sweetalert2/sweetalert2.min.css">
-     <!-- Toastr -->
-     <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
-     <!-- Theme style -->
-     <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+
  </head>
 
  <body class="hold-transition sidebar-mini">
@@ -30,7 +23,7 @@
                              class="fas fa-bars"></i></a>
                  </li>
                  <li class="nav-item d-none d-sm-inline-block">
-                     <a href="{{ route('admin.dashboard') }}" class="nav-link">Home</a>
+                     <a href="{{ route('dashboard') }}" class="nav-link">Home</a>
                  </li>
                  <li class="nav-item d-none d-sm-inline-block">
                      <a href="#" class="nav-link">Contact</a>
@@ -93,6 +86,21 @@
                      <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                          <i class="fas fa-expand-arrows-alt"></i>
                      </a>
+                 </li>
+                 <li class="nav-item dropdown">
+                     <a class="nav-link" data-toggle="dropdown" href="#"><i class="far fa-user-circle"></i>
+                         admin <i class="fas fa-caret-down"></i></a>
+                     <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
+                         <span class="dropdown-item dropdown-header">Account Management</span>
+                         <div class="dropdown-divider"></div>
+                         <a href="{{ route('admin_profile') }}" class="dropdown-item">
+                             <i class="bi bi-person-fill"></i> Profile
+                         </a>
+                         <div class="dropdown-divider"></div>
+                         <a href="{{ route('logout') }}" class="dropdown-item">
+                             <i class="fas fa-sign-out-alt mr-2"></i> Sign-out
+                         </a>
+                     </div>
                  </li>
                  <li class="nav-item">
                      <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">

@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('product', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')
-                  ->contrained('category')
-                  ->onDelete('cascade');
+                  ->contrained('category');
+                 
             $table->foreignId('perishable_id')
-                  ->contrained('perishable')
-                  ->onDelete('cascade');
+                  ->contrained('perishable');
+            
             $table->string('product_name');
             $table->integer('product_quantity');
             $table->integer('product_size');

@@ -112,7 +112,7 @@
 
                                                     @foreach ($admins as $admin)
                                                         <form method="POST"
-                                                            action="{{ route('adminProfile', ['id' => $admin->id]) }}"
+                                                            action="{{ route('admin_profile', ['id' => $admin->id]) }}"
                                                             enctype="multipart/form-data">
 
                                                             @csrf
@@ -148,7 +148,7 @@
                                                                         class="small font-weight-bold text-muted text-uppercase">Full
                                                                         Name</label>
                                                                     <input type="text" name="name"
-                                                                        value="{{ $admin->name }}"
+                                                                        value="{{ $admin->usr_name }}"
                                                                         class="form-control form-control-lg border-0 bg-light"
                                                                         style="border-radius: 12px; font-size: 0.95rem;"
                                                                         required>
@@ -175,35 +175,6 @@
                                                                         class="form-control form-control-lg border-0 bg-light rounded-pill px-4"
                                                                         style="font-size: 0.95rem;"
                                                                         placeholder="••••••••••">
-                                                                </div>
-
-
-
-                                                                <div class="row">
-                                                                    <div class="col-md-6 form-group mb-3">
-                                                                        <label
-                                                                            class="small font-weight-bold text-muted text-uppercase">Phone</label>
-                                                                        <input type="number" name="phone"
-                                                                            value="{{ $admin->phone }}"
-                                                                            class="form-control form-control-lg border-0 bg-light"
-                                                                            style="border-radius: 12px; font-size: 0.95rem;"
-                                                                            required>
-                                                                    </div>
-                                                                    <div class="col-md-6 form-group mb-3">
-                                                                        <label
-                                                                            class="small font-weight-bold text-muted text-uppercase">Gender</label>
-                                                                        <select name="gender"
-                                                                            class="form-control form-control-lg border-0 bg-light text-capitalize"
-                                                                            style="border-radius: 12px; font-size: 0.95rem;"
-                                                                            required>
-                                                                            <option value="male"
-                                                                                {{ $admin->gender == 'male' ? 'selected' : '' }}>
-                                                                                Male</option>
-                                                                            <option value="female"
-                                                                                {{ $admin->gender == 'female' ? 'selected' : '' }}>
-                                                                                Female</option>
-                                                                        </select>
-                                                                    </div>
                                                                 </div>
 
                                                             </div>
@@ -242,25 +213,13 @@
                                                 <label
                                                     class="text-muted small font-weight-bold text-uppercase mb-1 d-block">Full
                                                     Name</label>
-                                                <p class="text-dark font-weight-600 mb-0">{{ $admin->name }}</p>
+                                                <p class="text-dark font-weight-600 mb-0">{{ $admin->usr_name }}</p>
                                             </div>
                                             <div class="col-sm-6 mb-4">
                                                 <label
                                                     class="text-muted small font-weight-bold text-uppercase mb-1 d-block">Email
                                                     Address</label>
                                                 <p class="text-dark font-weight-600 mb-0">{{ $admin->email }}</p>
-                                            </div>
-                                            <div class="col-sm-6 mb-4">
-                                                <label
-                                                    class="text-muted small font-weight-bold text-uppercase mb-1 d-block">Phone
-                                                    Number</label>
-                                                <p class="text-dark font-weight-600 mb-0">{{ $admin->phone }}</p>
-                                            </div>
-                                            <div class="col-sm-6 mb-4">
-                                                <label
-                                                    class="text-muted small font-weight-bold text-uppercase mb-1 d-block">Gender</label>
-                                                <p class="text-dark font-weight-600 mb-0 text-capitalize">
-                                                    {{ $admin->gender }}</p>
                                             </div>
                                         </div>
                                     @endforeach
@@ -270,89 +229,85 @@
                     </div>
                 </div>
 
-                <section class="content">
-                    <div class="container-fluid">
-                        <div class="row justify-content-center">
-                            <div class="col-md-10 mt-4 mb-5">
-                                <div class="card border-0 shadow-sm" style="border-radius: 20px; background: #ffffff;">
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-md-10 mt-4 mb-5">
+                    <div class="card border-0 shadow-sm" style="border-radius: 20px; background: #ffffff;">
 
-                                    <div class="card-header bg-transparent border-0 pt-4 px-4">
-                                        <h5 class="mb-0 font-weight-bold" style="color: #334155;">
-                                            <i class="bi bi-activity text-primary mr-2"></i> Recent Activity Log
-                                        </h5>
-                                        <p class="text-muted small mb-0">Track your most recent system changes</p>
-                                    </div>
+                        <div class="card-header bg-transparent border-0 pt-4 px-4">
+                            <h5 class="mb-0 font-weight-bold" style="color: #334155;">
+                                <i class="bi bi-activity text-primary mr-2"></i> Recent Activity Log
+                            </h5>
+                            <p class="text-muted small mb-0">Track your most recent system changes</p>
+                        </div>
 
-                                    <div class="card-body px-4 pb-4">
-                                        <div
-                                            style="max-height: 400px; overflow-y: auto; padding-right: 15px; scrollbar-width: thin;">
+                        <div class="card-body px-4 pb-4">
+                            <div style="max-height: 400px; overflow-y: auto; padding-right: 15px; scrollbar-width: thin;">
 
-                                            <div class="timeline-container"
-                                                style="position: relative; padding-left: 20px; border-left: 2px solid #e2e8f0; margin-left: 10px;">
+                                <div class="timeline-container"
+                                    style="position: relative; padding-left: 20px; border-left: 2px solid #e2e8f0; margin-left: 10px;">
 
-                                                @foreach ($logs as $log)
-                                                    @php
-                                                        // Keeping your existing logic exactly as you had it
-                                                        switch ($log->action) {
-                                                            case 'added':
-                                                                $bgColor = 'rgba(0, 128, 0, 0.15)';
-                                                                $textColor = '#166534';
-                                                                $dotColor = '#22c55e';
-                                                                break;
-                                                            case 'updated':
-                                                                $bgColor = 'rgba(255, 165, 0, 0.15)';
-                                                                $textColor = '#9a3412';
-                                                                $dotColor = '#f97316';
-                                                                break;
-                                                            case 'deleted':
-                                                                $bgColor = 'rgba(255, 0, 0, 0.15)';
-                                                                $textColor = '#991b1b';
-                                                                $dotColor = '#ef4444';
-                                                                break;
-                                                            default:
-                                                                $bgColor = '#f1f5f9';
-                                                                $textColor = '#475569';
-                                                                $dotColor = '#94a3b8';
-                                                        }
-                                                    @endphp
+                                    @foreach ($logs as $log)
+                                        @php
+                                            // Keeping your existing logic exactly as you had it
+                                            switch ($log->action) {
+                                                case 'added':
+                                                    $bgColor = 'rgba(0, 128, 0, 0.15)';
+                                                    $textColor = '#166534';
+                                                    $dotColor = '#22c55e';
+                                                    break;
+                                                case 'updated':
+                                                    $bgColor = 'rgba(255, 165, 0, 0.15)';
+                                                    $textColor = '#9a3412';
+                                                    $dotColor = '#f97316';
+                                                    break;
+                                                case 'deleted':
+                                                    $bgColor = 'rgba(255, 0, 0, 0.15)';
+                                                    $textColor = '#991b1b';
+                                                    $dotColor = '#ef4444';
+                                                    break;
+                                                default:
+                                                    $bgColor = '#f1f5f9';
+                                                    $textColor = '#475569';
+                                                    $dotColor = '#94a3b8';
+                                            }
+                                        @endphp
 
-                                                    <div class="mb-4 position-relative">
-                                                        <div
-                                                            style="position: absolute; left: -27px; top: 5px; width: 12px; height: 12px; background: {{ $dotColor }}; border: 3px solid #fff; border-radius: 50%; box-shadow: 0 0 0 2px {{ $bgColor }};">
-                                                        </div>
+                                        <div class="mb-4 position-relative">
+                                            <div
+                                                style="position: absolute; left: -27px; top: 5px; width: 12px; height: 12px; background: {{ $dotColor }}; border: 3px solid #fff; border-radius: 50%; box-shadow: 0 0 0 2px {{ $bgColor }};">
+                                            </div>
 
-                                                        <div class="p-3"
-                                                            style="background: #f8fafc; border-radius: 12px; transition: transform 0.2s ease;">
-                                                            <div
-                                                                class="d-flex justify-content-between align-items-start mb-1">
-                                                                <span
-                                                                    style="background: {{ $bgColor }}; color: {{ $textColor }}; padding: 2px 10px; border-radius: 8px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">
-                                                                    {{ $log->action }}
-                                                                </span>
-                                                                <small class="text-muted font-italic"
-                                                                    style="font-size: 11px;">
-                                                                    <i class="bi bi-clock-history mr-1"></i>
-                                                                    {{ $log->created_at->diffForHumans() }}
-                                                                </small>
-                                                            </div>
+                                            <div class="p-3"
+                                                style="background: #f8fafc; border-radius: 12px; transition: transform 0.2s ease;">
+                                                <div class="d-flex justify-content-between align-items-start mb-1">
+                                                    <span
+                                                        style="background: {{ $bgColor }}; color: {{ $textColor }}; padding: 2px 10px; border-radius: 8px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">
+                                                        {{ $log->action }}
+                                                    </span>
+                                                    <small class="text-muted font-italic" style="font-size: 11px;">
+                                                        <i class="bi bi-clock-history mr-1"></i>
+                                                        {{ $log->created_at->diffForHumans() }}
+                                                    </small>
+                                                </div>
 
-                                                            <p class="mb-0"
-                                                                style="font-size: 14px; color: #334155; line-height: 1.5;">
-                                                                {{ $log->description }}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-
+                                                <p class="mb-0"
+                                                    style="font-size: 14px; color: #334155; line-height: 1.5;">
+                                                    {{ $log->description }}
+                                                </p>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endforeach
+
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
-
+                </div>
             </div>
         </div>
     </section>

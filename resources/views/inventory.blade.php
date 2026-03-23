@@ -3,75 +3,77 @@
 {{-- 1. DEFINE PAGE TITLE --}}
 @section('title', 'User Profile')
 
+
 {{-- 2. DEFINE CONTENT HEADER (Breadcrumbs) --}}
 @section('content')
+
+    <link rel="stylesheet" href="{{ asset('css/inventory.css') }}">
     <div class="col-sm-6">
         <h1>Inventory Management</h1>
         <p> Manage and monitor your inventory with ease</p>
     </div>
     <!-- Info boxes -->
-    <div class="row">
-        <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">
-                <span class="info-box-icon bg-info elevation-1"><i class="bi bi-box2-fill"></i></span>
+    <div class="row g-3">
 
-                <div class="info-box-content">
-                    <span class="info-box-text">Total Stock</span>
-                    <span class="info-box-number">
-                        10
-                        <small>%</small>
-                    </span>
+        {{-- Total Inventory Record --}}
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card sc sc-inventory shadow-sm h-100 modern-border-primary">
+                <div class="card-body sc-body">
+                    <div class="sc-top d-flex align-items-center mb-2">
+                        <div class="sc-icon-wrap bg-soft-primary text-primary mr-3">
+                            <i class="sc-icon bi bi-boxes"></i>
+                        </div>
+                        <h3 class="sc-value mb-0 font-weight-bold ml-auto display-4">53</h3>
+                    </div>
+                    <p class="sc-label text-muted font-weight-medium mb-0">Total Inventory</p>
                 </div>
-                <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box -->
         </div>
-        <!-- /.col -->
-        <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-                <span class="info-box-icon bg-danger elevation-1"><i class="bi bi-arrow-down-left"></i></span>
 
-                <div class="info-box-content">
-                    <span class="info-box-text">Out of Stock</span>
-                    <span class="info-box-number">41,410</span>
+        {{-- Available Stock --}}
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card sc sc-stock shadow-sm h-100 modern-border-success">
+                <div class="card-body sc-body">
+                    <div class="sc-top d-flex align-items-center mb-2">
+                        <div class="sc-icon-wrap bg-soft-success text-success mr-3">
+                            <i class="sc-icon bi bi-bar-chart-fill"></i>
+                        </div>
+                        <h3 class="sc-value mb-0 font-weight-bold ml-auto display-4">53</h3>
+                    </div>
+                    <p class="sc-label text-muted font-weight-medium mb-0">Available Stock</p>
                 </div>
-                <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box -->
         </div>
-        <!-- /.col -->
 
-        <!-- fix for small devices only -->
-        <div class="clearfix hidden-md-up"></div>
-
-        <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-                <span class="info-box-icon bg-success elevation-1"><i class="bi bi-arrow-up-right"></i></span>
-
-                <div class="info-box-content">
-                    <span class="info-box-text">Available Stock</span>
-                    <span class="info-box-number">760</span>
+        {{-- Low Stock --}}
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card sc sc-low border-0 shadow-sm h-100 modern-border-warning">
+                <div class="card-body sc-body">
+                    <div class="sc-top d-flex align-items-center mb-2">
+                        <div class="sc-icon-wrap bg-soft-warning text-warning mr-3">
+                            <i class="sc-icon bi bi-exclamation-triangle-fill"></i>
+                        </div>
+                        <h3 class="sc-value mb-0 font-weight-bold ml-auto display-4">44</h3>
+                    </div>
+                    <p class="sc-label text-muted font-weight-medium mb-0">Low Stock</p>
                 </div>
-                <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box -->
         </div>
-        <!-- /.col -->
-        <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-                <span class="info-box-icon bg-warning elevation-1">
-                    <i class="bi bi-exclamation-diamond-fill"></i>
-                </span>
 
-                <div class="info-box-content">
-                    <span class="info-box-text">Low Stock</span>
-                    <span class="info-box-number">2,000</span>
+        {{-- Out Of Stock --}}
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card sc sc-out-of-stock border-0 shadow-sm h-100 modern-border-danger">
+                <div class="card-body sc-body">
+                    <div class="sc-top d-flex align-items-center mb-2">
+                        <div class="sc-icon-wrap bg-soft-danger text-danger mr-3">
+                            <i class="sc-icon bi bi-pie-chart-fill"></i>
+                        </div>
+                        <h3 class="sc-value mb-0 font-weight-bold ml-auto display-4">65</h3>
+                    </div>
+                    <p class="sc-label text-muted font-weight-medium mb-0">Out of Stock</p>
                 </div>
-                <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box -->
         </div>
-        <!-- /.col -->
     </div>
     <!-- /.row -->
 

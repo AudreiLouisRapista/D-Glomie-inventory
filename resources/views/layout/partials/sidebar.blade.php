@@ -1,10 +1,10 @@
  <!-- Main Sidebar Container -->
- <aside class="main-sidebar sidebar-dark-primary elevation-4">
+ <aside class="main-sidebar sidebar-light-primary elevation-2">
 
      <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
 
      <!-- Brand Logo -->
-     <a href="{{ route('admin.dashboard') }}" class="brand-link">
+     <a href="{{ route('dashboard') }}" class="brand-link">
          <img src="{{ asset('dist/img/LOME-logo.jpg') }}" alt="LOME Logo" class="brand-image img-circle elevation-5"
              style="opacity: .8 ">
          <span class="brand-text  font-weight-bold">LOME SHOP MART</span>
@@ -13,12 +13,19 @@
      <!-- Sidebar -->
      <div class="sidebar d-flex flex-column" style="height: 100%">
          <!-- Sidebar user panel (optional) -->
-         <div class="user-panel mt-3 pb-3 mb-3">
+         <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center">
              <div class="image">
                  <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
              </div>
-             <div class="info">
-                 <a href="{{ route('admin_profile') }}" class="d-block">{{ session('name') }}</a>
+
+             <div class="info ms-3">
+                 <span class="d-block text-solid-black-50 small fw-bold text-uppercase"
+                     style="letter-spacing: 1px; font-size: 10px;">
+                     Access Level
+                 </span>
+                 <a href="#" class="d-block user-role-link font-weight-bold text-black">
+                     {{ session('user_role') }}
+                 </a>
              </div>
          </div>
 
@@ -42,8 +49,8 @@
 
 
                  <li class="nav-item">
-                     <a href="{{ route('admin.dashboard') }}"
-                         class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                     <a href="{{ route('dashboard') }}"
+                         class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                          <i class="nav-icon fas fa-th"></i>
                          <p>
                              Dashboard
@@ -198,20 +205,8 @@
                  </li>
 
              </ul>
-
          </nav>
-         <div class="user-panel mt-auto border-top border-secondary">
-             <ul class="nav nav-pills nav-sidebar flex-column">
-                 <li class="nav-item">
-                     <a href="{{ route('logout') }}" class="nav-link">
-                         <i class="nav-icon fas fa-sign-out-alt"></i>
-                         <p>Log out</p>
-                     </a>
-                 </li>
-             </ul>
-         </div>
          <!-- /.sidebar-menu -->
      </div>
-
      <!-- /.sidebar -->
  </aside>

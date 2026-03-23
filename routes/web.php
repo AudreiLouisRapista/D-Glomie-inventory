@@ -30,9 +30,9 @@ Route::get('/logout', [MainController::class, 'logout'])->name('logout');
 Route::post('/authenticate', [MainController::class, 'auth_user'])->name('auth_user');
 
 
-Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function () {
+Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin']], function () {
     // Place all admin routes here
-    Route::get('/dashboard', [MainController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard');
     Route::get('/admin_profile', [MainController::class, 'admin_profile'])->name('admin_profile');
     Route::get('/product', [MainController::class, 'product'])->name('product');
     Route::get('/inventory', [MainController::class, 'inventory'])->name('inventory');
@@ -40,16 +40,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function () 
 
 
     Route::post('/save_product', [MainController::class, 'save_product'])->name('save_product');
+    
 
     
 });
 
-// Route::group(['prefix' => 'Teacher', 'middleware' => ['role:Teacher']], function () {
-    // Place all teacher routes here
-    Route::get('/TeacherUI', [MainController::class, 'TeacherUI'])->name('Teacher.TeacherUI');
-    Route::post('/teacher/update/{id}', [MainController::class, 'Update_teacherProfile'])->name('Update_teacherProfile'); 
-
-
-
-
-// });  

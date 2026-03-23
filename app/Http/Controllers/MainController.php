@@ -63,10 +63,10 @@ public function auth_user(Request $request)
         'name'      => $user->usr_name,
         'email'     => $user->email,
         'role_id'   => $user->role_id,
-        'user_role' => 'admin',
+        'user_role' => 'Admin',
     ]);
 
-    return redirect()->route('admin.dashboard');
+    return redirect()->route('dashboard');
 }
 private function logActivity($action, $description)
 {
@@ -78,10 +78,11 @@ private function logActivity($action, $description)
 }
 
 public function admin_profile()
+
 {
     $logs = ActivityLog::latest()->take(10)->get();
 
-    $admins = DB::table('admin')->get();
+    $admins = DB::table('users')->get();
 
     return view('admin_profile', compact('admins','logs'));
 }
@@ -141,6 +142,7 @@ public function admin_profile()
      */
    public function dashboard()
 {
+
  
     $totalProduct = DB::table('product')->count();
     return view('dashboard', compact('totalProduct'));

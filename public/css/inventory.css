@@ -1,0 +1,66 @@
+/* Modern Card Styling */
+.card.sc {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 12px;
+}
+
+.card.sc:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
+}
+
+/* Icon Containers */
+.sc-icon-wrap {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 1.25rem;
+}
+
+.sc-icon{
+    font-size: 2rem;
+}
+
+/* Modern Soft Colors */
+.bg-soft-primary { background-color: #e2dffa !important; }
+.bg-soft-success { background-color: #e8fadf !important; }
+.bg-soft-warning { background-color: #fff4e1 !important; }
+.bg-soft-danger  { background-color: #ffe5e5 !important; }
+
+/* Text accents */
+.text-primary { color: #3c45e7 !important; }
+.text-success { color: #28a745 !important; }
+.text-warning { color: #f39c12 !important; }
+.text-danger  { color: #e74c3c !important; }
+
+.sc-value {
+    letter-spacing: -0.5px;
+    color: #2c3e50;
+}
+
+.sc-label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.modern-border-success {
+    border: none; /* Removes all default borders */
+    border-left: 5px solid #28a745 !important; /* Adds only the thick left accent */
+}
+
+.modern-border-warning {
+    border: none;
+    border-left: 5px solid #f39c12 !important;
+}
+
+.modern-border-danger {
+    border: none;
+    border-left: 5px solid #e74c3c !important;
+}
+.modern-border-primary {
+    border: none;
+    border-left: 5px solid #3c45e7 !important;
+}

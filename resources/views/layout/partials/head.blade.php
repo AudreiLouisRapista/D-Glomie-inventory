@@ -33,8 +33,8 @@
     <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
-    {{-- Custom CSS --}}
-    <link rel="stylesheet" href="{{ asset('css/admin_dp.css') }}">
+    {{-- Custom CSS
+    <link rel="stylesheet" href="{{ asset('css/admin_dp.css') }}"> --}}
 
     @yield('styles')
 </head>
