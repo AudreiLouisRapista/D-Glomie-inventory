@@ -5,8 +5,11 @@
 
 {{-- 2. DEFINE CONTENT HEADER (Breadcrumbs) --}}
 @section('content')
+
+    <link rel="stylesheet" href="{{ asset('css/product.css') }}">
+
     <div class="col-sm-6">
-        <h1>Product Management</h1>
+        <h1 class="m-0 font-weight-bold">Product Management</h1>
         <p>Manage Product and their Details</p>
     </div>
 
@@ -93,8 +96,8 @@
                                                 <i class="fas fa-tag text-muted"></i>
                                             </span>
                                         </div>
-                                        <select id="categorySelect" name="category" class="form-control bg-light"
-                                            style="border-radius: 0 10px 10px 0; height: 45px;" required>
+                                        <select id="categorySelect" name="category" class="form-control bg-light select2"
+                                            style="border-radius: 0 10px 10px 0;">
                                             <option value="">Select Category</option>
 
                                             @foreach ($categories as $cat)
@@ -132,9 +135,10 @@
                                             class="form-control bg-light"
                                             style="border-radius: 0 10px 10px 0; height: 45px;" required>
                                             <option value="">Select Perishable Type</option>
-                                            <option value="1">Perishable</option>
-                                            <option value="2">Non-Perishable</option>
-                                            <option value="3">Semi-Perishable</option>
+                                            @foreach ($perishables as $perish)
+                                                <option value="{{ $perish->id }}">{{ $perish->perishable_type }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>

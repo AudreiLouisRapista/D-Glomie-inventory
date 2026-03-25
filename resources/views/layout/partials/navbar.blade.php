@@ -10,12 +10,25 @@
      <link rel="stylesheet"
          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
+
+     <!-- Google Font: Source Sans Pro -->
+     <link rel="stylesheet"
+         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+
+     <!-- Font Awesome -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+     <!-- AdminLTE CSS - THIS WAS MISSING! -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+
+
+
  </head>
 
  <body class="hold-transition sidebar-mini">
      <div class="wrapper">
          <!-- Navbar -->
-         <nav class="main-header navbar navbar-expand navbar-light">
+         <nav class="main-header navbar navbar-expand navbar-light sticky-top ">
              <!-- Left navbar links -->
              <ul class="navbar-nav">
                  <li class="nav-item">
@@ -94,7 +107,7 @@
                          <span class="dropdown-item dropdown-header">Account Management</span>
                          <div class="dropdown-divider"></div>
                          <a href="{{ route('admin_profile') }}" class="dropdown-item">
-                             <i class="bi bi-person-fill"></i> Profile
+                             <i class="bi bi-person-fill-gear"></i> Profile
                          </a>
                          <div class="dropdown-divider"></div>
                          <a href="{{ route('logout') }}" class="dropdown-item">
@@ -103,7 +116,8 @@
                      </div>
                  </li>
                  <li class="nav-item">
-                     <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+                     <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"
+                         role="button">
                          <i class="fas fa-th-large"></i>
                      </a>
                  </li>

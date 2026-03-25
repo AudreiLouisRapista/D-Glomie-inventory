@@ -1,14 +1,40 @@
 
         .inv-hero {
-            background: #1a56db;
+            background: linear-gradient(140deg, #ef2748 0%, #e45f73 100%);
+            box-shadow: 0 6px 24px rgba(243, 46, 79, 0.45); 
             border-radius: 10px;
             padding: 28px 30px 22px;
             margin-bottom: 22px;
             color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden; /* keeps icon clipped inside the card */
+        }
+        
+        .inv-hero-icon {
+        position: absolute;
+        right: 19px;
+        top: 70%;
+        transform: translateY(-50%);
+        font-size: 140px;
+        color: #fff;
+        opacity: 0.08; /* low transparency — adjust to taste */
+        pointer-events: none; /* so it doesn't block clicks */
+        line-height: 1;
+    }
+        
+        .header-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0;
         }
 
+    
         .inv-hero h2 {
-            font-size: 24px;
+            font-size: 30px;
             font-weight: 800;
             margin: 0 0 6px;
         }
@@ -25,8 +51,22 @@
             box-shadow: 0 1px 4px rgba(0, 0, 0, .08);
             padding: 26px 28px;
             margin-bottom: 24px;
+            border-left: 7px solid !important;
+            border-color: #f44f60 !important;
         }
 
+        .card-recent-added{
+            border-radius: 10px;
+            /* border-left: 7px solid !important; */
+            /* border-color: #f44f60 !important; */
+        }
+
+        .card-header{
+            background: linear-gradient(140deg, #ef2748 0%, #ea4f66 100%);
+            color: #fff;
+
+        }
+        
         .inv-label {
             font-size: 12px;
             font-weight: 700;
@@ -81,7 +121,7 @@
         }
 
         .btn-add-item {
-            background: #1a56db;
+            background: linear-gradient(140deg, #ef2748 0%, #e45f73 100%);
             color: #fff;
             border: none;
             border-radius: 8px;
@@ -91,8 +131,9 @@
         }
 
         .btn-add-item:hover {
-            background: #1446b8;
-            color: #fff;
+           background: linear-gradient(140deg, #c81835 0%, #c74256 100%) !important;
+            color: #fff !important;
+            box-shadow: 0 6px 24px rgba(243, 46, 79, 0.45) !important;
         }
 
         .inv-table thead tr {
@@ -208,20 +249,4 @@
             justify-content: flex-end;
         }
 
-        .btn-save-invoice {
-            background: #1a56db;
-            color: #ffffff;
-            border: none;
-            border-radius: 8px;
-            padding: 10px 24px;
-            font-size: 14px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-save-invoice:hover {
-            background: #1406a9;
-            color: #fff;
-        }
+   

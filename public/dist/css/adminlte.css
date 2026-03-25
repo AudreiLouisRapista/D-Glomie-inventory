@@ -53009,4 +53009,17 @@ a.text-muted:hover {
 .dark-mode .border-dark {
   border-color: #4b545c !important;
 }
+
+/* Change the background color of the active search result */
+[data-widget="sidebar-search"] ~ .sidebar-search-results .list-group-item.active {
+    background-color: #28a745; /* Example: Success Green */
+    border-color: #28a745;
+    color: #ffffff;
+}
+
+/* Optional: Change the hover color for non-active results */
+[data-widget="sidebar-search"] ~ .sidebar-search-results .list-group-item:hover {
+    background-color: #f8f9fa;
+    color: #333;
+}
 /*# sourceMappingURL=adminlte.css.map */

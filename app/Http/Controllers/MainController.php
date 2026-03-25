@@ -154,10 +154,9 @@ public function admin_profile()
 
 // PRODUCT SDIE
 public function product() {
-
-$products = DB::table('product')
-    ->Join('category', 'product.id', '=', 'category.id' )
-    ->Join('perishable', 'product.id', '=', 'perishable.id' )
+    $products = DB::table('product')
+    ->Join('category', 'product.category_id', '=', 'category.id' )
+    ->Join('perishable', 'product.perishable_id', '=', 'perishable.id' )
     ->select('product.*',
     'category.category_name',
     'perishable.perishable_type')
@@ -165,12 +164,15 @@ $products = DB::table('product')
 
 
     $categories = DB::table('category')->select('category.*')->get();
-    return view('product', compact ('products', 'categories'));
+    $perishables = DB::table('perishable')->select('perishable.*')->get();
+    return view('product', compact ('products', 'categories', 'perishables'));
 }
 
 
 public function save_product(Request $request)
 {
+    // dd($request->all());
+
     $request->validate([
         'productName'  => 'required|string|max:255',
         'category'   => 'required|integer',
@@ -242,7 +244,225 @@ public function inventory() {
 
 public function invoiceEncoder(){
 
-return view('invoiceEncoder');
+    $invoiceInfo = DB::table('purchase')
+    ->Join('supplier', 'purchase.supplier_id', '=', 'supplier.id')
+    ->select('purchase.*',
+    'supplier.supplier_name')
+    ->get();
+
+      $products = DB::table('product')
+        ->Join('perishable', 'product.perishable_id', '=', 'perishable.id') 
+        ->select(
+            'product.*',
+            'perishable.perishable_type'
+        ) 
+        ->orderBy('product.product_name', 'ASC')
+        ->get();
+
+
+    $supplier = DB::table('supplier')->get();
+
+
+return view('invoiceEncoder', compact('invoiceInfo','supplier','products'));
+}
+
+
+public function save_invoiceDetails(Request $request)
+{   
+    // dd($request->all());
+    $request->validate([
+      
+        'supplierId'      => 'required|integer|exists:supplier,id',
+        'invoiceNumber'   => 'required|string|max:100|unique:purchase,invoice_number',
+        'invoiceDate'     => 'required|date',
+        'invoiceduoDate'  => 'required|date|after_or_equal:invoiceDate',
+        'gross_total_raw' => 'required|numeric|min:0',
+        'vat_amount_raw'  => 'required|numeric|min:0',
+        'grand_total_raw' => 'required|numeric|min:0',
+        'productName'     => 'required|array|min:1',
+        'productName.*'   => 'required|string|max:255',
+        'CSquantity'      => 'required|array|min:1',
+        'CSquantity.*'    => 'required|integer|min:1',
+        'Quantinumber'    => 'required|array|min:1',
+        'Quantinumber.*'  => 'required|integer|min:0',
+        'productSize'     => 'required|array|min:1',
+        'productSize.*'   => 'required|numeric|min:0',
+        'unitPrice'       => 'required|array|min:1',
+        'unitPrice.*'     => 'required|numeric|min:0.01',
+        'perishableType'  => 'required|array|min:1',
+        'perishableType.*'=> 'required|string',
+        'expdate'         => 'nullable|array',
+        'expdate.*'       => 'nullable|date|after:today',
+    ]);
+
+    //  dd('validation passed');
+    DB::beginTransaction();
+
+    try {
+        
+        $invoiceId = DB::table('purchase')->insertGetId([
+            'supplier_id'         => $request->supplierId,
+            'invoice_number'      => $request->invoiceNumber,
+            'invoice_date'        => $request->invoiceDate,
+            'invoice_duo_date'    => $request->invoiceduoDate,
+            'invoice_grossAmount' => $request->gross_total_raw,
+            'invoice_vatAmount'   => $request->vat_amount_raw,
+            'invoice_netAmount'   => $request->grand_total_raw,
+            'created_at'          => now(),
+            'updated_at'          => now(),
+        ]);
+
+        //  dd('invoice saved, id: ' . $invoiceId);
+
+        foreach ($request->productName as $key => $name) {
+ 
+            // Check if product exists
+                $product = DB::table('product')->where('product_name', $name)->first();
+
+                // If NOT found — stop everything, reject the save
+                if (!$product) {
+                    DB::rollback();
+                    return back()->withInput()->with('errorMessage', 
+                        "Product '{$name}' does not exist. Please add it in Product Management first."
+                    );
+                }
+
+                $productId = $product->id;
+
+                // purchase_items table
+                $purchaseItemID = DB::table('purchase_items')->insertGetId([
+                    'purchase_id'  => $invoiceId,   
+                    'product_id'   => $productId,   
+                    'supply_qty'   => $request->CSquantity[$key],
+                    'unit_price'   => $request->unitPrice[$key],
+                    'total_price'  => $request->Quantinumber[$key] * 
+                                    $request->productSize[$key] * 
+                                    $request->unitPrice[$key],
+                    'grand_total'  => $request->CSquantity[$key] * (
+                                        $request->Quantinumber[$key] * 
+                                        $request->productSize[$key] * 
+                                        $request->unitPrice[$key]
+                                    ),
+                    'created_at'   => now(),
+                    'updated_at'   => now(),
+                ]);
+
+
+            $batchQty = (int)(
+                $request->Quantinumber[$key] * 
+                $request->productSize[$key] * 
+                $request->CSquantity[$key]
+            );
+
+            $isPerishable = strtolower($request->perishableType[$key]) === 'perishable';
+
+            $batchId = DB::table('batch')->insert([
+            'purchase_item_id' => $purchaseItemID,  
+            'product_id'       => $productId,       
+            'exp_date'         => $isPerishable ? $request->expdate[$key] : null,
+            'batch_quantity'   => $batchQty,      
+            'created_at'       => now(),
+            'updated_at'       => now(),
+        ]);
+
+   
+            // DB::table('stock_movements')->insert([
+            //     'product_ID'       => $productId,
+            //     'purchase_item_id' => $purchaseItemID,
+            //     'purchase_id'      => $invoiceId,
+            //     'batch_ID'         => $batchId,
+            //     'MovementType'     => 'IN',
+            //     'quantity'         => $request->CSquantity[$key],
+            //     'created_at'       => now(),
+            //     'updated_at'       => now(),
+            // ]);
+        }
+
+        $userName = session('name');
+        $this->logActivity(
+            'added',
+            "New Item | Invoice No.: {$request->invoiceNumber} | Total Amount: {$request->grand_total_raw} | Responsible: {$userName}"
+        );
+
+        DB::commit();
+        return redirect()->route('invoiceEncoder')
+                         ->with('save', 'Invoice saved! Go to Inventory to receive items.');
+
+    } catch (\Illuminate\Database\QueryException $e) {
+        DB::rollback();
+        if ($e->errorInfo[1] == 1062) {
+            return back()->withInput()->with('duplicate', 'Duplicate Invoice Number');
+        }
+        return back()->withInput()->with('errorMessage', 'Database Error: ' . $e->getMessage());
+
+    } catch (\Exception $e) {
+        DB::rollback();
+        return back()->withInput()->with('errorMessage', 'General Error: ' . $e->getMessage());
+    }
+}
+
+//Supllier
+
+public function save_supplier(Request $request){
+    // dd($request->all());
+
+    $request->validate([
+        
+        'supplierName'  => 'required|string|max:255',
+        'supplierAddress'   => 'required|string|max:255',
+        'supplierPhone' => 'required|digits:11',
+       
+    ]);
+
+    $supplierName    = $request->supplierName;
+    $supplierAddress   = $request->supplierAddress;
+    $supplierPhone = $request->supplierPhone;
+  
+
+
+    $duplicate = DB::table('supplier')
+        ->where('supplier_name', $supplierName)
+        ->where('address', $supplierAddress)
+        ->where('contact_number', $supplierPhone)
+        ->exists();
+
+    if ($duplicate) {
+        return redirect()->back()->with([
+            'duplicate' => "The Supplier $supplierName details already exists."
+        ], 422);
+    }
+
+
+    try {
+            DB::table('supplier')->insert([
+                'supplier_name'  => $supplierName,
+                'address'        => $supplierAddress,
+                'contact_number' => $supplierPhone,
+                'created_at'     => now(),
+                'updated_at'     => now()
+            ]);
+
+
+            // Create Activity Log
+             $userName = session('name');
+            $this->logActivity('added', 
+            "Added Supplier | Name: {$request->supplierName} | Responsible: {$userName} | Address: {$request->supplierAddress} | Phone Number: {$request->supplierPhone}" );
+    
+       session()->flash('save', ' Supplier save successfully.');
+        return redirect()->back();
+
+    } catch (\Exception $e) {
+        return redirect()->back()->with(
+            'errorMessage', $e->getMessage() // show actual error
+        );
+    }
+}
+
+public function supplierList(){
+
+    $supplier = DB::table('supplier')->get();
+
+    return view('supplierList', compact('supplier'));
 }
 
    

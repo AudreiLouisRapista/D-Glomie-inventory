@@ -1,0 +1,46 @@
+
+
+.select2-container--default .select2-selection--single {
+    border-color: #ced4da !important;
+    outline: none !important;
+}
+
+.select2-container--default:hover .select2-selection--single {
+    border-color: red !important;
+    outline: none !important;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--single,
+.select2-container--default.select2-container--open .select2-selection--single {
+    border-color: rgb(183, 19, 19) !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25) !important;
+    outline: none !important;
+}
+
+/* Bootstrap 4 Select2 Theme Styles */
+.select2-container--bootstrap4:hover .select2-selection--single {
+    border-color: rgb(185, 29, 29) !important;
+    outline: none !important;
+}
+
+.select2-container--bootstrap4.select2-container--focus .select2-selection--single,
+.select2-container--bootstrap4.select2-container--open .select2-selection--single {
+    border-color: red !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25) !important;
+    outline: none !important;
+}
+
+
+
+/* Input Group Styles */
+.input-group:hover .form-control,
+.input-group:hover .input-group-text {
+    border-color: red !important;
+    transition: border-color 0.3s ease;
+}
+
+.input-group .form-control:focus {
+    border-color: red !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25) !important;
+}
+

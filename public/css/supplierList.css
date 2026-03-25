@@ -1,0 +1,74 @@
+
+        .inv-hero {
+           background: linear-gradient(140deg, #6366f1 0%, #a78bfa 100%); 
+           box-shadow: 0 6px 24px rgba(99,102,241,.45);
+            border-radius: 10px;
+            padding: 28px 30px 22px;
+            margin-bottom: 22px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative !important;
+            overflow: hidden !important;/* keeps icon clipped inside the card */
+            
+        }
+   
+        .card-header{
+            display: flex !important;
+            align-items: right !important;
+            justify-content: space-between !important;
+            margin: 0;
+        }
+
+        .card-header .btn-add-supplier {
+            /* align-self: center; */
+            margin-left: auto; /* pushes button to the right */
+        }
+
+        .card-title h2 {
+            font-size: 30px;
+            font-weight: 800;
+            margin: 0 0 6px;
+        }
+
+        .card-title p {
+            font-size: 13px;
+            opacity: .8;
+            margin: 0;
+        }
+
+          .btn-add-supplier {
+            background: linear-gradient(140deg, #4d4fca 0%, #8f76db 100%)  !important;
+            box-shadow: 0 6px 24px rgba(99,102,241,.45) !important;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: 700;
+         
+        }
+
+        .btn-add-supplier:hover {
+        background: linear-gradient(140deg, #4143c3 0%, #7656d8 100%) !important;
+        color: #fff !important;
+        box-shadow: 0 6px 24px rgba(88, 90, 220, 0.45) !important;
+        transform: translateY(-1px);
+    }
+
+        .inv-hero-icon {
+            position: absolute;
+            right: 20px;
+            top: 60%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            line-height: 1;
+        }
+
+        .inv-hero-icon i {
+            font-size: 170px !important;
+            color: #fff !important;
+            opacity: 0.08;
+        }
+   

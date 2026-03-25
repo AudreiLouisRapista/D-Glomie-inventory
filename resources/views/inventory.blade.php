@@ -9,7 +9,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/inventory.css') }}">
     <div class="col-sm-6">
-        <h1>Inventory Management</h1>
+        <h1 class="m-0 font-weight-bold">Inventory Management</h1>
         <p> Manage and monitor your inventory with ease</p>
     </div>
     <!-- Info boxes -->

@@ -1,1 +1,15 @@
-    
+
+/* 4. OPTIONAL: Change the color only when you hover over it */
+.sidebar-search-results .list-group-item:hover {
+    background-color: #f8f9fa !important;
+    color: #007bff !important; /* Blue text on hover */
+}
+/* This targets the bolded text inside the search results dropdown */
+.sidebar-search-results .list-group-item strong {
+    color: #333333 !important; /* This forces it to be dark gray/black */
+}
+
+/* If you want the text to turn white ONLY when the item is highlighted blue/green */
+.sidebar-search-results .list-group-item.active strong {
+    color: #ffffff !important;
+}
