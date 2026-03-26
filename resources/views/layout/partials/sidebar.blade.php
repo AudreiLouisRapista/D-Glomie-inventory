@@ -190,6 +190,17 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a href="{{ route('paymentTracker') }}"
+                        class="nav-link {{ request()->routeIs('paymentTracker') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-credit-card-fill"></i>
+                        <p>
+                            Payment Tracker
+                        </p>
+                    </a>
+                </li>
+
+
                 <li class="nav-header">Imports</li>
                 <li class="nav-item">
                     <a href="pages/kanban.html" class="nav-link">

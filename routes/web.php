@@ -38,12 +38,16 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin']], function () 
     Route::get('/inventory', [MainController::class, 'inventory'])->name('inventory');
     Route::get('/invoiceEncoder', [MainController::class, 'invoiceEncoder'])->name('invoiceEncoder');
     Route::get('/supplierList', [MainController::class, 'supplierList'])->name('supplierList');
+    Route::get('/paymentTracker', [MainController::class, 'paymentTracker'])->name('paymentTracker');
+
 
 
 
     Route::post('/save_product', [MainController::class, 'save_product'])->name('save_product');
     Route::post('/save_invoiceDetails', [MainController::class, 'save_invoiceDetails'])->name('save_invoiceDetails');
     Route::post('/save_supplier', [MainController::class, 'save_supplier'])->name('save_supplier');
+    Route::post('/save_payment', [MainController::class, 'save_payment'])->name('save_payment');
+
 
     
 
