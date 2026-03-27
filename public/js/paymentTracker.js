@@ -87,7 +87,7 @@ function initPaymentTracker(allProducts) {
             );
 
             $.ajax({
-                url: '/admin/getPaymentHistory/' + purchaseId,
+                url: '/Admin/getPaymentHistory/' + purchaseId,
                 method: 'GET',
                 success: function (response) {
                     let modalRows = '';
@@ -100,7 +100,7 @@ function initPaymentTracker(allProducts) {
                         printRows =
                             '<tr><td colspan="4" style="text-align:center;color:#6c757d;padding:12px 0;">No payments found.</td></tr>';
                     } else {
-                        response.forEach(function (payment) {
+                        response.forEach(function (payment, index) {
                             let amt = parseFloat(payment.amount_paid) || 0;
                             total += amt;
                             let fmtAmt = amt.toLocaleString(undefined, {
@@ -120,15 +120,17 @@ function initPaymentTracker(allProducts) {
                                     </tr>`;
 
                             // Print row (inline styles for print reliability)
-                            printRows += `
-                                    <tr style="border-bottom:1px solid #f0f0f0;">
-                                        <td style="padding:10px 8px 10px 0;color:#6c757d;font-size:12px;">${date}</td>
-                                        <td style="padding:10px 8px 10px 0;font-family:'DM Mono',monospace;font-weight:600;font-size:12px;color:#1a1a2e;">${refNo}</td>
-                                        <td style="padding:10px 8px 10px 0;">
-                                            <span style="display:inline-block;padding:3px 8px;border:1px solid #dee2e6;border-radius:5px;font-size:11px;color:#1a1a2e;">${method}</span>
-                                        </td>
-                                        <td style="padding:10px 0;text-align:right;font-weight:700;color:#1a1a2e;">₱ ${fmtAmt}</td>
-                                    </tr>`;
+                          printRows += `
+                            <tr style="border-bottom:1px solid #eef0f3; background:${index % 2 === 0 ? '#fff' : '#fafbfc'};">
+                                <td style="padding:11px 10px 11px 0; color:#6c757d; font-size:11.5px; white-space:nowrap;">${date}</td>
+                                <td style="padding:11px 10px 11px 0; font-family:'DM Mono',monospace; font-weight:600; font-size:11.5px; color:#1a1a2e; letter-spacing:0.3px;">${refNo}</td>
+                                <td style="padding:11px 10px 11px 0;">
+                                    <span style="display:inline-block; padding:3px 10px; background:#f0f4ff; border:1px solid #d0d9f5; border-radius:20px; font-size:10.5px; font-weight:600; color:#3d5af1; letter-spacing:0.3px; text-transform:uppercase;">
+                                        ${method}
+                                    </span>
+                                </td>
+                                <td style="padding:11px 0; text-align:right; font-weight:700; color:#1a1a2e; font-size:13px; font-family:'DM Mono',monospace;">₱&nbsp;${fmtAmt}</td>
+                            </tr>`;
                         });
                     }
 

@@ -81,7 +81,7 @@
                                 Amount</th>
                         </tr>
                     </thead>
-                    <tbody id="print-payment-rows">
+                    <tbody id="print-payment-rows" style="border-top:1px solid #dee2e6;">
                         {{-- Populated by JS --}}
                     </tbody>
                 </table>
@@ -162,7 +162,7 @@
                     <tbody>
                         @foreach ($purchases as $row)
                             @php
-                                $remaining = $row->invoice_netAmount - ($row->total_paid ?? 0);
+                                $remaining = $row->invoice_netAmount - ($row->invoice_totalPaid ?? 0);
                             @endphp
                             <tr>
                                 <td class="fw-bold text-dark">INV-{{ $row->invoice_number }}</td>
@@ -178,7 +178,7 @@
                                     </div>
                                     <div class="fw-bold">Net: ₱{{ number_format($row->invoice_netAmount, 2) }}</div>
                                 </td>
-                                <td class="text-success fw-bold">₱{{ number_format($row->total_paid ?? 0, 2) }}</td>
+                                <td class="text-success fw-bold">₱{{ number_format($row->invoice_totalPaid ?? 0, 2) }}</td>
                                 <td class="text-danger fw-bold">₱{{ number_format($remaining, 2) }}</td>
                                 <td>
                                     <span class="status-badge status-{{ strtolower($row->invoice_status) }}">
@@ -300,8 +300,9 @@
                             {{-- Reference Number --}}
                             <div class="col-12 mb-3">
                                 <label class="font-weight-bold small" style="color: #475569;">Reference Number</label>
-                                <input type="text" name="reference_number" id="referenceNumber"
+                                <input type="number" name="reference_number" id="referenceNumber"
                                     class="form-control bg-light shadow-none border-0"
+                                    oninput="if(this.value.length > 11) this.value = this.value.slice(0, 12);"
                                     placeholder="e.g. Check #, Trans ID" style="border-radius: 10px; height: 45px;">
                             </div>
                         </div>
@@ -415,56 +416,78 @@
     @endforeach
 
     {{-- Payment History Modal --}}
-    <div class="modal fade" id="paymentHistoryModal" tabindex="-1" aria-labelledby="paymentHistoryModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg">
-                <div class="modal-header bg-white border-bottom-0 pt-4 px-4">
-                    <h5 class="modal-title fw-bold" id="paymentHistoryModalLabel">
-                        <i class="fas fa-receipt text-success me-2"></i> Payment History
+    <div class="modal fade" id="paymentHistoryModal" tabindex="-1" role="dialog"
+        aria-labelledby="paymentHistoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
+
+                {{-- Modal Header --}}
+                <div class="modal-header bg-dark text-white py-3">
+                    <h5 class="modal-title font-weight-bold" id="paymentHistoryModalLabel">
+                        <i class="fas fa-history mr-2 text-success"></i> Payment History
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body px-4 pb-4">
-                    <div class="d-flex justify-content-between align-items-center p-3 mb-4 rounded-3"
-                        style="background-color: #f8f9fa; border: 1px solid #e9ecef;">
-                        <div>
-                            <small class="text-muted d-block text-uppercase fw-bold" style="font-size: 10px;">Invoice
-                                Number</small>
-                            <span id="modal-invoice-no" class="fw-bold text-dark">-</span>
-                        </div>
-                        <div class="text-end">
-                            <small class="text-muted d-block text-uppercase fw-bold" style="font-size: 10px;">Total
-                                Settled</small>
-                            <span id="modal-total-paid" class="fw-bold text-success fs-5">₱ 0.00</span>
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle" id="history-table">
-                            <thead class="table-light">
-                                <tr>
-                                    <th class="border-0 text-muted" style="font-size: 12px;">DATE</th>
-                                    <th class="border-0 text-muted" style="font-size: 12px;">REF NO.</th>
-                                    <th class="border-0 text-muted" style="font-size: 12px;">METHOD</th>
-                                    <th class="border-0 text-muted text-end" style="font-size: 12px;">AMOUNT</th>
-                                </tr>
-                            </thead>
-                            <tbody id="payment-history-data"></tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="modal-footer border-top-0 px-4 pb-4">
-                    <button type="button" class="btn btn-light fw-bold text-muted" data-bs-dismiss="modal"
-                        style="font-size: 13px;">Close</button>
-                    <button type="button" class="btn btn-primary fw-bold" id="printReceiptBtn"
-                        style="font-size: 13px;">
-                        <i class="fas fa-print me-1"></i> Print Receipt
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
+                <div class="modal-body p-4">
+                    {{-- Quick Summary Header --}}
+                    <div class="d-flex justify-content-between align-items-center p-3 mb-4 shadow-sm bg-light"
+                        style="border-radius: 12px; border: 1px solid #e9ecef;">
+                        <div>
+                            <small class="text-muted d-block text-uppercase font-weight-bold"
+                                style="font-size: 10px; letter-spacing: 0.5px;">
+                                Invoice Number
+                            </small>
+                            <span id="modal-invoice-no" class="font-weight-bold text-dark h6 mb-0">-</span>
+                        </div>
+                        <div class="text-right">
+                            <small class="text-muted d-block text-uppercase font-weight-bold"
+                                style="font-size: 10px; letter-spacing: 0.5px;">
+                                Total Settled
+                            </small>
+                            <span id="modal-total-paid" class="font-weight-bold text-success h5 mb-0">₱ 0.00</span>
+                        </div>
+                    </div>
+
+                    {{-- History Table --}}
+                    <div class="table-responsive" style="border-radius: 10px; border: 1px solid #e2e8f0;">
+                        <table class="table table-hover align-middle mb-0" id="history-table">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="border-0 text-muted font-weight-bold py-3"
+                                        style="font-size: 11px; letter-spacing: 0.5px;">DATE</th>
+                                    <th class="border-0 text-muted font-weight-bold py-3"
+                                        style="font-size: 11px; letter-spacing: 0.5px;">REF NO.</th>
+                                    <th class="border-0 text-muted font-weight-bold py-3"
+                                        style="font-size: 11px; letter-spacing: 0.5px;">METHOD</th>
+                                    <th class="border-0 text-muted font-weight-bold py-3 text-right"
+                                        style="font-size: 11px; letter-spacing: 0.5px;">AMOUNT</th>
+                                </tr>
+                            </thead>
+                            <tbody id="payment-history-data">
+                                {{-- Data will be injected here via AJAX --}}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {{-- Footer Action Buttons --}}
+                    <div class="d-flex justify-content-end mt-4 pt-3 border-top">
+                        <button type="button" class="btn btn-light px-4 mr-2 font-weight-bold text-muted shadow-sm"
+                            data-dismiss="modal" style="border-radius: 8px;">
+                            Close
+                        </button>
+                        <button type="button" class="btn btn-primary px-4 font-weight-bold shadow-sm"
+                            id="printReceiptBtn" style="border-radius: 8px;">
+                            <i class="fas fa-print mr-1"></i> Print Receipt
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
-
 @endsection
 
 @section('JS src')

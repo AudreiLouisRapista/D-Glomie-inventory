@@ -246,11 +246,21 @@ public function invoiceEncoder(){
 
     $invoiceInfo = DB::table('purchase')
     ->Join('supplier', 'purchase.supplier_id', '=', 'supplier.id')
-    ->select('purchase.*',
+    ->select('purchase.*',  'purchase.id as purchase_id',  
     'supplier.supplier_name')
     ->get();
 
-      $products = DB::table('product')
+       $purchase_items = DB::table('purchase_items')
+        ->join('product', 'purchase_items.product_id', '=', 'product.id')
+        ->select([
+            'purchase_items.*',
+            'product.product_name'
+        ])
+        ->orderBy('purchase_items.purchase_id','desc')
+        ->get()
+        ->groupBy('purchase_id'); 
+
+    $products = DB::table('product')
         ->Join('perishable', 'product.perishable_id', '=', 'perishable.id') 
         ->select(
             'product.*',
@@ -263,7 +273,7 @@ public function invoiceEncoder(){
     $supplier = DB::table('supplier')->get();
 
 
-return view('invoiceEncoder', compact('invoiceInfo','supplier','products'));
+return view('invoiceEncoder', compact('invoiceInfo','supplier','products','purchase_items'));
 }
 
 
@@ -509,17 +519,20 @@ public function paymentTracker(Request $request)
 
 public function save_payment(Request $request) 
 {
-    // dd($request->all());
     $request->validate([
         
         'purchase_id'      => 'required',
         'amount_paid'      => 'required|numeric|min:0',
         'payment_date'     => 'required|date',
         'payment_method'   => 'required'
-    ]);
+    ]); 
+
+                    // dd($request->all());
+
 
     try {
         DB::transaction(function () use ($request) {
+
             // 2. Log payment
             DB::table('payment')->insert([
                 'purchase_id'           => $request->purchase_id,
@@ -533,6 +546,9 @@ public function save_payment(Request $request)
 
             ]);
 
+
+
+
             // 3. Update purchase
             $p = DB::table('purchase')->where('id', $request->purchase_id)->first();
             $totalPaid = ($p->invoice_totalPaid ?? 0) + $request->amount_paid;
@@ -540,8 +556,9 @@ public function save_payment(Request $request)
 
             DB::table('purchase')->where('id', $request->purchase_id)->update([
                 'invoice_totalPaid' => $totalPaid,
-                'invoice_paymentStatus'     => $status
+                'invoice_status'     => $status
             ]);
+
         });
 
         return redirect()->back()->with('save', 'Payment recorded successfully!');
@@ -557,8 +574,19 @@ public function save_payment(Request $request)
 }
 
    
+public function getPaymentHistory($id)
+{
+    // Fetch payments related to this purchase
+    $payments = DB::table('payment') // Or whatever your payment table is called
+        ->where('purchase_id', $id)
+        ->orderBy('payment_date', 'desc')
+        ->get();
 
-        // LOG OUT
+    return response()->json($payments);
+}
+
+
+// LOG OUT
 
 public function logout(Request $request)
 {

@@ -45,7 +45,8 @@
                         <div class="col-md-6 form-group">
                             <label class="inv-label">Invoice Number <span class="req">*</span></label>
                             <input type="text" id="invoice_number" name="invoiceNumber" class="form-control inv-input"
-                                placeholder="INV-001">
+                                placeholder="INV-001"
+                                oninput="if(this.value.length > 11) this.value = this.value.slice(0, 12);" required>
                         </div>
                         <div class="col-md-6 form-group">
                             <label class="inv-label">Supplier Name <span class="req">*</span></label>
@@ -63,12 +64,12 @@
                         <div class="col-md-6 form-group">
                             <label class="inv-label">Date <span class="req">*</span></label>
                             <input type="date" id="invoice_date" name="invoiceDate" class="form-control inv-input"
-                                value="{{ date('Y-m-d') }}">
+                                value="{{ date('Y-m-d') }}" required>
                         </div>
                         <div class="col-md-6 form-group">
                             <label class="inv-label">Due Date <span class="req">*</span></label>
                             <input type="date" id="due_date" name="invoiceduoDate" class="form-control inv-input"
-                                value="{{ date('Y-m-d') }}">
+                                value="{{ date('Y-m-d') }}" required>
                         </div>
                     </div>
 
@@ -188,86 +189,50 @@
                     </div>
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body p-0 ">
-                    <ul class="products-list product-list-in-card pl-2 pr-2">
-                        <li class="item">
-                            <div class="product-img">
-                                <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                            </div>
-                            <div class="product-info">
-                                <a href="javascript:void(0)" class="product-title">Samsung TV
-                                    <span class="badge badge-warning float-right">$1800</span></a>
-                                <span class="product-description">
-                                    Samsung 32" 1080p 60Hz LED Smart HDTV.
-                                </span>
-                            </div>
-                        </li>
-                        <!-- /.item -->
-                        <li class="item">
-                            <div class="product-img">
-                                <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                            </div>
-                            <div class="product-info">
-                                <a href="javascript:void(0)" class="product-title">Bicycle
-                                    <span class="badge badge-info float-right">$700</span></a>
-                                <span class="product-description">
-                                    26" Mongoose Dolomite Men's 7-speed, Navy Blue.
-                                </span>
-                            </div>
-                        </li>
-                        <!-- /.item -->
-                        <li class="item">
-                            <div class="product-img">
-                                <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                            </div>
-                            <div class="product-info">
-                                <a href="javascript:void(0)" class="product-title">
-                                    Xbox One <span class="badge badge-danger float-right">
-                                        $350
+                <div class="card-body p-0">
+                    <ul class="list-unstyled mb-0">
+                        @foreach ($purchase_items->take(5) as $purchaseId => $items)
+                            @foreach ($items as $item)
+                                <li class="d-flex align-items-center justify-content-between px-3 py-2"
+                                    style="border-bottom: 0.5px solid rgba(0,0,0,0.07);">
+                                    <div class="d-flex align-items-center">
+                                        <div class="mr-3 d-flex align-items-center justify-content-center"
+                                            style="width:34px; height:34px; border-radius:9px; background:#fff0f2; font-size:16px;">
+                                            <i class="bi bi-box2-fill text-danger"></i>
+                                        </div>
+                                        <div>
+                                            <div style="font-size:13.5px; font-weight:600;">{{ $item->product_name }}</div>
+                                            <div class="text-muted" style="font-size:11px;">Beverage · In stock</div>
+                                        </div>
+                                    </div>
+                                    <span class="badge"
+                                        style="background:#fff3cd; color:#856404; font-size:12px; font-weight:700; padding:4px 10px; border-radius:20px;">
+                                        ₱{{ number_format($item->grand_total, 2) }}
                                     </span>
-                                </a>
-                                <span class="product-description">
-                                    Xbox One Console Bundle with Halo Master Chief Collection.
-                                </span>
-                            </div>
-                        </li>
-                        <!-- /.item -->
-                        <li class="item">
-                            <div class="product-img">
-                                <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                            </div>
-                            <div class="product-info">
-                                <a href="javascript:void(0)" class="product-title">PlayStation 4
-                                    <span class="badge badge-success float-right">$399</span></a>
-                                <span class="product-description">
-                                    PlayStation 4 500GB Console (PS4)
-                                </span>
-                            </div>
-                        </li>
-                        <!-- /.item -->
+                                </li>
+                            @endforeach
+                        @endforeach
                     </ul>
+
+                    <div class="card-footer text-center">
+                        <a href="{{ route('paymentTracker') }}" class="uppercase text-danger">View All Products</a>
+                    </div>
                 </div>
-                <!-- /.card-body -->
-                <div class="card-footer text-center">
-                    <a href="javascript:void(0)" class="uppercase">View All Products</a>
-                </div>
-                <!-- /.card-footer -->
             </div>
         </div>
-    </div>
 
 
 
-@endsection
+    @endsection
 
 
-@section('JS src')
-    <script src="{{ asset('js/invoiceEncoder.js') }}"></script>
-    <script>
-        const allProducts = @json($products);
+    @section('JS src')
+        <script src="{{ asset('js/invoiceEncoder.js') }}"></script>
+        <script>
+            const allProducts = @json($products);
 
-        $(document).ready(function() {
-            initInvoiceEncoder(allProducts);
-        });
-    </script>
-@endsection
+            $(document).ready(function() {
+                initInvoiceEncoder(allProducts);
+            });
+        </script>
+    @endsection

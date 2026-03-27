@@ -39,6 +39,8 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin']], function () 
     Route::get('/invoiceEncoder', [MainController::class, 'invoiceEncoder'])->name('invoiceEncoder');
     Route::get('/supplierList', [MainController::class, 'supplierList'])->name('supplierList');
     Route::get('/paymentTracker', [MainController::class, 'paymentTracker'])->name('paymentTracker');
+    Route::get('/getPaymentHistory/{id}', [MainController::class, 'getPaymentHistory'])->name('getPaymentHistory');
+
 
 
 
