@@ -36,11 +36,12 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin']], function () 
     Route::get('/admin_profile', [MainController::class, 'admin_profile'])->name('admin_profile');
     Route::get('/product', [MainController::class, 'product'])->name('product');
     Route::get('/inventory', [MainController::class, 'inventory'])->name('inventory');
+    Route::get('/inventory-data', [MainController::class, 'view_inventory'])->name('view_inventory');
     Route::get('/invoiceEncoder', [MainController::class, 'invoiceEncoder'])->name('invoiceEncoder');
     Route::get('/supplierList', [MainController::class, 'supplierList'])->name('supplierList');
     Route::get('/paymentTracker', [MainController::class, 'paymentTracker'])->name('paymentTracker');
     Route::get('/getPaymentHistory/{id}', [MainController::class, 'getPaymentHistory'])->name('getPaymentHistory');
-
+    Route::get('/get-products-by-category',[MainController::class, 'get_products_by_category'])->name('get_products_by_category');
 
 
 
@@ -49,6 +50,8 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin']], function () 
     Route::post('/save_invoiceDetails', [MainController::class, 'save_invoiceDetails'])->name('save_invoiceDetails');
     Route::post('/save_supplier', [MainController::class, 'save_supplier'])->name('save_supplier');
     Route::post('/save_payment', [MainController::class, 'save_payment'])->name('save_payment');
+    Route::post('/save_inventory', [MainController::class, 'save_inventory'])->name('save_inventory');
+
 
 
     

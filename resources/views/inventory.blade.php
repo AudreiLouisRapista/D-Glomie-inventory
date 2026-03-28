@@ -13,7 +13,7 @@
         <p> Manage and monitor your inventory with ease</p>
     </div>
     <!-- Info boxes -->
-    <div class="row g-3">
+    <div class="row">
 
         {{-- Total Inventory Record --}}
         <div class="col-lg-3 col-md-6 mb-4">
@@ -77,6 +77,9 @@
     </div>
     <!-- /.row -->
 
+
+
+
     <div class="card">
         <div class="card-header">
             <h3 class="card-title font-weight-bold">Inventory List</h3>
@@ -87,8 +90,8 @@
             </button>
         </div>
         <!-- /.card-header -->
-        <div class="card-body">
-            <table id="example2" class="table table-bordered table-hover">
+        <div class="card-body table-responsive ">
+            <table id="example2" class="table table-bordered table-hover text-center">
                 <thead style="text-align: center; background-color: #f8fafc;">
                     <tr>
                         <th>Inventory ID</th>
@@ -105,26 +108,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
 
                 </tbody>
             </table>
         </div>
     </div>
+
     <!-- /.card-body -->
-    </div>
 
     {{-- REGETRATION PRODUCT MODAL  --}}
     <div class="modal fade" id="registerProductModal" tabindex="-1" role="dialog"
@@ -144,74 +134,67 @@
 
                 {{-- Modal Body --}}
                 <div class="modal-body p-4">
-                    <form id="registerProductForm" method="POST" enctype="multipart/form-data">
+                    <form id="registerProductForm" method="POST" action="{{ route('save_inventory') }}"
+                        enctype="multipart/form-data">
+                        @csrf
 
                         {{-- Basic Information --}}
                         <div class="mb-4">
-                            <p class="text-muted small font-weight-bold text-uppercase mb-3 border-bottom">
-                                Basic Information
+                            <p class="text-muted small font-weight-bold text-uppercase mb-3 border-bottom">Basic Information
                             </p>
                             <div class="form-row">
 
                                 {{-- Category --}}
                                 <div class="col-md-6 mb-3">
                                     <label class="font-weight-bold" style="color: #475569;">Category</label>
-                                    <div class="input-group">
+                                    <div class="input-group" style="flex-wrap: nowrap;">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text bg-light" style="border-radius: 10px 0 0 10px;">
+                                            <span class="input-group-text bg-light h-100"
+                                                style="border-radius: 10px 0 0 10px;">
                                                 <i class="fas fa-tag text-muted"></i>
                                             </span>
                                         </div>
                                         <select id="categorySelect" name="category" class="form-control bg-light select2"
-                                            style="border-radius: 0 10px 10px 0;">
+                                            style="border-radius: 0 10px 10px 0; width: 1% !important; flex: 1 1 auto;">
                                             <option value="">Select Category</option>
-                                            <option value="1">Beverages</option>
-                                            <option value="2">Dairy</option>
-                                            <option value="3">Frozen Goods</option>
-                                            <option value="4">Snacks</option>
-                                            <option value="5">Condiments</option>
+                                            @foreach ($categories as $cat)
+                                                <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
-
-                                {{-- Product Name --}}
+                                {{-- Product --}}
                                 <div class="col-md-6 mb-3">
                                     <label class="font-weight-bold" style="color: #475569;">Product</label>
-                                    <div class="input-group">
+                                    <div class="input-group" style="flex-wrap: nowrap;">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text bg-light" style="border-radius: 10px 0 0 10px;">
-                                                <i class="fas fa-tag text-muted"></i>
+                                            <span class="input-group-text bg-light h-100"
+                                                style="border-radius: 10px 0 0 10px;">
+                                                <i class="fas fa-box text-muted"></i>
                                             </span>
                                         </div>
-                                        <select id="productSelect" name="product" class="form-control bg-light select2"
-                                            style="border-radius: 0 10px 10px 0;">
-                                            <option value="">Select Product</option>
-                                            <option value="1">Beer</option>
-                                            <option value="2">Surf</option>
-                                            <option value="3">Downy</option>
-                                            <option value="4">Coca-Cola</option>
-                                            <option value="5">Love</option>
+                                        <select id="productSelect" name="product" class="form-control select2"
+                                            style="border-radius: 0 10px 10px 0; width: 1% !important; flex: 1 1 auto;">
+                                            <option value="">-- Select Category First --</option>
                                         </select>
                                     </div>
                                 </div>
-
 
                             </div>
                         </div>
 
-                        {{-- Price --}}
-                        <p class="text-muted small font-weight-bold text-uppercase mb-3 border-bottom pb-1">
-                            Price & Quantity.
-                        </p>
+                        {{-- Price & Quantity --}}
+                        <p class="text-muted small font-weight-bold text-uppercase mb-3 border-bottom pb-1">Price &
+                            Quantity</p>
                         <div class="form-row mb-4">
 
                             <div class="col-md-4 mb-3">
                                 <label class="font-weight-bold">Cost Price</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">#</span>
+                                        <span class="input-group-text">₱</span>
                                     </div>
-                                    <input type="number" name="quantity" id="quantityInput" class="form-control"
+                                    <input type="number" name="cost_price" id="costPriceInput" class="form-control"
                                         step="0.01" placeholder="0.00" required>
                                 </div>
                             </div>
@@ -220,22 +203,24 @@
                                 <label class="font-weight-bold">Selling Price</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">#</span>
+                                        <span class="input-group-text">₱</span>
                                     </div>
-                                    <input type="number" name="pack_size" id="packSizeInput" class="form-control"
-                                        step="0.01" placeholder="0.00" required>
+                                    <input type="number" name="selling_price" id="sellingPriceInput"
+                                        class="form-control" step="0.01" placeholder="0.00" required>
                                 </div>
                             </div>
+
                             <div class="col-md-4 mb-3">
-                                <label class="font-weight-bold">Available Qty.</label>
+                                <label class="font-weight-bold">Starting Qty.</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">#</span>
                                     </div>
-                                    <input type="number" name="pack_size" id="packSizeInput" class="form-control"
-                                        step="0.01" placeholder="0.00" required>
+                                    <input type="number" name="quantity" id="quantityInput" class="form-control"
+                                        placeholder="0" min="1" required>
                                 </div>
                             </div>
+
                         </div>
 
                         {{-- Footer Buttons --}}
@@ -258,5 +243,14 @@
 @endsection
 
 @section('JS src')
-
+    <script src="{{ asset('js/inventory.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            initInventory({
+                viewInventoryUrl: "{{ route('view_inventory') }}",
+                getProductsUrl: "{{ route('get_products_by_category') }}",
+                saveInventoryUrl: "{{ route('save_inventory') }}"
+            });
+        });
+    </script>
 @endsection
