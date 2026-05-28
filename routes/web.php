@@ -47,6 +47,7 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin']], function () 
     Route::get('/paymentTracker', [PaymentController::class, 'paymentTracker'])->name('paymentTracker');
     Route::get('/getPaymentHistory/{id}', [PaymentController::class, 'getPaymentHistory'])->name('getPaymentHistory');
     Route::get('/get-products-by-category',[ProductController::class, 'get_products_by_category'])->name('get_products_by_category');
+    
 
 
 

@@ -83,26 +83,32 @@ class ProductController extends Controller
         }
     }
 
-    public function get_products_by_category(Request $request)
-    {
-        $products = DB::table('product')
-            ->where('product.category_id', $request->category_id)
-            ->leftJoin('purchase_items', 'purchase_items.product_id', '=', 'product.id')
-            ->select(
-                'product.id as product_ID',
-                'product.product_name',
-                DB::raw('COALESCE(MAX(purchase_items.unit_price), 0) as unit_cost')
-            )
-            ->groupBy('product.id', 'product.product_name')
-            ->get()
-            ->map(function ($product) {
-                $product->batch_quantity = DB::table('inventory')
-                    ->where('product_id', $product->product_ID)
-                    ->sum(DB::raw('inventory_startingQty + inventory_newQty - inventory_totalSold'));
+  public function get_products_by_category(Request $request)
+{
+    $request->validate([
+        'category_id' => 'required|integer|exists:category,id',
+    ]);
 
-                return $product;
-            });
+    $products = DB::table('product')
+        ->leftJoin('batch', 'batch.product_id', '=', 'product.id')
+        ->where('product.category_id', $request->category_id)
+        ->select(
+            'product.id           as product_ID',
+            'product.product_name',
+            DB::raw('COALESCE(SUM(batch.batch_quantity), 0) as batch_quantity'),
+            DB::raw('(
+                SELECT pi.unit_price
+                FROM purchase_items pi
+                INNER JOIN batch b ON b.purchase_item_id = pi.id
+                WHERE b.product_id = product.id
+                ORDER BY b.id DESC
+                LIMIT 1
+            ) as unit_cost')
+        )
+        ->groupBy('product.id', 'product.product_name')
+        ->orderBy('product.product_name')
+        ->get();
 
-        return response()->json($products);
-    }
+    return response()->json($products);
+}
 }

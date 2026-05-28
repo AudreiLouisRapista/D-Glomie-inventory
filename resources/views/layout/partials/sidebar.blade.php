@@ -175,7 +175,7 @@
                         class="nav-link {{ request()->routeIs('invoiceEncoder') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-card-heading"></i>
                         <p>
-                            Invoice Details
+                            Stock in
                         </p>
                     </a>
                 </li>

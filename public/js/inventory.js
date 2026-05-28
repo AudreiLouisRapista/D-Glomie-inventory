@@ -10,7 +10,7 @@ function initInventory(routes) {
             serverSide: true,
             searching: true,
             lengthChange: false,
-            scrollX: true,        // ✅ enables horizontal scrolling
+            scrollX: true,        // enables horizontal scrolling
             autoWidth: false,   
             ajax: {
                 url: routes.viewInventoryUrl,  
@@ -56,7 +56,7 @@ function initInventory(routes) {
         // ==========================================
         // 2. SELECT2 INITIALIZATION
         // ==========================================
-        $('#registerProductModal').on('shown.bs.modal', function () {
+        $('#registerProductModal').one('shown.bs.modal', function () {
             $('#categorySelect').select2({
                 dropdownParent: $('#registerProductModal'),
                 placeholder: 'Select Category',
@@ -137,7 +137,9 @@ function initInventory(routes) {
         // Auto-fill cost price when product is selected
         $('#productSelect').on('change', function () {
             var unitCost = $(this).find('option:selected').data('unit-cost') || '';
+            var qty      = $(this).find('option:selected').data('qty') || 0;
             $('#costPriceInput').val(unitCost);
+            $('#quantityInput').val(qty);
         });
 
 

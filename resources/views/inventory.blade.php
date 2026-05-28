@@ -23,7 +23,7 @@
                         <div class="sc-icon-wrap bg-soft-primary text-primary mr-3">
                             <i class="sc-icon bi bi-boxes"></i>
                         </div>
-                        <h3 class="sc-value mb-0 font-weight-bold ml-auto display-4">53</h3>
+                        <h3 class="sc-value mb-0 font-weight-bold ml-auto display-4">{{ $totalInventory }}</h3>
                     </div>
                     <p class="sc-label text-muted font-weight-medium mb-0">Total Inventory</p>
                 </div>
@@ -38,7 +38,7 @@
                         <div class="sc-icon-wrap bg-soft-success text-success mr-3">
                             <i class="sc-icon bi bi-bar-chart-fill"></i>
                         </div>
-                        <h3 class="sc-value mb-0 font-weight-bold ml-auto display-4">53</h3>
+                        <h3 class="sc-value mb-0 font-weight-bold ml-auto display-4">{{ $totalAvailableStock }}</h3>
                     </div>
                     <p class="sc-label text-muted font-weight-medium mb-0">Available Stock</p>
                 </div>
