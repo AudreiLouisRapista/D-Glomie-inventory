@@ -20,7 +20,7 @@ function initInventory(routes) {
                 }
             },
             language: {
-                processing: '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Processing...</span></div>'
+                processing: '<div class="spinner-border text-primary" role="status"><span class="visually-hidden"></span></div>'
             },
             columns: [
                 {
@@ -240,4 +240,6 @@ function initInventory(routes) {
         });
 
     });
+
+
 }

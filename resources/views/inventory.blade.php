@@ -53,7 +53,7 @@
                         <div class="sc-icon-wrap bg-soft-warning text-warning mr-3">
                             <i class="sc-icon bi bi-exclamation-triangle-fill"></i>
                         </div>
-                        <h3 class="sc-value mb-0 font-weight-bold ml-auto display-4">44</h3>
+                        <h3 class="sc-value mb-0 font-weight-bold ml-auto display-4">{{ $totalLowStock }}</h3>
                     </div>
                     <p class="sc-label text-muted font-weight-medium mb-0">Low Stock</p>
                 </div>
@@ -68,7 +68,7 @@
                         <div class="sc-icon-wrap bg-soft-danger text-danger mr-3">
                             <i class="sc-icon bi bi-pie-chart-fill"></i>
                         </div>
-                        <h3 class="sc-value mb-0 font-weight-bold ml-auto display-4">65</h3>
+                        <h3 class="sc-value mb-0 font-weight-bold ml-auto display-4">{{ $totalOutOfStock }}</h3>
                     </div>
                     <p class="sc-label text-muted font-weight-medium mb-0">Out of Stock</p>
                 </div>
@@ -116,7 +116,7 @@
 
     <!-- /.card-body -->
 
-    {{-- REGETRATION PRODUCT MODAL  --}}
+    {{-- REGETRATION Inventory MODAL  --}}
     <div class="modal fade" id="registerProductModal" tabindex="-1" role="dialog"
         aria-labelledby="registerProductModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -238,6 +238,128 @@
         </div>
     </div>
 
+    {{-- Update Inventory MODAL  --}}
+    <div class="modal fade" id="registerProductModal" tabindex="-1" role="dialog"
+        aria-labelledby="registerProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
+
+                {{-- Modal Header --}}
+                <div class="modal-header bg-dark text-white py-3">
+                    <h5 class="modal-title font-weight-bold" id="registerProductModalLabel">
+                        <i class="fas fa-box-open mr-2"></i> Register New Inventory
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                {{-- Modal Body --}}
+                <div class="modal-body p-4">
+                    <form id="registerProductForm" method="POST" action="{{ route('save_inventory') }}"
+                        enctype="multipart/form-data">
+                        @csrf
+
+                        {{-- Basic Information --}}
+                        <div class="mb-4">
+                            <p class="text-muted small font-weight-bold text-uppercase mb-3 border-bottom">Basic
+                                Information
+                            </p>
+                            <div class="form-row">
+
+                                {{-- Category --}}
+                                <div class="col-md-6 mb-3">
+                                    <label class="font-weight-bold" style="color: #475569;">Category</label>
+                                    <div class="input-group" style="flex-wrap: nowrap;">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text bg-light h-100"
+                                                style="border-radius: 10px 0 0 10px;">
+                                                <i class="fas fa-tag text-muted"></i>
+                                            </span>
+                                        </div>
+                                        <select id="categorySelect" name="category" class="form-control bg-light select2"
+                                            style="border-radius: 0 10px 10px 0; width: 1% !important; flex: 1 1 auto;">
+                                            <option value="">Select Category</option>
+                                            @foreach ($categories as $cat)
+                                                <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                {{-- Product --}}
+                                <div class="col-md-6 mb-3">
+                                    <label class="font-weight-bold" style="color: #475569;">Product</label>
+                                    <div class="input-group" style="flex-wrap: nowrap;">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text bg-light h-100"
+                                                style="border-radius: 10px 0 0 10px;">
+                                                <i class="fas fa-box text-muted"></i>
+                                            </span>
+                                        </div>
+                                        <select id="productSelect" name="product" class="form-control select2"
+                                            style="border-radius: 0 10px 10px 0; width: 1% !important; flex: 1 1 auto;">
+                                            <option value="">-- Select Category First --</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        {{-- Price & Quantity --}}
+                        <p class="text-muted small font-weight-bold text-uppercase mb-3 border-bottom pb-1">Price &
+                            Quantity</p>
+                        <div class="form-row mb-4">
+
+                            <div class="col-md-4 mb-3">
+                                <label class="font-weight-bold">Cost Price</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">₱</span>
+                                    </div>
+                                    <input type="number" name="cost_price" id="costPriceInput" class="form-control"
+                                        step="0.01" placeholder="0.00" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="font-weight-bold">Selling Price</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">₱</span>
+                                    </div>
+                                    <input type="number" name="selling_price" id="sellingPriceInput"
+                                        class="form-control" step="0.01" placeholder="0.00" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="font-weight-bold">Starting Qty.</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">#</span>
+                                    </div>
+                                    <input type="number" name="quantity" id="quantityInput" class="form-control"
+                                        placeholder="0" min="1" required>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        {{-- Footer Buttons --}}
+                        <div class="d-flex justify-content-end mt-4">
+                            <button type="button" class="btn btn-light px-4 mr-2" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary px-5 font-weight-bold shadow-sm">
+                                Save Product
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 
 @endsection

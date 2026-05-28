@@ -17,9 +17,10 @@ class InventoryController extends Controller
         $status     = DB::table('status')->select('status.*')->get();
         $totalInventory = DB::table('inventory')->count();
         $totalAvailableStock = DB::table('inventory')->select('inventory_remainingQty')->sum('inventory_remainingQty');
-        // $totalLowStock = DB::tbale
+        $totalLowStock = DB::table('inventory')->where('status_id', 2)->count();
+        $totalOutOfStock = DB::table('inventory')->where('status_id', 3)->count();
 
-        return view('inventory', compact('categories', 'status', 'totalInventory', 'totalAvailableStock'));
+        return view('inventory', compact('categories', 'status', 'totalInventory', 'totalAvailableStock', 'totalLowStock', 'totalOutOfStock'));
     }
 
 
@@ -77,11 +78,15 @@ public function view_inventory(Request $request)
     return DataTables::of($query)
         ->addColumn('action', function ($row) {
             return '
-                <button class="btn btn-sm btn-warning btn-edit" data-id="' . $row->inventory_ID . '">
-                    <i class="fas fa-edit"></i>
+                <button class="btn btn-sm btn-warning btn-edit"
+                        data-id="' . $row->inventory_ID . '"
+                        title="Edit">
+                    <i class="bi bi-pencil-square"></i>
                 </button>
-                <button class="btn btn-sm btn-danger btn-delete" data-id="' . $row->inventory_ID . '">
-                    <i class="fas fa-trash"></i>
+                <button class="btn btn-sm btn-danger btn-delete"
+                        data-id="' . $row->inventory_ID . '"
+                        title="Delete">
+                    <i class="bi bi-trash3"></i>
                 </button>
             ';
         })
