@@ -110,10 +110,19 @@
                              <i class="bi bi-person-fill-gear"></i> Profile
                          </a>
                          <div class="dropdown-divider"></div>
-                         <a href="#" class="dropdown-item theme-toggle-item" id="themeToggle" role="button"
-                             aria-pressed="false">
-                             <span><i class="theme-icon fas fa-sun mr-2"></i><span class="theme-label">Light mode</span></span>
-                             <span class="theme-switch" aria-hidden="true"><span class="theme-switch-knob"></span></span>
+                         <a href="#" class="dropdown-item d-flex align-items-center justify-content-between"
+                             id="themeToggle" role="button" aria-pressed="false">
+                             <div class="d-flex align-items-center">
+                                 <i class="theme-icon fas fa-sun mr-2"></i>
+                                 <span class="theme-label">Light mode</span>
+                             </div>
+
+                             <div class="custom-control custom-switch pr-0" style="pointer-events: none;"
+                                 aria-hidden="true">
+                                 <input type="checkbox" class="custom-control-input" id="themeToggleSwitchVisual"
+                                     role="presentation" tabindex="-1">
+                                 <label class="custom-control-label" for="themeToggleSwitchVisual"></label>
+                             </div>
                          </a>
                          <div class="dropdown-divider"></div>
                          <a href="{{ route('logout') }}" class="dropdown-item">

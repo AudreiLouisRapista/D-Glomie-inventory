@@ -8,6 +8,9 @@
             toggle.setAttribute('aria-pressed', enabled ? 'true' : 'false');
             toggle.querySelector('.theme-label').textContent = enabled ? 'Dark mode' : 'Light mode';
             toggle.querySelector('.theme-icon').className = enabled ? 'theme-icon fas fa-moon' : 'theme-icon fas fa-sun';
+
+            var visualSwitch = document.getElementById('themeToggleSwitchVisual');
+            if (visualSwitch) visualSwitch.checked = enabled;
         }
     }
 
