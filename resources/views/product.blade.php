@@ -7,25 +7,27 @@
 @section('content')
 
     <link rel="stylesheet" href="{{ asset('css/product.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/table.css') }}">
 
     <div class="col-sm-6">
         <h1 class="m-0 font-weight-bold">Product Management</h1>
         <p>Manage Product and their Details</p>
     </div>
 
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title font-weight-bold">Product List</h3>
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerProductModal"
-                style="float: right;">
-                Add Product
+    <div class="main-card">
+        <div class="table-card-header">
+            <div>
+                <h3 class="table-card-title">Product List</h3>
+                <p class="table-card-subtitle">Product catalog grouped by category, type, and pack size.</p>
+            </div>
+            <button type="button" class="btn btn-primary table-card-action" data-toggle="modal"
+                data-target="#registerProductModal">
+                <i class="fas fa-plus"></i> Add Product
             </button>
         </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-            <table id="example2" class="table table-bordered table-hover text-center">
-                <thead style="text-align: center; background-color: #f8fafc;">
+        <div class="table-responsive">
+            <table id="example2" class="table table-modern">
+                <thead>
                     <tr>
                         <th>Product ID</th>
                         <th>Name</th>
@@ -39,14 +41,25 @@
                 <tbody>
                     @foreach ($products as $prod)
                         <tr>
-                            <td>PRDCT-{{ $prod->id }}</td>
-                            <td>{{ $prod->product_name }}</td>
+                            <td><span class="record-id">PRDCT-{{ $prod->id }}</span></td>
+                            <td class="font-weight-bold text-dark">{{ $prod->product_name }}</td>
                             <td>{{ $prod->category_name }}</td>
-                            <td>{{ $prod->perishable_type }}</td>
+                            <td>
+                                <span class="status-badge {{ strtolower($prod->perishable_type) === 'perishable' ? 'status-low-stock' : 'status-active' }}">
+                                    {{ $prod->perishable_type }}
+                                </span>
+                            </td>
                             <td>{{ $prod->product_quantity }}</td>
                             <td>{{ $prod->product_size }}</td>
-                            <td><button type="button" class="btn btn-success"><i class="bi bi-pencil-square"></i></button>
-                                <button type="button" class="btn btn-danger"><i class="bi bi-trash3"></i></button>
+                            <td>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <button type="button" class="action-btn btn-edit mx-1" title="Edit">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                    <button type="button" class="action-btn btn-delete mx-1" title="Delete">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
@@ -54,14 +67,12 @@
             </table>
         </div>
     </div>
-    <!-- /.card-body -->
-    </div>
 
     {{-- REGETRATION PRODUCT MODAL  --}}
     <div class="modal fade" id="registerProductModal" tabindex="-1" role="dialog"
         aria-labelledby="registerProductModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
+            <div class="modal-content shadow-lg modern-form-modal">
 
                 @include('layout.partials.alerts')
 
@@ -82,7 +93,7 @@
                         @csrf
                         {{-- Basic Information --}}
                         <div class="mb-4">
-                            <p class="text-muted small font-weight-bold text-uppercase mb-3 border-bottom">
+                            <p class="form-section-title">
                                 Basic Information
                             </p>
                             <div class="form-row">
@@ -92,12 +103,12 @@
                                     <label class="font-weight-bold" style="color: #475569;">Category</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text bg-light" style="border-radius: 10px 0 0 10px;">
+                                            <span class="input-group-text h-100">
                                                 <i class="fas fa-tag text-muted"></i>
                                             </span>
                                         </div>
                                         <select id="categorySelect" name="category" class="form-control bg-light select2"
-                                            style="border-radius: 0 10px 10px 0;">
+                                            style="width: 1% !important; flex: 1 1 auto;">
                                             <option value="">Select Category</option>
 
                                             @foreach ($categories as $cat)
@@ -112,13 +123,13 @@
                                     <label class="font-weight-bold" style="color: #475569;">Product</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text bg-light" style="border-radius: 10px 0 0 10px;">
+                                            <span class="input-group-text h-100">
                                                 <i class="fas fa-box text-muted"></i>
                                             </span>
                                         </div>
                                         <input type="text" name="productName" id="productNameInput"
                                             class="form-control bg-light shadow-none" placeholder="Enter product name..."
-                                            style="border-radius: 0 10px 10px 0; height: 45px;" required>
+                                            required>
                                     </div>
                                 </div>
 
@@ -127,13 +138,13 @@
                                     <label class="font-weight-bold" style="color: #475569;">Perishable Type</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text bg-light" style="border-radius: 10px 0 0 10px;">
+                                            <span class="input-group-text h-100">
                                                 <i class="fas fa-tag text-muted"></i>
                                             </span>
                                         </div>
                                         <select id="perishableTypeSelect" name="perishableType"
                                             class="form-control bg-light"
-                                            style="border-radius: 0 10px 10px 0; height: 45px;" required>
+                                            required>
                                             <option value="">Select Perishable Type</option>
                                             @foreach ($perishables as $perish)
                                                 <option value="{{ $perish->id }}">{{ $perish->perishable_type }}
@@ -147,7 +158,7 @@
                         </div>
 
                         {{-- Bundle Size --}}
-                        <p class="text-muted small font-weight-bold text-uppercase mb-3 border-bottom pb-1">
+                        <p class="form-section-title">
                             Bundle Size
                         </p>
                         <div class="form-row mb-4">

@@ -4,7 +4,7 @@
     {{-- 1. HEAD Partial --}}
     @include('layout.partials.head')
 
-    <body class="hold-transition sidebar-mini layout-fixed">
+    <body class="hold-transition sidebar-mini layout-fixed app-loading">
         {{-- Auth Check - This logic should ideally be in Middleware or a Controller... --}}
         @if (session('id') == null)
             {{-- If the ID is missing, the user is logged out. Redirect immediately. --}}

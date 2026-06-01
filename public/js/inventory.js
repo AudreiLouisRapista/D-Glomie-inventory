@@ -27,7 +27,7 @@ function initInventory(routes) {
                     data: 'inventory_ID',
                     name: 'inventory.id',
                     render: function (data) {
-                        return '<span class="fw-bold text-secondary">INVT-' + data + '</span>';
+                        return '<span class="record-id">INVT-' + data + '</span>';
                     }
                 },
                 { data: 'product_name',          name: 'product.product_name' },
@@ -42,10 +42,10 @@ function initInventory(routes) {
                     data: 'status_ID',
                     name: 'inventory.status_id',
                     render: function (data) {
-                        if (data == 1) return '<span class="badge badge-success px-2 py-1">In Stock</span>';
-                        if (data == 2) return '<span class="badge badge-warning px-2 py-1">Low Stock</span>';
-                        if (data == 3) return '<span class="badge badge-danger px-2 py-1">Out of Stock</span>';
-                        return '<span class="badge badge-secondary px-2 py-1">Unknown</span>';
+                        if (data == 1) return '<span class="status-badge status-in-stock">In Stock</span>';
+                        if (data == 2) return '<span class="status-badge status-low-stock">Low Stock</span>';
+                        if (data == 3) return '<span class="status-badge status-out-of-stock">Out of Stock</span>';
+                        return '<span class="status-badge">Unknown</span>';
                     }
                 },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
@@ -210,6 +210,14 @@ function initInventory(routes) {
                                 timer: 2000,
                                 showConfirmButton: false
                             }).then(function () {
+
+                                if (response.total) {
+                                    $('#totalInventory').text(response.total.totalInventory);
+                                    $('#totalAvailableStock').text(response.total.totalAvailableStock);
+                                    $('#totalLowStock').text(response.total.totalLowStock);
+                                    $('#totalOutOfStock').text(response.total.totalOutOfStock);
+                                }
+                                
                                 table.draw();
                             });
                         },
@@ -240,6 +248,8 @@ function initInventory(routes) {
         });
 
     });
+
+    
 
 
 }

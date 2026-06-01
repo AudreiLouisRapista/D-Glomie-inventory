@@ -30,6 +30,7 @@
 <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 
 <script src="{{ asset('dist/js/pages/dashboard2.js') }}"></script>
+<script src="{{ asset('js/ui-theme.js') }}"></script>
 
 <script>
     $(function() {

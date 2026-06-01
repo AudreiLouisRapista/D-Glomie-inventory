@@ -7,6 +7,7 @@
 @section('content')
 
     <link rel="stylesheet" href="{{ asset('css/supplierList.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/table.css') }}">
 
     <div class="col-sm-6">
         <h1></h1>
@@ -25,21 +26,21 @@
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title font-weight-bold">Supplier List</h3>
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-add-supplier shadow" data-toggle="modal"
+        <div class="main-card">
+            <div class="table-card-header">
+                <div>
+                    <h3 class="table-card-title">Supplier List</h3>
+                    <p class="table-card-subtitle">Supplier contact details and account status.</p>
+                </div>
+                <button type="button" class="btn btn-add-supplier table-card-action shadow" data-toggle="modal"
                     data-target="#registerSupplierModal">
                     <i class="fas fa-plus"></i> Add Supplier
                 </button>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-                <table id="example2" class="table table-bordered table-hover text-center">
-                    <thead style="text-align: center; background-color: #f8fafc;">
+            <div class="table-responsive">
+                <table id="example2" class="table table-modern">
+                    <thead>
                         <tr>
-
                             <th>Name</th>
                             <th>Phone Number</th>
                             <th>Address</th>
@@ -50,16 +51,20 @@
                     <tbody>
                         @foreach ($supplier as $sup)
                             <tr>
-
-                                <td>{{ $sup->supplier_name }}</td>
+                                <td class="font-weight-bold text-dark">{{ $sup->supplier_name }}</td>
                                 <td>{{ $sup->contact_number }}</td>
                                 <td>{{ $sup->address }}</td>
-                                <td></td>
-                                <td><button type="button" class="btn btn-success"><i
-                                            class="bi bi-pencil-square"></i></button>
-                                    <button type="button" class="btn btn-danger"><i class="bi bi-trash3"></i></button>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <button type="button" class="action-btn btn-edit mx-1" title="Edit">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button type="button" class="action-btn btn-delete mx-1" title="Delete">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </div>
                                 </td>
-
                             </tr>
                         @endforeach
                     </tbody>
@@ -74,7 +79,7 @@
     <div class="modal fade" id="registerSupplierModal" tabindex="-1" role="dialog"
         aria-labelledby="registerSupplierModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
+            <div class="modal-content shadow-lg modern-form-modal">
 
                 @include('layout.partials.alerts')
 
@@ -95,7 +100,7 @@
                         @csrf
                         {{-- Basic Information --}}
                         <div class="mb-4">
-                            <p class="text-muted small font-weight-bold text-uppercase mb-3 border-bottom">
+                            <p class="form-section-title">
                                 Basic Information
                             </p>
                             <div class="form-row">
@@ -107,13 +112,13 @@
                                     <label class="font-weight-bold" style="color: #475569;">Supplier Name</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text bg-light" style="border-radius: 10px 0 0 10px;">
-                                                <i class="fas fa-box text-muted"></i>
+                                            <span class="input-group-text h-100">
+                                                <i class="fas fa-building text-muted"></i>
                                             </span>
                                         </div>
                                         <input type="text" name="supplierName" id="supplierNameInput"
                                             class="form-control bg-light shadow-none" placeholder="Enter supplier name..."
-                                            style="border-radius: 0 10px 10px 0; height: 45px;" required>
+                                            required>
                                     </div>
                                 </div>
 
@@ -122,13 +127,13 @@
                                     <label class="font-weight-bold" style="color: #475569;">Address</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text bg-light" style="border-radius: 10px 0 0 10px;">
-                                                <i class="fas fa-box text-muted"></i>
+                                            <span class="input-group-text h-100">
+                                                <i class="fas fa-map-marker-alt text-muted"></i>
                                             </span>
                                         </div>
                                         <input type="text" name="supplierAddress" id="supplierAddressInput"
                                             class="form-control bg-light shadow-none" placeholder="Enter Address"
-                                            style="border-radius: 0 10px 10px 0; height: 45px;" required>
+                                            required>
                                     </div>
                                 </div>
 
@@ -137,14 +142,14 @@
                                     <label class="font-weight-bold" style="color: #475569;">Phone Number</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text bg-light" style="border-radius: 10px 0 0 10px;">
-                                                <i class="fas fa-box text-muted"></i>
+                                            <span class="input-group-text h-100">
+                                                <i class="fas fa-phone text-muted"></i>
                                             </span>
                                         </div>
                                         <input type="number" name="supplierPhone" class="form-control bg-light shadow-none"
                                             placeholder="Phone Number"
                                             oninput="if(this.value.length > 11) this.value = this.value.slice(0, 11);"
-                                            style="border-radius: 0 10px 10px 0; height: 45px;" required>
+                                            required>
                                     </div>
                                 </div>
 

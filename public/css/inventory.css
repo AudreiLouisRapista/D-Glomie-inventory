@@ -30,7 +30,7 @@
 .bg-soft-warning { background-color: #fff4e1 !important; }
 .bg-soft-danger  { background-color: #ffe5e5 !important; }
 
-/* ✅ SCOPED to .card.sc only — won't affect DataTables or AdminLTE */
+/* SCOPED to .card.sc only — won't affect DataTables or AdminLTE */
 .card.sc .text-primary { color: #3c45e7 !important; }
 .card.sc .text-success { color: #28a745 !important; }
 .card.sc .text-warning { color: #f39c12 !important; }

@@ -110,6 +110,12 @@
                              <i class="bi bi-person-fill-gear"></i> Profile
                          </a>
                          <div class="dropdown-divider"></div>
+                         <a href="#" class="dropdown-item theme-toggle-item" id="themeToggle" role="button"
+                             aria-pressed="false">
+                             <span><i class="theme-icon fas fa-sun mr-2"></i><span class="theme-label">Light mode</span></span>
+                             <span class="theme-switch" aria-hidden="true"><span class="theme-switch-knob"></span></span>
+                         </a>
+                         <div class="dropdown-divider"></div>
                          <a href="{{ route('logout') }}" class="dropdown-item">
                              <i class="fas fa-sign-out-alt mr-2"></i> Sign-out
                          </a>

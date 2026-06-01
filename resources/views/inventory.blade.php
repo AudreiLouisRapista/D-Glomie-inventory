@@ -8,6 +8,7 @@
 @section('content')
 
     <link rel="stylesheet" href="{{ asset('css/inventory.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/table.css') }}">
     <div class="col-sm-6">
         <h1 class="m-0 font-weight-bold">Inventory Management</h1>
         <p> Manage and monitor your inventory with ease</p>
@@ -23,7 +24,8 @@
                         <div class="sc-icon-wrap bg-soft-primary text-primary mr-3">
                             <i class="sc-icon bi bi-boxes"></i>
                         </div>
-                        <h3 class="sc-value mb-0 font-weight-bold ml-auto display-4">{{ $totalInventory }}</h3>
+                        <h3 id="totalInventory" class="sc-value mb-0 font-weight-bold ml-auto display-4">
+                            {{ $totalInventory }}</h3>
                     </div>
                     <p class="sc-label text-muted font-weight-medium mb-0">Total Inventory</p>
                 </div>
@@ -38,7 +40,8 @@
                         <div class="sc-icon-wrap bg-soft-success text-success mr-3">
                             <i class="sc-icon bi bi-bar-chart-fill"></i>
                         </div>
-                        <h3 class="sc-value mb-0 font-weight-bold ml-auto display-4">{{ $totalAvailableStock }}</h3>
+                        <h3 id="totalAvailableStock" class="sc-value mb-0 font-weight-bold ml-auto display-4">
+                            {{ $totalAvailableStock }}</h3>
                     </div>
                     <p class="sc-label text-muted font-weight-medium mb-0">Available Stock</p>
                 </div>
@@ -53,7 +56,8 @@
                         <div class="sc-icon-wrap bg-soft-warning text-warning mr-3">
                             <i class="sc-icon bi bi-exclamation-triangle-fill"></i>
                         </div>
-                        <h3 class="sc-value mb-0 font-weight-bold ml-auto display-4">{{ $totalLowStock }}</h3>
+                        <h3 id="totalLowStock" class="sc-value mb-0 font-weight-bold ml-auto display-4">{{ $totalLowStock }}
+                        </h3>
                     </div>
                     <p class="sc-label text-muted font-weight-medium mb-0">Low Stock</p>
                 </div>
@@ -68,7 +72,8 @@
                         <div class="sc-icon-wrap bg-soft-danger text-danger mr-3">
                             <i class="sc-icon bi bi-pie-chart-fill"></i>
                         </div>
-                        <h3 class="sc-value mb-0 font-weight-bold ml-auto display-4">{{ $totalOutOfStock }}</h3>
+                        <h3 id="totalOutOfStock" class="sc-value mb-0 font-weight-bold ml-auto display-4">
+                            {{ $totalOutOfStock }}</h3>
                     </div>
                     <p class="sc-label text-muted font-weight-medium mb-0">Out of Stock</p>
                 </div>
@@ -80,19 +85,20 @@
 
 
 
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title font-weight-bold">Inventory List</h3>
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registerProductModal"
-                style="float: right;">
-                Add inventory
+    <div class="main-card">
+        <div class="table-card-header">
+            <div>
+                <h3 class="table-card-title">Inventory List</h3>
+                <p class="table-card-subtitle">Current stock levels, pricing, and status by product.</p>
+            </div>
+            <button type="button" class="btn btn-primary table-card-action" data-toggle="modal"
+                data-target="#registerProductModal">
+                <i class="fas fa-plus"></i> Add Inventory
             </button>
         </div>
-        <!-- /.card-header -->
-        <div class="card-body table-responsive ">
-            <table id="example2" class="table table-bordered table-hover text-center">
-                <thead style="text-align: center; background-color: #f8fafc;">
+        <div class="table-responsive">
+            <table id="example2" class="table table-modern">
+                <thead>
                     <tr>
                         <th>Inventory ID</th>
                         <th>Product</th>
@@ -114,13 +120,12 @@
         </div>
     </div>
 
-    <!-- /.card-body -->
 
     {{-- REGETRATION Inventory MODAL  --}}
     <div class="modal fade" id="registerProductModal" tabindex="-1" role="dialog"
         aria-labelledby="registerProductModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
+            <div class="modal-content shadow-lg modern-form-modal">
 
                 {{-- Modal Header --}}
                 <div class="modal-header bg-dark text-white py-3">
@@ -140,7 +145,7 @@
 
                         {{-- Basic Information --}}
                         <div class="mb-4">
-                            <p class="text-muted small font-weight-bold text-uppercase mb-3 border-bottom">Basic Information
+                            <p class="form-section-title">Basic Information
                             </p>
                             <div class="form-row">
 
@@ -184,7 +189,7 @@
                         </div>
 
                         {{-- Price & Quantity --}}
-                        <p class="text-muted small font-weight-bold text-uppercase mb-3 border-bottom pb-1">Price &
+                        <p class="form-section-title">Price &
                             Quantity</p>
                         <div class="form-row mb-4">
 
@@ -242,7 +247,7 @@
     <div class="modal fade" id="registerProductModal" tabindex="-1" role="dialog"
         aria-labelledby="registerProductModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
+            <div class="modal-content shadow-lg modern-form-modal">
 
                 {{-- Modal Header --}}
                 <div class="modal-header bg-dark text-white py-3">
@@ -262,7 +267,7 @@
 
                         {{-- Basic Information --}}
                         <div class="mb-4">
-                            <p class="text-muted small font-weight-bold text-uppercase mb-3 border-bottom">Basic
+                            <p class="form-section-title">Basic
                                 Information
                             </p>
                             <div class="form-row">
@@ -307,7 +312,7 @@
                         </div>
 
                         {{-- Price & Quantity --}}
-                        <p class="text-muted small font-weight-bold text-uppercase mb-3 border-bottom pb-1">Price &
+                        <p class="form-section-title">Price &
                             Quantity</p>
                         <div class="form-row mb-4">
 
