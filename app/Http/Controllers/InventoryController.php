@@ -35,13 +35,15 @@ class InventoryController extends Controller
             ->join('status', 'inventory.status_id', '=', 'status.id')
             ->select(
                 'inventory.id as inventory_ID',
+                'inventory.product_id as product_id',
+                'inventory.category_id as category_id',
                 'inventory.inventory_startingQty as invt_StartingQuantity',
                 'inventory.inventory_newQty as invt_NewQuantity',
                 'inventory.inventory_sellingPrice as invt_sellingPrice',
                 'inventory.inventory_totalSold as invt_totalSold',
                 'inventory.status_id as status_ID',
                 'product.product_name',
-                'category.category_name as name',
+                'category.category_name as category_name',
                 DB::raw('(
                     SELECT pi.unit_price
                     FROM purchase_items pi
@@ -68,8 +70,12 @@ class InventoryController extends Controller
             ->addColumn('action', function ($row) {
                 return '
                     <div class="d-flex justify-content-center align-items-center">
-                    <button class="action-btn btn-edit mx-1"
+                    <button class="action-btn btn-edit mx-1" 
                             data-id="' . $row->inventory_ID . '"
+                            data-product-id="' . $row->product_id . '"
+                            data-product-name="' . $row->product_name . '"
+                            data-category-id="' . $row->category_id . '"
+                            data-selling_price="' . $row->invt_sellingPrice . '"
                             title="Edit">
                         <i class="bi bi-pencil-square"></i>
                     </button>
@@ -211,6 +217,50 @@ class InventoryController extends Controller
             ], 500);
         }
     }
+
+        
+public function update_inventory(Request $request) {
+   
+    try {
+        DB::beginTransaction();
+        // 1. Get the current record from the database
+        $inventory = DB::table('inventory')
+            ->where('inventory_ID', $request->inventory_ID)
+            ->first();
+
+        if (!$inventory) {
+            return response()->json(['error' => 'Record not found'], 404);
+        }
+
+        // 6. Update the Database
+        $affected = DB::table('inventory')
+            ->where('inventory_ID', $request->inventory_ID)
+            ->update([
+                'id'                   => $request->id,
+                'product_id'            => $request->product_id,
+                'category_id'          => $request->category_id,
+                'inventory_sellingPrice'         => $request->selling_price,
+                'deleted_at'          => null,
+                'updated_at'          => now(),
+            ]);
+
+        return response()->json([
+            'save' => 'Product Updated',
+            'debug' => [
+                'new_starting' => $inventory->invt_StartingQuantity,
+                'monthly_additions' => $updatedMonthlyNew,
+                'total_sold' => $inventory->invt_totalSold,
+                'final_remaining' => $totalRemaining
+            ]
+        ]);
+    } catch (\Throwable $e) {
+        DB::rollBack();
+        report($e);
+        return response()->json([
+            'errorMessage' => 'An error occurred while updating the inventory. Please try again.',
+        ], 500);
+    }
+}
 
     private function resolveStatusId(int $qty): int
     {

@@ -3,15 +3,24 @@
 {{-- 1. DEFINE PAGE TITLE --}}
 @section('title', 'User Profile')
 
+
 {{-- 2. DEFINE CONTENT HEADER (Breadcrumbs) --}}
 @section('content')
 
     <link rel="stylesheet" href="{{ asset('css/product.css') }}">
     <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/hero-header.css') }}">
 
-    <div class="col-sm-6">
-        <h1 class="m-0 font-weight-bold">Product Management</h1>
-        <p>Manage Product and their Details</p>
+
+
+    <div class="inv-hero">
+        <div class="inv-hero-text">
+            <h2><i class="fas fa-file-invoice mr-2"></i>Product Management</h2>
+            <p>List of the products and information</p>
+        </div>
+        <div class="inv-hero-icon">
+            <i class="fas fa-box"></i>
+        </div>
     </div>
 
     <div class="main-card">
@@ -45,7 +54,8 @@
                             <td class="font-weight-bold text-dark">{{ $prod->product_name }}</td>
                             <td>{{ $prod->category_name }}</td>
                             <td>
-                                <span class="status-badge {{ strtolower($prod->perishable_type) === 'perishable' ? 'status-low-stock' : 'status-active' }}">
+                                <span
+                                    class="status-badge {{ strtolower($prod->perishable_type) === 'perishable' ? 'status-low-stock' : 'status-active' }}">
                                     {{ $prod->perishable_type }}
                                 </span>
                             </td>
@@ -143,8 +153,7 @@
                                             </span>
                                         </div>
                                         <select id="perishableTypeSelect" name="perishableType"
-                                            class="form-control bg-light"
-                                            required>
+                                            class="form-control bg-light" required>
                                             <option value="">Select Perishable Type</option>
                                             @foreach ($perishables as $perish)
                                                 <option value="{{ $perish->id }}">{{ $perish->perishable_type }}
@@ -164,7 +173,9 @@
                         <div class="form-row mb-4">
 
                             <div class="col-md-4 mb-3">
-                                <label class="font-weight-bold">Quantity</label>
+                                <label class="font-weight-bold">Bundle Qty <br> <span class="font-weight-normal"
+                                        style="font-size: 0.9em;">e.g
+                                        Case/Sack</span> </label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">#</span>
@@ -175,7 +186,9 @@
                             </div>
 
                             <div class="col-md-4 mb-3">
-                                <label class="font-weight-bold">Pack Size</label>
+                                <label class="font-weight-bold">Bundle Size <br> <span class="font-weight-normal"
+                                        style="font-size: 0.9em;">e.g
+                                        Pcs/Bottle</span> </label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">#</span>

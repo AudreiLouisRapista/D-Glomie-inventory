@@ -90,8 +90,8 @@
                                 <tr class="small text-uppercase text-muted">
                                     <th style="width: 9%;">QTY</th>
                                     <th style="width: 22%;">DESCRIPTION (PRODUCT)</th>
-                                    <th style="width: 6%;">QUANTITY</th>
-                                    <th style="width: 6%;">PACK SIZE</th>
+                                    <th style="width: 6%;"> Bundle Qty</th>
+                                    <th style="width: 6%;">Bundle Size</th>
                                     <th style="width: 15%;">TYPE</th>
                                     <th class="expiry-column" style="width: 12%; display: none;">EXPIRY DATE</th>
                                     <th style="width: 10%;">UNIT PRICE</th>

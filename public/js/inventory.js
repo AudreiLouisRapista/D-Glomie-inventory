@@ -31,7 +31,7 @@ function initInventory(routes) {
                     }
                 },
                 { data: 'product_name',          name: 'product.product_name' },
-                { data: 'name',                  name: 'category.category_name' },
+                { data: 'category_name',         name: 'category.category_name' },
                 { data: 'unit_price',            name: 'purchase_items.unit_price' },
                 { data: 'invt_sellingPrice',     name: 'inventory.inventory_sellingPrice' },
                 { data: 'invt_StartingQuantity', name: 'inventory.inventory_startingQty' },
@@ -234,8 +234,58 @@ function initInventory(routes) {
         });
 
 
+            // ==========================================
+            // 5. EDIT MODAL LOGIC
+            // ==========================================
+            $('#example2 tbody').on('click', '.btn-edit', function() {
+                var el = $(this);
+                $('#edit_inventory_id').val(el.attr('data-id'));
+                $('#edit_product_id').val(el.attr('data-product-id'));
+                $('#edit_product_name').val(el.attr('data-product-name'));
+                $('#edit_category').val(el.attr('data-category-id'));
+                $('#edit_selling_price').val(el.attr('data-selling_price'));
+                $('#updateInventoryModal').modal('show');
+            });
+
+            $('#updateProductForm').on('submit', function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        // 1. Close the modal first
+                        $('#updateInventoryModal').modal('hide');
+
+                        // 2. Trigger professional Success Alert
+                        Swal.fire({
+                            title: 'Updated!',
+                            text: response.save,
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            timer: 2000 // Optional: automatically closes after 2 seconds
+                        });
+
+                        // 3. Refresh live UI components
+                        table.ajax.reload(null, false);
+                        refreshChartOnly();
+                    },
+                    error: function(xhr) {
+                        // Trigger Error Alert
+                        Swal.fire({
+                            title: 'Update Failed',
+                            text: xhr.responseJSON?.message ||
+                                'Something went wrong while updating the inventory.',
+                            icon: 'error',
+                            confirmButtonColor: '#d33'
+                        });
+                    }
+                });
+            });
+
         // ==========================================
-        // 5. RESET MODAL ON CLOSE
+        // 6. RESET MODAL ON CLOSE
         // ==========================================
         $('#registerProductModal').on('hidden.bs.modal', function () {
             $('#registerProductForm')[0].reset();

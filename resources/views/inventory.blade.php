@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/inventory.css') }}">
     <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+
     <div class="col-sm-6">
         <h1 class="m-0 font-weight-bold">Inventory Management</h1>
         <p> Manage and monitor your inventory with ease</p>
@@ -244,15 +245,15 @@
     </div>
 
     {{-- Update Inventory MODAL  --}}
-    <div class="modal fade" id="registerProductModal" tabindex="-1" role="dialog"
-        aria-labelledby="registerProductModalLabel" aria-hidden="true">
+    <div class="modal fade" id="updateInventoryModal" tabindex="-1" role="dialog"
+        aria-labelledby="updateInventoryModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content shadow-lg modern-form-modal">
 
                 {{-- Modal Header --}}
                 <div class="modal-header bg-dark text-white py-3">
-                    <h5 class="modal-title font-weight-bold" id="registerProductModalLabel">
-                        <i class="fas fa-box-open mr-2"></i> Register New Inventory
+                    <h5 class="modal-title font-weight-bold" id="updateInventoryModalLabel">
+                        <i class="fas fa-box-open mr-2"></i> Update Inventory
                     </h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -261,16 +262,17 @@
 
                 {{-- Modal Body --}}
                 <div class="modal-body p-4">
-                    <form id="registerProductForm" method="POST" action="{{ route('save_inventory') }}"
+                    <form id="updateProductForm" method="POST" action="{{ route('update_inventory') }}"
                         enctype="multipart/form-data">
                         @csrf
 
                         {{-- Basic Information --}}
                         <div class="mb-4">
-                            <p class="form-section-title">Basic
-                                Information
+                            <p class="form-section-title">Basic Information
                             </p>
                             <div class="form-row">
+                                <input type="hidden" name="id" id="edit_inventory_id">
+                                <input type="hidden" name="product_id" id="edit_product_id">
 
                                 {{-- Category --}}
                                 <div class="col-md-6 mb-3">
@@ -282,7 +284,8 @@
                                                 <i class="fas fa-tag text-muted"></i>
                                             </span>
                                         </div>
-                                        <select id="categorySelect" name="category" class="form-control bg-light select2"
+                                        <select id="edit_category" name="category_id"
+                                            class="form-control bg-light select2"
                                             style="border-radius: 0 10px 10px 0; width: 1% !important; flex: 1 1 auto;">
                                             <option value="">Select Category</option>
                                             @foreach ($categories as $cat)
@@ -301,7 +304,7 @@
                                                 <i class="fas fa-box text-muted"></i>
                                             </span>
                                         </div>
-                                        <select id="productSelect" name="product" class="form-control select2"
+                                        <select id="edit_product_name" name="product_name" class="form-control select2"
                                             style="border-radius: 0 10px 10px 0; width: 1% !important; flex: 1 1 auto;">
                                             <option value="">-- Select Category First --</option>
                                         </select>
@@ -311,21 +314,9 @@
                             </div>
                         </div>
 
-                        {{-- Price & Quantity --}}
-                        <p class="form-section-title">Price &
-                            Quantity</p>
+                        {{-- Price --}}
+                        <p class="form-section-title">Price</p>
                         <div class="form-row mb-4">
-
-                            <div class="col-md-4 mb-3">
-                                <label class="font-weight-bold">Cost Price</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">₱</span>
-                                    </div>
-                                    <input type="number" name="cost_price" id="costPriceInput" class="form-control"
-                                        step="0.01" placeholder="0.00" required>
-                                </div>
-                            </div>
 
                             <div class="col-md-4 mb-3">
                                 <label class="font-weight-bold">Selling Price</label>
@@ -333,22 +324,10 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">₱</span>
                                     </div>
-                                    <input type="number" name="selling_price" id="sellingPriceInput"
+                                    <input type="number" name="selling_price" id="edit_selling_price"
                                         class="form-control" step="0.01" placeholder="0.00" required>
                                 </div>
                             </div>
-
-                            <div class="col-md-4 mb-3">
-                                <label class="font-weight-bold">Starting Qty.</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">#</span>
-                                    </div>
-                                    <input type="number" name="quantity" id="quantityInput" class="form-control"
-                                        placeholder="0" min="1" required>
-                                </div>
-                            </div>
-
                         </div>
 
                         {{-- Footer Buttons --}}

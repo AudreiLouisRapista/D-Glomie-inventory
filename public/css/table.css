@@ -70,6 +70,7 @@
     padding: 12px !important;
     text-transform: uppercase;
     vertical-align: middle;
+    text-align: center;
 }
 
 .table-modern tbody tr {
@@ -87,6 +88,7 @@
     border-top: 1px solid var(--table-border) !important;
     padding: 16px 12px !important;
     vertical-align: middle !important;
+    text-align: center !important;
 }
 
 .table-modern tbody td:first-child {

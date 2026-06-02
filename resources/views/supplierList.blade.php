@@ -8,10 +8,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/supplierList.css') }}">
     <link rel="stylesheet" href="{{ asset('css/table.css') }}">
-
-    <div class="col-sm-6">
-        <h1></h1>
-    </div>
+    <link rel="stylesheet" href="{{ asset('css/hero-header.css') }}">
 
     <div class="col-12">
 
@@ -132,8 +129,7 @@
                                             </span>
                                         </div>
                                         <input type="text" name="supplierAddress" id="supplierAddressInput"
-                                            class="form-control bg-light shadow-none" placeholder="Enter Address"
-                                            required>
+                                            class="form-control bg-light shadow-none" placeholder="Enter Address" required>
                                     </div>
                                 </div>
 

@@ -57,6 +57,8 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin']], function () 
     Route::post('/save_supplier', [SupplierController::class, 'save_supplier'])->name('save_supplier');
     Route::post('/save_payment', [PaymentController::class, 'save_payment'])->name('save_payment');
     Route::post('/save_inventory', [InventoryController::class, 'save_inventory'])->name('save_inventory');
+    Route::post('/update_inventory', [InventoryController::class, 'update_inventory'])->name('update_inventory');
+
 
 
 
