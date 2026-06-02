@@ -237,16 +237,71 @@ function initInventory(routes) {
             // ==========================================
             // 5. EDIT MODAL LOGIC
             // ==========================================
-            $('#example2 tbody').on('click', '.btn-edit', function() {
-                var el = $(this);
-                $('#edit_inventory_id').val(el.attr('data-id'));
-                $('#edit_product_id').val(el.attr('data-product-id'));
-                $('#edit_product_name').val(el.attr('data-product-name'));
-                $('#edit_category').val(el.attr('data-category-id'));
-                $('#edit_selling_price').val(el.attr('data-selling_price'));
-                $('#updateInventoryModal').modal('show');
-            });
 
+$('#example2 tbody').on('click', '.btn-edit', function() {
+    var el = $(this);
+    
+    // Get values from data attributes
+    var inventoryId = el.attr('data-id');
+    var productId = el.attr('data-product-id');
+    var productName = el.attr('data-product-name');
+    var categoryId = el.attr('data-category-id');
+    var categoryName = el.attr('data-category-name');
+    var sellingPrice = el.attr('data-selling_price');
+    
+    // 1. Set Hidden Fields
+    $('#edit_inventory_id').val(inventoryId);
+    $('#edit_product_id').val(productId);
+    $('#edit_selling_price').val(sellingPrice);
+
+    // 2. Handle Category FIRST (Initialize Select2, THEN set value)
+    var $categorySelect = $('#edit_category');
+    
+    // Destroy if already initialized
+    if ($categorySelect.hasClass("select2-hidden-accessible")) {
+        $categorySelect.select2('destroy');
+    }
+    
+    // Set value BEFORE initializing Select2
+    $categorySelect.val(categoryId);
+    
+    // Initialize Select2
+    $categorySelect.select2({
+        dropdownParent: $('#updateInventoryModal'),
+        placeholder: 'Select Category',
+        allowClear: true,
+        width: '100%'
+    });
+
+    // 3. Handle Product (Initialize Select2 first, THEN set value)
+    var $productSelect = $('#edit_product_id');
+    
+    // Destroy if already initialized
+    if ($productSelect.hasClass("select2-hidden-accessible")) {
+        $productSelect.select2('destroy');
+    }
+    
+    // IMPORTANT: Clear and add the option manually
+    $productSelect.empty();
+    $productSelect.append(new Option(productName, productId, true, true));
+    
+    // Set the value
+    $productSelect.val(productId).trigger('change');
+
+    // Initialize Select2
+    $productSelect.select2({
+        dropdownParent: $('#updateInventoryModal'),
+        placeholder: 'Select Product',
+        allowClear: true,
+        width: '100%'
+    });
+
+    console.log('Dropdown Value:', $('#edit_product').val());
+    console.log('Dropdown HTML:', $('#edit_product').html());
+
+    // 4. Show the Modal
+    $('#updateInventoryModal').modal('show');
+        });
             $('#updateProductForm').on('submit', function(e) {
                 e.preventDefault();
 
