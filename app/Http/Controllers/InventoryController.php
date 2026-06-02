@@ -74,6 +74,7 @@ class InventoryController extends Controller
                             data-id="' . $row->inventory_ID . '"
                             data-product-id="' . $row->product_id . '"
                             data-product-name="' . $row->product_name . '"
+                            data-category-name="' . $row->category_name . '"
                             data-category-id="' . $row->category_id . '"
                             data-selling_price="' . $row->invt_sellingPrice . '"
                             title="Edit">
@@ -219,48 +220,51 @@ class InventoryController extends Controller
     }
 
         
-public function update_inventory(Request $request) {
-   
-    try {
-        DB::beginTransaction();
-        // 1. Get the current record from the database
-        $inventory = DB::table('inventory')
-            ->where('inventory_ID', $request->inventory_ID)
-            ->first();
+    public function update_inventory(Request $request) {
+    // dd($request->all());
+        try {
+            
+            DB::beginTransaction();
+            // 1. Get the current record from the database
+            $inventory = DB::table('inventory')
+                ->where('id', $request->id)
+                ->first();
 
-        if (!$inventory) {
-            return response()->json(['error' => 'Record not found'], 404);
-        }
+            if (!$inventory) {
+                return response()->json(['error' => 'Record not found'], 404);
+            }
 
-        // 6. Update the Database
-        $affected = DB::table('inventory')
-            ->where('inventory_ID', $request->inventory_ID)
-            ->update([
-                'id'                   => $request->id,
-                'product_id'            => $request->product_id,
-                'category_id'          => $request->category_id,
-                'inventory_sellingPrice'         => $request->selling_price,
-                'deleted_at'          => null,
-                'updated_at'          => now(),
+            // 6. Update the Database
+            $affected = DB::table('inventory')
+                ->where('id', $request->id)
+                ->update([
+                    'product_id'            => $request->product_id,
+                    'category_id'          => $request->category_id,
+                    'inventory_sellingPrice'         => $request->selling_price,
+                    'created_at'          => now(),
+                    'updated_at'          => now(),
+                ]);
+
+            DB::commit();
+
+            return response()->json([
+                'save' => 'Product Updated',
+                'debug' => [
+                    'affected_rows' => $affected,
+                    'inventory_id' => $request->id,
+                    'product_id' => $request->product_id,
+                    'category_id' => $request->category_id,
+                    'selling_price' => $request->selling_price,
+                ]
             ]);
-
-        return response()->json([
-            'save' => 'Product Updated',
-            'debug' => [
-                'new_starting' => $inventory->invt_StartingQuantity,
-                'monthly_additions' => $updatedMonthlyNew,
-                'total_sold' => $inventory->invt_totalSold,
-                'final_remaining' => $totalRemaining
-            ]
-        ]);
-    } catch (\Throwable $e) {
-        DB::rollBack();
-        report($e);
-        return response()->json([
-            'errorMessage' => 'An error occurred while updating the inventory. Please try again.',
-        ], 500);
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            report($e);
+            return response()->json([
+                'errorMessage' => 'An error occurred while updating the inventory. Please try again.',
+            ], 500);
+        }
     }
-}
 
     private function resolveStatusId(int $qty): int
     {

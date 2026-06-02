@@ -81,7 +81,7 @@
                     </a>
                 </li>
 
-                <li class="nav-header">Reports</li>
+                <li class="nav-header font-weight-bold">Reports</li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="bi bi-clipboard-data-fill"></i>
@@ -107,7 +107,7 @@
                 </li>
 
 
-                <li class="nav-header">Supplier & Invoice</li>
+                <li class="nav-header font-weight-bold">Supplier & Invoice</li>
                 <li class="nav-item">
                     <a href="{{ route('invoiceEncoder') }}"
                         class="nav-link {{ request()->routeIs('invoiceEncoder') ? 'active' : '' }}">
@@ -139,7 +139,7 @@
                 </li>
 
 
-                <li class="nav-header">Inventory Transaction History</li>
+                <li class="nav-header font-weight-bold">Inventory Transaction History</li>
                 <li class="nav-item">
                     <a href="pages/kanban.html" class="nav-link">
                         <i class="nav-icon fas fa-columns"></i>

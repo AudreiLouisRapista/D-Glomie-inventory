@@ -1,7 +1,7 @@
 @extends('themes.main')
 
 {{-- 1. DEFINE PAGE TITLE --}}
-@section('title', 'User Profile')
+@section('title', 'Inventroy')
 
 
 {{-- 2. DEFINE CONTENT HEADER (Breadcrumbs) --}}
@@ -272,7 +272,6 @@
                             </p>
                             <div class="form-row">
                                 <input type="hidden" name="id" id="edit_inventory_id">
-                                <input type="hidden" name="product_id" id="edit_product_id">
 
                                 {{-- Category --}}
                                 <div class="col-md-6 mb-3">
@@ -304,7 +303,7 @@
                                                 <i class="fas fa-box text-muted"></i>
                                             </span>
                                         </div>
-                                        <select id="edit_product_name" name="product_name" class="form-control select2"
+                                        <select id="edit_product_name" name="product_id" class="form-control select2"
                                             style="border-radius: 0 10px 10px 0; width: 1% !important; flex: 1 1 auto;">
                                             <option value="">-- Select Category First --</option>
                                         </select>
