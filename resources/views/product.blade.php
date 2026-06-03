@@ -1,7 +1,7 @@
 @extends('themes.main')
 
 {{-- 1. DEFINE PAGE TITLE --}}
-@section('title', 'User Profile')
+@section('title', 'Product Management')
 
 
 {{-- 2. DEFINE CONTENT HEADER (Breadcrumbs) --}}
@@ -59,8 +59,8 @@
                                     {{ $prod->perishable_type }}
                                 </span>
                             </td>
-                            <td>{{ $prod->product_quantity }}</td>
-                            <td>{{ $prod->product_size }}</td>
+                            <td>{{ $prod->bundle_quantity }}</td>
+                            <td>{{ $prod->bundle_size }}</td>
                             <td>
                                 <div class="d-flex justify-content-center align-items-center">
                                     <button type="button" class="action-btn btn-edit mx-1" title="Edit">

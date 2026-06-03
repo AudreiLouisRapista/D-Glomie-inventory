@@ -82,8 +82,8 @@ function initInvoiceEncoder(allProducts) {
                 let typeValue = product.perishable_type ? product.perishable_type.toLowerCase() :
                     'non-perishable';
                 $row.find('.perishableType').val(typeValue);
-                $row.find('.Quantinumber').val(product.product_quantity || 0);
-                $row.find('.productSize').val(product.product_size || 0);
+                $row.find('.Quantinumber').val(product.bundle_quantity || 0);
+                $row.find('.productSize').val(product.bundle_size || 0);
 
                 handleExpiryVisibility($row, typeValue);
                 calculateTotals();

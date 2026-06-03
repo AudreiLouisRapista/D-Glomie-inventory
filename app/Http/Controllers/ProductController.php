@@ -18,6 +18,7 @@ class ProductController extends Controller
             ->join('category', 'product.category_id', '=', 'category.id')
             ->join('perishable', 'product.perishable_id', '=', 'perishable.id')
             ->select('product.*', 'category.category_name', 'perishable.perishable_type')
+            ->orderBy('product.id', 'DESC')
             ->get();
 
         $categories = DB::table('category')->select('category.*')->get();
@@ -46,8 +47,8 @@ class ProductController extends Controller
             ->where('category_id', $category)
             ->where('product_name', $product)
             ->where('perishable_id', $perishable)
-            ->where('product_quantity', $productQuantity)
-            ->where('product_size', $productSize)
+            ->where('bundle_quantity', $productQuantity)
+            ->where('bundle_size', $productSize)
             ->whereNull('deleted_at')
             ->exists();
 
@@ -62,8 +63,8 @@ class ProductController extends Controller
                 'product_name' => $product,
                 'category_id' => $category,
                 'perishable_id' => $perishable,
-                'product_quantity' => $productQuantity,
-                'product_size' => $productSize,
+                'bundle_quantity' => $productQuantity,
+                'bundle_size' => $productSize,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -71,7 +72,7 @@ class ProductController extends Controller
             $userName = session('name');
             $this->activityLogger->log(
                 'added',
-                "Added Product | Name: {$request->product_name} | Responsible: {$userName} | Bundle Number: {$request->tie_number} | Bundle Size: {$request->tie_qty}"
+                "Added Product | Name: {$request->product_name} | Responsible: {$userName} | Bundle Number: {$request->bundle_quantity} | Bundle Size: {$request->bundle_size}"
             );
 
             session()->flash('save', 'Product Added successfully.');
@@ -93,7 +94,7 @@ class ProductController extends Controller
         ->leftJoin('batch', 'batch.product_id', '=', 'product.id')
         ->where('product.category_id', $request->category_id)
         ->select(
-            'product.id           as product_ID',
+            'product.id as product_ID',
             'product.product_name',
             DB::raw('COALESCE(SUM(batch.batch_quantity), 0) as batch_quantity'),
             DB::raw('(

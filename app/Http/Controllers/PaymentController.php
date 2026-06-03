@@ -28,9 +28,9 @@ class PaymentController extends Controller
             ->select([
                 'purchase_items.*',
                 'product.product_name',
-                'product.product_size',
-                'product.product_quantity',
-                DB::raw('product.product_size * product_quantity as tie_total'),
+                'product.bundle_size',
+                'product.bundle_quantity',
+                DB::raw('product.bundle_size * product.bundle_quantity as tie_total'),
             ])
             ->orderBy('purchase_items.purchase_id', 'desc')
             ->get()

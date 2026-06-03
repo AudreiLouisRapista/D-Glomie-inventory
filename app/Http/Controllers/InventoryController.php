@@ -41,8 +41,9 @@ class InventoryController extends Controller
                 'inventory.inventory_newQty as invt_NewQuantity',
                 'inventory.inventory_sellingPrice as invt_sellingPrice',
                 'inventory.inventory_totalSold as invt_totalSold',
+                'inventory.inventory_remainingQty as invt_remainingQty',
                 'inventory.status_id as status_ID',
-                'product.product_name',
+                'product.product_name as product_name',
                 'category.category_name as category_name',
                 DB::raw('(
                     SELECT pi.unit_price
@@ -52,10 +53,7 @@ class InventoryController extends Controller
                     ORDER BY b.id DESC
                     LIMIT 1
                 ) as unit_price'),
-                DB::raw('(inventory.inventory_startingQty
-                    + inventory.inventory_newQty
-                    - inventory.inventory_totalSold)
-                    as invt_remainingStock')
+               
             );
 
         if ($request->filled('category_id_table') && $request->category_id_table !== 'all') {

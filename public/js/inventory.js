@@ -32,12 +32,12 @@ function initInventory(routes) {
                 },
                 { data: 'product_name',          name: 'product.product_name' },
                 { data: 'category_name',         name: 'category.category_name' },
-                { data: 'unit_price',            name: 'purchase_items.unit_price' },
+                { data: 'unit_price',            name: 'purchase_items.unit_price', searchable: false, orderable: false  },
                 { data: 'invt_sellingPrice',     name: 'inventory.inventory_sellingPrice' },
                 { data: 'invt_StartingQuantity', name: 'inventory.inventory_startingQty' },
                 { data: 'invt_NewQuantity',      name: 'inventory.inventory_newQty' },
                 { data: 'invt_totalSold',        name: 'inventory.inventory_totalSold' },
-                { data: 'invt_remainingStock',   name: 'invt_remainingStock', orderable: false },
+                { data: 'invt_remainingQty',    name: 'inventory.inventory_remainingQty'},
                 {
                     data: 'status_ID',
                     name: 'inventory.status_id',
@@ -87,7 +87,7 @@ function initInventory(routes) {
             $('#edit_inventory_id').val(inventoryId);
             $('#edit_selling_price').val(sellingPrice);
 
-            // ✅ FIX: Destroy Select2 cleanly before reinit
+            // FIX: Destroy Select2 cleanly before reinit
             var $categorySelect = $('#edit_category');
             if ($categorySelect.hasClass('select2-hidden-accessible')) {
                 $categorySelect.select2('destroy');
@@ -120,7 +120,7 @@ function initInventory(routes) {
                     method: 'GET',
                     data: { category_id: categoryId },
                     success: function (products) {
-                        // ✅ FIX: Destroy Select2 first, then CLEAR and rebuild options
+                        // FIX: Destroy Select2 first, then CLEAR and rebuild options
                         if ($productSelect.hasClass('select2-hidden-accessible')) {
                             $productSelect.select2('destroy');
                         }
