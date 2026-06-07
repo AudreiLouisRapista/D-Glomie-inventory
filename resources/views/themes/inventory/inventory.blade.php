@@ -96,6 +96,10 @@
                 data-target="#registerProductModal">
                 <i class="fas fa-plus"></i> Add Inventory
             </button>
+            <button type="button" class="btn btn-primary table-card-action" data-toggle="modal"
+                data-target="#registerProductModal">
+                <i class="bi bi-receipt"></i> Add Sales
+            </button>
         </div>
         <div class="table-responsive">
             <table id="example2" class="table table-modern">
