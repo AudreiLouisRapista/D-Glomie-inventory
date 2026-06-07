@@ -265,6 +265,11 @@
                                                     $textColor = '#9a3412';
                                                     $dotColor = '#f97316';
                                                     break;
+                                                case 'sales recorded':
+                                                    $bgColor = 'rgba(0, 128, 0, 0.15)';
+                                                    $textColor = '#166534';
+                                                    $dotColor = '#22c55e';
+                                                    break;
                                                 case 'deleted':
                                                     $bgColor = 'rgba(255, 0, 0, 0.15)';
                                                     $textColor = '#991b1b';

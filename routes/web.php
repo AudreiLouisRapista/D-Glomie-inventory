@@ -40,11 +40,13 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin']], function () 
     Route::get('/inventory', [InventoryController::class, 'inventory'])->name('inventory');
     Route::get('/inventory-data', [InventoryController::class, 'view_inventory'])->name('view_inventory');
     Route::get('/inventory-archives', [InventoryController::class, 'inventory_archive'])->name('inventory_archive');
+    Route::get('/get-inventory-by-product/{productId}', [InventoryController::class, 'get_inventory_by_product'])->name('get_inventory_by_product');
     Route::get('/view-inventory-archives', [InventoryController::class, 'view_inventory_archive'])->name('view_inventory_archive');
     Route::post('/soft-delete-inventory/{id}', [InventoryController::class, 'soft_delete_inventory'])->name('soft_delete_inventory');
     Route::post('/save_inventory', [InventoryController::class, 'save_inventory'])->name('save_inventory');
     Route::post('/update_inventory', [InventoryController::class, 'update_inventory'])->name('update_inventory');
     Route::post('/restore-inventory/{id}', [InventoryController::class, 'restore_inventory'])->name('restore_inventory');
+    Route::post('/add-sale', [InventoryController::class, 'add_sale_record'])->name('add_sale_record');
     Route::delete('/force-delete-inventory/{id}', [InventoryController::class, 'force_delete_inventory'])->name('force_delete_inventory');
     
     // Invoices, Suppliers & Payments

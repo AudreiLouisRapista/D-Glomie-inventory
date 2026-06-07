@@ -32,12 +32,12 @@ function initInventory(routes) {
                 },
                 { data: 'product_name',          name: 'product.product_name' },
                 { data: 'category_name',         name: 'category.category_name' },
-                { data: 'unit_price',            name: 'purchase_items.unit_price', searchable: false, orderable: false  },
+                { data: 'unit_price',            name: 'purchase_items.unit_price', searchable: false, orderable: false },
                 { data: 'invt_sellingPrice',     name: 'inventory.inventory_sellingPrice' },
                 { data: 'invt_StartingQuantity', name: 'inventory.inventory_startingQty' },
                 { data: 'invt_NewQuantity',      name: 'inventory.inventory_newQty' },
                 { data: 'invt_totalSold',        name: 'inventory.inventory_totalSold' },
-                { data: 'invt_remainingQty',    name: 'inventory.inventory_remainingQty'},
+                { data: 'invt_remainingQty',     name: 'inventory.inventory_remainingQty' },
                 {
                     data: 'status_ID',
                     name: 'inventory.status_id',
@@ -54,7 +54,7 @@ function initInventory(routes) {
 
 
         // ==========================================
-        // 2. SELECT2 INITIALIZATION
+        // 2. SELECT2 INITIALIZATION (REGISTER MODAL)
         // ==========================================
         $('#registerProductModal').one('shown.bs.modal', function () {
             $('#categorySelect').select2({
@@ -71,6 +71,7 @@ function initInventory(routes) {
             });
         });
 
+
         // ==========================================
         // 2A. SELECT2 INITIALIZATION FOR UPDATE MODAL
         // ==========================================
@@ -83,11 +84,9 @@ function initInventory(routes) {
             var sellingPrice = modal.data('selling-price');
             var inventoryId  = modal.data('inventory-id');
 
-            // Set hidden fields
             $('#edit_inventory_id').val(inventoryId);
             $('#edit_selling_price').val(sellingPrice);
 
-            // FIX: Destroy Select2 cleanly before reinit
             var $categorySelect = $('#edit_category');
             if ($categorySelect.hasClass('select2-hidden-accessible')) {
                 $categorySelect.select2('destroy');
@@ -99,13 +98,12 @@ function initInventory(routes) {
                 width: '100%'
             });
 
-            // Show current product as placeholder while AJAX loads
-            var productName  = modal.data('product-name');
+            var productName    = modal.data('product-name');
             var $productSelect = $('#edit_product_name');
             if ($productSelect.hasClass('select2-hidden-accessible')) {
                 $productSelect.select2('destroy');
             }
-            $productSelect.html(`<option value="${productId}">${productName}</option>`);
+            $productSelect.html('<option value="' + productId + '">' + productName + '</option>');
             $productSelect.select2({
                 dropdownParent: $('#updateInventoryModal'),
                 placeholder: productName,
@@ -113,20 +111,16 @@ function initInventory(routes) {
                 width: '100%'
             });
 
-            // Load products for the selected category
             if (categoryId) {
                 $.ajax({
                     url: routes.getProductsUrl,
                     method: 'GET',
                     data: { category_id: categoryId },
                     success: function (products) {
-                        // FIX: Destroy Select2 first, then CLEAR and rebuild options
                         if ($productSelect.hasClass('select2-hidden-accessible')) {
                             $productSelect.select2('destroy');
                         }
-
                         $productSelect.empty().append('<option value="">Select Product</option>');
-
                         $.each(products, function (i, product) {
                             $productSelect.append(
                                 $('<option>', {
@@ -136,7 +130,6 @@ function initInventory(routes) {
                                 })
                             );
                         });
-
                         $productSelect.select2({
                             dropdownParent: $('#updateInventoryModal'),
                             placeholder: 'Select Product',
@@ -153,9 +146,8 @@ function initInventory(routes) {
         });
 
 
-
         // ==========================================
-        // 3. DYNAMIC PRODUCT DROPDOWN
+        // 3. DYNAMIC PRODUCT DROPDOWN (REGISTER MODAL)
         // ==========================================
         function populateProductsIntoSelect(productSelect, data) {
             productSelect.empty().append('<option value="">-- Select Product --</option>');
@@ -167,10 +159,9 @@ function initInventory(routes) {
 
             $.each(data, function (key, value) {
                 var qty         = parseInt(value.batch_quantity) || 0;
-                var statusLabel = qty > 0 ? ` (${qty} available)` : ` (No stock)`;
+                var statusLabel = qty > 0 ? ' (' + qty + ' available)' : ' (No stock)';
                 var isDisabled  = qty <= 0;
 
-                // ✅ FIX: Use $('<option>') to avoid whitespace in value attribute
                 var $opt = $('<option>', {
                     value: value.product_ID,
                     text: value.product_name + statusLabel,
@@ -221,7 +212,6 @@ function initInventory(routes) {
             });
         });
 
-        // Auto-fill cost price when product is selected
         $('#productSelect').on('change', function () {
             var unitCost = $(this).find('option:selected').data('unit-cost') || '';
             var qty      = $(this).find('option:selected').data('qty') || 0;
@@ -231,7 +221,7 @@ function initInventory(routes) {
 
 
         // ==========================================
-        // 4. FORM SUBMIT WITH SWAL CONFIRMATION
+        // 4. FORM SUBMIT WITH SWAL CONFIRMATION (REGISTER)
         // ==========================================
         $('#registerProductForm').on('submit', function (e) {
             e.preventDefault();
@@ -319,7 +309,6 @@ function initInventory(routes) {
         });
 
 
-
         // ==========================================
         // 5. EDIT MODAL LOGIC
         // ==========================================
@@ -370,7 +359,170 @@ function initInventory(routes) {
 
 
         // ==========================================
-        // 6. RESET MODAL ON CLOSE
+        // 6. SALES MODAL LOGIC
+        // ==========================================
+        $('#salesInventoryModal').on('show.bs.modal', function () {
+            $(this).removeAttr('aria-hidden');
+
+            var $categorySelect = $('#sales_category');
+            if ($categorySelect.hasClass('select2-hidden-accessible')) {
+                $categorySelect.select2('destroy');
+            }
+            $categorySelect.val('').select2({
+                dropdownParent: $('#salesInventoryModal'),
+                placeholder: 'Select Category',
+                allowClear: true,
+                width: '100%'
+            });
+
+            var $productSelect = $('#sales_product_name');
+            if ($productSelect.hasClass('select2-hidden-accessible')) {
+                $productSelect.select2('destroy');
+            }
+            $productSelect.html('<option value="">-- Select Category First --</option>').select2({
+                dropdownParent: $('#salesInventoryModal'),
+                placeholder: '-- Select Category First --',
+                allowClear: true,
+                width: '100%'
+            });
+
+            // Reset inputs
+            $('#sales_total_amount').val('');
+            $('#sales_total_quantity').val('');
+            $('#sales_inventory_id').val('');
+        });
+
+        // Category change → load products
+        $('#salesInventoryModal #sales_category').on('change', function () {
+            var categoryId     = $(this).val();
+            var $productSelect = $('#sales_product_name');
+
+            if ($productSelect.hasClass('select2-hidden-accessible')) {
+                $productSelect.select2('destroy');
+            }
+
+            $productSelect.html('<option value="">Loading...</option>');
+
+            if (!categoryId) {
+                $productSelect.html('<option value="">-- Select Category First --</option>').select2({
+                    dropdownParent: $('#salesInventoryModal'),
+                    placeholder: '-- Select Category First --',
+                    width: '100%'
+                });
+                return;
+            }
+
+            $.ajax({
+                url: routes.getProductsUrl,
+                method: 'GET',
+                data: { category_id: categoryId },
+                success: function (products) {
+                    $productSelect.empty().append('<option value="">-- Select Product --</option>');
+
+                    $.each(products, function (i, product) {
+                        $productSelect.append(
+                            $('<option>', {
+                                value: product.product_ID,
+                                text: product.product_name
+                            })
+                        );
+                    });
+
+                    $productSelect.select2({
+                        dropdownParent: $('#salesInventoryModal'),
+                        placeholder: 'Select Product',
+                        allowClear: true,
+                        width: '100%'
+                    });
+                },
+                error: function () {
+                    $productSelect.html('<option value="">Failed to load products</option>');
+                }
+            });
+        });
+
+        // Product change → fetch inventory info behind the scenes
+        $('#salesInventoryModal #sales_product_name').on('change', function () {
+            var productId = $(this).val();
+            if (!productId) return;
+
+            $.ajax({
+                url: routes.getInventoryByProductUrl + '/' + productId,
+                method: 'GET',
+                success: function (response) {
+                    $('#sales_inventory_id').val(response.inventory_id);
+                     $('#sales_total_amount').attr('data-selling-price', response.selling_price);
+                },
+                error: function () {
+                    Swal.fire({ icon: 'error', title: 'Error', text: 'No inventory record found for this product.' });
+                }
+            });
+        });
+
+        $('#sales_total_quantity').on('input', function () {
+            var qty          = parseFloat($(this).val()) || 0;
+            var sellingPrice = parseFloat($('#sales_total_amount').attr('data-selling-price')) || 0;
+            var total        = qty * sellingPrice;
+            $('#sales_total_amount').val(total > 0 ? total.toFixed(2) : '');
+        });
+
+        // Sales form submit
+        $('#saveSalesForm').on('submit', function (e) {
+            e.preventDefault();
+
+            if (!$('#sales_category').val() || !$('#sales_product_name').val()) {
+                Swal.fire('Incomplete', 'Please select a category and product.', 'warning');
+                return;
+            }
+
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'POST',
+                data: $(this).serialize(),
+                beforeSend: function () {
+                    Swal.fire({
+                        title: 'Saving...',
+                        allowOutsideClick: false,
+                        didOpen: () => { Swal.showLoading(); }
+                    });
+                },
+                success: function (response) {
+                    $('#salesInventoryModal').modal('hide');
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sales Recorded!',
+                        text: response.save,
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(function () {
+                        table.ajax.reload(null, false);
+                    });
+                },
+                error: function (xhr) {
+                    var msg = xhr.responseJSON?.error || xhr.responseJSON?.errorMessage || 'Something went wrong.';
+                    Swal.fire({ icon: 'error', title: 'Error', text: msg });
+                }
+            });
+        });
+
+        // Reset sales modal on close
+        $('#salesInventoryModal').on('hidden.bs.modal', function () {
+            $(this).attr('aria-hidden', 'true');
+
+            if ($('#sales_category').hasClass('select2-hidden-accessible')) {
+                $('#sales_category').select2('destroy');
+            }
+            if ($('#sales_product_name').hasClass('select2-hidden-accessible')) {
+                $('#sales_product_name').select2('destroy');
+            }
+
+            $(this).removeData();
+        });
+
+
+        // ==========================================
+        // 7. RESET UPDATE MODAL ON CLOSE
         // ==========================================
         $('#updateInventoryModal').on('hidden.bs.modal', function () {
             $(this).attr('aria-hidden', 'true');
@@ -387,8 +539,9 @@ function initInventory(routes) {
 
     });
 
+
     // ==========================================
-    // 7. SOFT DELETE
+    // 8. SOFT DELETE
     // ==========================================
     $('#example2 tbody').on('click', '.btn-delete', function () {
         var id = $(this).data('id');
@@ -406,7 +559,6 @@ function initInventory(routes) {
                 $.ajax({
                     url: routes.softDeleteInventoryUrl + '/' + id,
                     method: 'POST',
-                    data: { _token: $('meta[name="csrf-token"]').attr('content') },
                     beforeSend: function () {
                         Swal.fire({
                             title: 'Archiving...',
@@ -436,4 +588,5 @@ function initInventory(routes) {
             }
         });
     });
+
 }

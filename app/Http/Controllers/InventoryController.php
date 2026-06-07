@@ -17,10 +17,10 @@ class InventoryController extends Controller
     {
         $categories = DB::table('category')->select('category.*')->get();
         $status = DB::table('status')->select('status.*')->get();
-        $totalInventory = DB::table('inventory')->count();
-        $totalAvailableStock = DB::table('inventory')->select('inventory_remainingQty')->sum('inventory_remainingQty');
-        $totalLowStock = DB::table('inventory')->where('status_id', 2)->count();
-        $totalOutOfStock = DB::table('inventory')->where('status_id', 3)->count();
+        $totalInventory = DB::table('inventory')->whereNull('deleted_at')->count();
+        $totalAvailableStock = DB::table('inventory')->whereNull('deleted_at')->select('inventory_remainingQty')->sum('inventory_remainingQty');
+        $totalLowStock = DB::table('inventory')->where('status_id', 2)->whereNull('deleted_at')->count();
+        $totalOutOfStock = DB::table('inventory')->where('status_id', 3)->whereNull('deleted_at')->count();
 
         return view('themes.inventory.inventory', compact(
             'categories',
@@ -385,6 +385,94 @@ class InventoryController extends Controller
         );
 
         return response()->json(['save' => 'Inventory permanently deleted.']);
+    }
+
+    // Add sales record
+    public function add_sale_record(Request $request)
+    {
+        $request->validate([
+            'category_id'    => 'required|exists:category,id',
+            'product_id'     => 'required|exists:product,id',
+            'total_amount'   => 'required|numeric|min:0',
+        ]);
+
+        $qty = (int) $request->total_quantity;
+
+        try {
+            DB::beginTransaction();
+
+            $inventory = DB::table('inventory')
+                ->where('product_id', $request->product_id)
+                ->whereNull('deleted_at')
+                ->first();
+
+            if (!$inventory) {
+                return response()->json(['error' => 'No inventory record found for this product.'], 404);
+            }
+
+            // Prevent overselling
+            if ($qty > $inventory->inventory_remainingQty) {
+                return response()->json([
+                    'error' => 'Quantity exceeds remaining stock of ' . $inventory->inventory_remainingQty
+                ], 422);
+            }
+
+            $newTotalSold    = $inventory->inventory_totalSold + $qty;
+            $newRemainingQty = $inventory->inventory_remainingQty - $qty;
+
+            // 1. Save to inventorySales
+            DB::table('inventorySales')->insert([
+                'inventory_id'  => $inventory->id,
+                'total_amount'  => $request->total_amount,
+                'created_at'    => now(),
+                'updated_at'    => now(),
+            ]);
+
+            // 2. Update inventory
+            DB::table('inventory')
+                ->where('id', $inventory->id)
+                ->update([
+                    'inventory_totalSold'    => $newTotalSold,
+                    'inventory_remainingQty' => $newRemainingQty,
+                    'status_id'              => $this->resolveStatusId($newRemainingQty),
+                    'updated_at'             => now(),
+                ]);
+
+            DB::commit();
+
+            $userName = session('name');
+            $this->activityLogger->log(
+                'sales recorded',
+                "Sales recorded | Inventory ID: {$inventory->id} | Responsible: {$userName}"
+            );
+
+            return response()->json(['save' => 'Sales recorded successfully!']);
+
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            report($e);
+            return response()->json(['errorMessage' => 'An error occurred. Please try again.'], 500);
+        }
+    }
+
+    public function get_inventory_by_product($productId)
+    {
+        $inventory = DB::table('inventory')
+            ->where('product_id', $productId)
+            ->whereNull('deleted_at')
+            ->select(
+                'id as inventory_id',
+                'inventory_remainingQty as remaining_qty',
+                'inventory_totalSold as total_sold',
+                'inventory_sellingPrice as selling_price'
+            )
+            ->first();
+
+        if (!$inventory) {
+            return response()->json(['error' => 'No inventory record found for this product.'], 404);
+        }
+
+        return response()->json($inventory);
     }
 
     private function resolveStatusId(int $qty): int
