@@ -6,6 +6,7 @@
 {{-- 2. DEFINE CONTENT --}}
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/hero-header.css') }}">
 
     <div class="inv-hero">
         <div class="inv-hero-text">

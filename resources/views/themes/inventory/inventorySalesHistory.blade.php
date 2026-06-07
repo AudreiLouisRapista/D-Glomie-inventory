@@ -6,11 +6,15 @@
 
     <link rel="stylesheet" href="{{ asset('css/inventory.css') }}">
     <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/hero-header.css') }}">
 
-    <div class="col-sm-6">
-        <h1 class="m-0 font-weight-bold">Inventory Sales History</h1>
-        <p>All inventory sales transactions</p>
+    <div class="inv-hero">
+        <div class="inv-hero-text">
+            <h1 class="m-0 font-weight-bold">Inventory Sales History</h1>
+            <p>List of all inventory sales transactions</p>
+        </div>
     </div>
+
 
     <div class="main-card">
         <div class="table-card-header">
