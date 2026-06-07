@@ -39,7 +39,7 @@ class PaymentController extends Controller
         $suppliers = DB::table('supplier')->orderBy('supplier_name', 'ASC')->get();
         $products = DB::table('product')->orderBy('product_name', 'ASC')->get();
 
-        return view('paymentTracker', compact('suppliers', 'purchases', 'products', 'purchase_items'));
+        return view('themes.paymentTracker.paymentTracker', compact('suppliers', 'purchases', 'products', 'purchase_items'));
     }
 
     public function save_payment(Request $request)

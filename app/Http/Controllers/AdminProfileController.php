@@ -20,7 +20,7 @@ class AdminProfileController extends Controller
         $logs = ActivityLog::latest()->take(10)->get();
         $admins = DB::table('users')->get();
 
-        return view('admin_profile', compact('admins', 'logs'));
+        return view('themes.admin_profile.admin_profile', compact('admins', 'logs'));
     }
 
     public function adminProfile(Request $request, $id)

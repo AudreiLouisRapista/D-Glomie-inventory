@@ -17,7 +17,7 @@ class InventoryController extends Controller
         $totalLowStock = DB::table('inventory')->where('status_id', 2)->count();
         $totalOutOfStock = DB::table('inventory')->where('status_id', 3)->count();
 
-        return view('inventory', compact(
+        return view('themes.inventory.inventory', compact(
             'categories',
             'status',
             'totalInventory',

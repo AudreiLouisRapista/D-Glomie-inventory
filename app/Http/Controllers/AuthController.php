@@ -12,7 +12,7 @@ class AuthController extends Controller
 {
     public function main()
     {
-        return view('welcome');
+        return view('themes.welcome.welcome');
     }
 
     public function auth_user(Request $request)

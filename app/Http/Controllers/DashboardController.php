@@ -10,6 +10,6 @@ class DashboardController extends Controller
     {
         $totalProduct = DB::table('product')->count();
 
-        return view('dashboard', compact('totalProduct'));
+        return view('themes.dashboard.dashboard', compact('totalProduct'));
     }
 }

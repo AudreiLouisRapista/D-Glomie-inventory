@@ -34,7 +34,7 @@ class InvoiceController extends Controller
 
         $supplier = DB::table('supplier')->get();
 
-        return view('invoiceEncoder', compact('invoiceInfo', 'supplier', 'products', 'purchase_items'));
+        return view('themes.invoiceEncoder.invoiceEncoder', compact('invoiceInfo', 'supplier', 'products', 'purchase_items'));
     }
 
     public function save_invoiceDetails(Request $request)

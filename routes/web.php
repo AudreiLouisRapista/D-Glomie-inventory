@@ -17,7 +17,7 @@ use App\Http\Controllers\SupplierController;
 */
 
 Route::get('/index', function () {
-    return view('welcome');
+    return view('themes.welcome.welcome');
 });
 
 Route::get('/', [AuthController::class, 'main'])->name('login');

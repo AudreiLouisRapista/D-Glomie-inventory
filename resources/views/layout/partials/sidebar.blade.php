@@ -69,7 +69,39 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
+
+                <li class="nav-item {{ request()->routeIs('inventory') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ request()->routeIs('inventory') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-boxes"></i>
+                        <p>
+                            Inventory
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('inventory') }}"
+                                class="nav-link {{ request()->routeIs('inventory') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Inventory Management</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="pages/UI/ribbons.html" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Inventory Archives</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="pages/UI/ribbons.html" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Inventory Sales History</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                {{-- <li class="nav-item">
                     <a href="{{ route('inventory') }}"
                         class="nav-link {{ request()->routeIs('inventory') ? 'active' : '' }}">
 
@@ -79,7 +111,7 @@
 
                         </p>
                     </a>
-                </li>
+                </li> --}}
 
                 <li class="nav-header font-weight-bold">Reports</li>
                 <li class="nav-item">
@@ -139,15 +171,7 @@
                 </li>
 
 
-                <li class="nav-header font-weight-bold">Inventory Transaction History</li>
-                <li class="nav-item">
-                    <a href="pages/kanban.html" class="nav-link">
-                        <i class="nav-icon fas fa-columns"></i>
-                        <p>
-                            Inventory Sale History
-                        </p>
-                    </a>
-                </li>
+
 
             </ul>
         </nav>

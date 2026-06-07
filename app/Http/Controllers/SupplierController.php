@@ -16,7 +16,7 @@ class SupplierController extends Controller
     {
         $supplier = DB::table('supplier')->get();
 
-        return view('supplierList', compact('supplier'));
+        return view('themes.supplierList.supplierList', compact('supplier'));
     }
 
     public function save_supplier(Request $request)

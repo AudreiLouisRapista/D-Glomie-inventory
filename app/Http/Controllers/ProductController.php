@@ -19,7 +19,7 @@ class ProductController extends Controller
         $categories = DB::table('category')->select('category.*')->get();
         $perishables = DB::table('perishable')->select('perishable.*')->get();
 
-        return view('product', compact('products', 'categories', 'perishables'));
+        return view('themes.product.product', compact('products', 'categories', 'perishables'));
     }
 
 
