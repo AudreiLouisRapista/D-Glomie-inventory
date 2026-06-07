@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Services\ActivityLogger;
 use Yajra\DataTables\Facades\DataTables;
 
 class InventoryController extends Controller
 {
+    public function __construct(private ActivityLogger $activityLogger)
+    {
+    }
+
     public function inventory()
     {
         $categories = DB::table('category')->select('category.*')->get();
@@ -33,6 +38,7 @@ class InventoryController extends Controller
             ->join('category', 'inventory.category_id', '=', 'category.id')
             ->join('product', 'inventory.product_id', '=', 'product.id')
             ->join('status', 'inventory.status_id', '=', 'status.id')
+            ->whereNull('inventory.deleted_at')
             ->select(
                 'inventory.id as inventory_ID',
                 'inventory.product_id as product_id',
@@ -201,6 +207,13 @@ class InventoryController extends Controller
 
             DB::commit();
 
+            $userName = session('name');
+            $inventoryAction = $existing ? 'updated' : 'added';
+            $this->activityLogger->log(
+                $inventoryAction,
+                ucfirst($inventoryAction) . " Inventory | Product ID: {$request->product} | Category ID: {$request->category} | Quantity: {$qty} | Responsible: {$userName}"
+            );
+
             return response()->json(['save' => 'Inventory registered successfully!', 'total' => ['totalInventory' => DB::table('inventory')->count(), 
             'totalAvailableStock' => DB::table('inventory')->select('inventory_remainingQty')->sum('inventory_remainingQty'), 
             'totalLowStock' => DB::table('inventory')->where('status_id', 2)->count(), 
@@ -215,6 +228,27 @@ class InventoryController extends Controller
                 'errorMessage' => 'An error occurred while saving the inventory. Please try again.',
             ], 500);
         }
+    }
+
+    public function soft_delete_inventory($id)
+    {
+        $inventory = DB::table('inventory')->where('id', $id)->first();
+
+        if (!$inventory) {
+            return response()->json(['error' => 'Record not found.'], 404);
+        }
+
+        DB::table('inventory')
+            ->where('id', $id)
+            ->update(['deleted_at' => now()]);
+
+        $userName = session('name');
+        $this->activityLogger->log(
+            'archived',
+            "Archived Inventory | Inventory ID: {$id} | Responsible: {$userName}"
+        );
+
+        return response()->json(['save' => 'Inventory record archived successfully.']);
     }
 
         
@@ -245,6 +279,12 @@ class InventoryController extends Controller
 
             DB::commit();
 
+            $userName = session('name');
+            $this->activityLogger->log(
+                'updated',
+                "Updated Inventory | Inventory ID: {$request->id} | Product ID: {$request->product_id} | Responsible: {$userName}"
+            );
+
             return response()->json([
                 'save' => 'Product Updated',
                 'debug' => [
@@ -262,6 +302,89 @@ class InventoryController extends Controller
                 'errorMessage' => 'An error occurred while updating the inventory. Please try again.',
             ], 500);
         }
+    }
+
+
+    // Page loader
+    public function inventory_archive()
+    {
+        return view('themes.inventory.inventoryArchive');
+    }
+
+    // DataTable data
+    public function view_inventory_archive(Request $request)
+    {
+        $query = DB::table('inventory')
+            ->join('category', 'inventory.category_id', '=', 'category.id')
+            ->join('product', 'inventory.product_id', '=', 'product.id')
+            ->whereNotNull('inventory.deleted_at')
+            ->select(
+                'inventory.id as inventory_ID',
+                'inventory.deleted_at as deleted_at',
+                'inventory.inventory_sellingPrice as invt_sellingPrice',
+                'inventory.inventory_startingQty as invt_startingQuantity',
+                'inventory.inventory_newQty as invt_newQuantity',
+                'inventory.inventory_remainingQty as remaining_stock',
+                'inventory.inventory_totalSold as total_sold',
+                'product.product_name as product_name',
+                'category.category_name as category_name',
+                DB::raw('(
+                    SELECT pi.unit_price
+                    FROM purchase_items pi
+                    INNER JOIN batch b ON b.purchase_item_id = pi.id
+                    WHERE b.product_id = inventory.product_id
+                    ORDER BY b.id DESC
+                    LIMIT 1
+                ) as unit_price'),
+               
+            );
+
+
+        return DataTables::of($query)
+            ->addColumn('action', function ($row) {
+                return '
+                    <button class="action-btn btn-restore mx-1" data-id="' . $row->inventory_ID . '" title="Restore">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                    </button>
+                    <button class="action-btn btn-force-delete mx-1" data-id="' . $row->inventory_ID . '" title="Permanently Delete">
+                          <i class="bi bi-trash3"></i>
+                    </button>
+                ';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+    }
+
+    // Restore
+    public function restore_inventory($id)
+    {
+        DB::table('inventory')
+            ->where('id', $id)
+            ->update(['deleted_at' => null]);
+
+        $userName = session('name');
+        $this->activityLogger->log(
+            'restored',
+            "Restored Inventory | Inventory ID: {$id} | Responsible: {$userName}"
+        );
+
+        return response()->json(['save' => 'Inventory restored successfully.']);
+    }
+
+    // Permanently delete
+    public function force_delete_inventory($id)
+    {
+        DB::table('inventory')
+            ->where('id', $id)
+            ->delete();
+
+        $userName = session('name');
+        $this->activityLogger->log(
+            'deleted',
+            "Permanently deleted Inventory | Inventory ID: {$id} | Responsible: {$userName}"
+        );
+
+        return response()->json(['save' => 'Inventory permanently deleted.']);
     }
 
     private function resolveStatusId(int $qty): int

@@ -62,6 +62,12 @@
 
         });
     });
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 </script>
 
 {{-- Hook for page-specific scripts (like the dashboard one) --}}

@@ -104,7 +104,7 @@
                         <th>Inventory ID</th>
                         <th>Product</th>
                         <th>Category</th>
-                        <th>Cost</th>
+                        <th>Unit Price</th>
                         <th>Selling Price</th>
                         <th>Starting Quantity</th>
                         <th>New Quantity</th>
@@ -354,7 +354,8 @@
             initInventory({
                 viewInventoryUrl: "{{ route('view_inventory') }}",
                 getProductsUrl: "{{ route('get_products_by_category') }}",
-                saveInventoryUrl: "{{ route('save_inventory') }}"
+                saveInventoryUrl: "{{ route('save_inventory') }}",
+                softDeleteInventoryUrl: "{{ url('Admin/soft-delete-inventory') }}",
             });
         });
     </script>

@@ -386,4 +386,54 @@ function initInventory(routes) {
         });
 
     });
+
+    // ==========================================
+    // 7. SOFT DELETE
+    // ==========================================
+    $('#example2 tbody').on('click', '.btn-delete', function () {
+        var id = $(this).data('id');
+
+        Swal.fire({
+            title: 'Archive this record?',
+            text: 'This will move the inventory record to archives.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Yes, Archive it',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: routes.softDeleteInventoryUrl + '/' + id,
+                    method: 'POST',
+                    data: { _token: $('meta[name="csrf-token"]').attr('content') },
+                    beforeSend: function () {
+                        Swal.fire({
+                            title: 'Archiving...',
+                            allowOutsideClick: false,
+                            didOpen: () => { Swal.showLoading(); }
+                        });
+                    },
+                    success: function (response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Archived!',
+                            text: response.save,
+                            timer: 2000,
+                            showConfirmButton: false
+                        }).then(function () {
+                            table.ajax.reload(null, false);
+                        });
+                    },
+                    error: function (xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Failed',
+                            text: xhr.responseJSON?.message || 'Something went wrong.'
+                        });
+                    }
+                });
+            }
+        });
+    });
 }

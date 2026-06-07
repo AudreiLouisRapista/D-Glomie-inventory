@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Services\ActivityLogger;
 
 class PaymentController extends Controller
 {
+    public function __construct(private ActivityLogger $activityLogger)
+    {
+    }
     public function paymentTracker(Request $request)
     {
         $query = DB::table('purchase')
@@ -73,6 +77,12 @@ class PaymentController extends Controller
                     'invoice_status' => $status,
                 ]);
             });
+
+            $userName = session('name');
+            $this->activityLogger->log(
+                'added',
+                "Added Payment | Purchase ID: {$request->purchase_id} | Amount: {$request->amount_paid} | Responsible: {$userName}"
+            );
 
             return redirect()->back()->with('save', 'Payment recorded successfully!');
         } catch (\Illuminate\Database\QueryException $e) {

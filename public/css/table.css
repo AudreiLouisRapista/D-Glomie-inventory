@@ -198,6 +198,14 @@
     background: var(--table-primary);
     color: #fff !important;
 }
+.btn-restore {
+    background: #e0f2fe;
+    color: #0284c7;
+}
+.btn-force-delete {
+    background: #fee2e2;
+    color: #b91c1c;
+}
 
 div.dataTables_wrapper div.dataTables_filter input,
 div.dataTables_wrapper div.dataTables_length select {

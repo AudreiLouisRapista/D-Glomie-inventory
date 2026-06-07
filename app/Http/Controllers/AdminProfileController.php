@@ -58,7 +58,11 @@ class AdminProfileController extends Controller
         DB::table('admin')->where('id', $id)->update($updateData);
 
         session(['name' => $request->name]);
-        $this->activityLogger->log('updated', 'Updated Admin Profile: ' . $request->name);
+        $userName = session('name');
+        $this->activityLogger->log(
+            'updated',
+            "Updated Admin Profile: {$request->name} | Responsible: {$userName}"
+        );
 
         session()->flash('save', 'Admin Info updated successfully.');
         return redirect()->back();

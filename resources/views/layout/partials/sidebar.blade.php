@@ -70,8 +70,9 @@
                     </a>
                 </li>
 
-                <li class="nav-item {{ request()->routeIs('inventory') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ request()->routeIs('inventory') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->routeIs('inventory', 'inventory_archive') ? 'menu-open' : '' }}">
+                    <a href="#"
+                        class="nav-link {{ request()->routeIs('inventory', 'inventory_archive') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-boxes"></i>
                         <p>
                             Inventory
@@ -87,7 +88,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/UI/ribbons.html" class="nav-link">
+                            <a href="{{ route('inventory_archive') }}"
+                                class="nav-link {{ request()->routeIs('inventory_archive') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Inventory Archives</p>
                             </a>
