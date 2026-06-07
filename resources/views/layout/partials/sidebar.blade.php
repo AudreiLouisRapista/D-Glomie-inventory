@@ -70,9 +70,10 @@
                     </a>
                 </li>
 
-                <li class="nav-item {{ request()->routeIs('inventory', 'inventory_archive') ? 'menu-open' : '' }}">
+                <li
+                    class="nav-item {{ request()->routeIs('inventory', 'inventory_archive', 'inventory_sales_history') ? 'menu-open' : '' }}">
                     <a href="#"
-                        class="nav-link {{ request()->routeIs('inventory', 'inventory_archive') ? 'active' : '' }}">
+                        class="nav-link {{ request()->routeIs('inventory', 'inventory_archive', 'inventory_sales_history') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-boxes"></i>
                         <p>
                             Inventory
@@ -95,7 +96,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/UI/ribbons.html" class="nav-link">
+                            <a href="{{ route('inventory_sales_history') }}"
+                                class="nav-link {{ request()->routeIs('inventory_sales_history') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Inventory Sales History</p>
                             </a>

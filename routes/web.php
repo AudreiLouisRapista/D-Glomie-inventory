@@ -42,6 +42,8 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin']], function () 
     Route::get('/inventory-archives', [InventoryController::class, 'inventory_archive'])->name('inventory_archive');
     Route::get('/get-inventory-by-product/{productId}', [InventoryController::class, 'get_inventory_by_product'])->name('get_inventory_by_product');
     Route::get('/view-inventory-archives', [InventoryController::class, 'view_inventory_archive'])->name('view_inventory_archive');
+    Route::get('/inventory-sales-history', [InventoryController::class, 'inventory_sales_history'])->name('inventory_sales_history');
+    Route::get('/view-sales-history', [InventoryController::class, 'view_sales_history'])->name('view_sales_history');
     Route::post('/soft-delete-inventory/{id}', [InventoryController::class, 'soft_delete_inventory'])->name('soft_delete_inventory');
     Route::post('/save_inventory', [InventoryController::class, 'save_inventory'])->name('save_inventory');
     Route::post('/update_inventory', [InventoryController::class, 'update_inventory'])->name('update_inventory');
