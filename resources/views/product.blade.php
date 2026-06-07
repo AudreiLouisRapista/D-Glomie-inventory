@@ -48,31 +48,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($products as $prod)
-                        <tr>
-                            <td><span class="record-id">PRDCT-{{ $prod->id }}</span></td>
-                            <td class="font-weight-bold text-dark">{{ $prod->product_name }}</td>
-                            <td>{{ $prod->category_name }}</td>
-                            <td>
-                                <span
-                                    class="status-badge {{ strtolower($prod->perishable_type) === 'perishable' ? 'status-low-stock' : 'status-active' }}">
-                                    {{ $prod->perishable_type }}
-                                </span>
-                            </td>
-                            <td>{{ $prod->bundle_quantity }}</td>
-                            <td>{{ $prod->bundle_size }}</td>
-                            <td>
-                                <div class="d-flex justify-content-center align-items-center">
-                                    <button type="button" class="action-btn btn-edit mx-1" title="Edit">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </button>
-                                    <button type="button" class="action-btn btn-delete mx-1" title="Delete">
-                                        <i class="bi bi-trash3"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -218,4 +193,14 @@
 @endsection
 
 @section('JS src')
+    <script src="{{ asset('js/product.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            initProduct({
+                viewProductUrl: "{{ route('view_product') }}",
+                getProductsUrl: "{{ route('get_products_by_category') }}",
+                // saveInventoryUrl: "{{ route('save_inventory') }}"
+            });
+        });
+    </script>
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\ActivityLogger;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
@@ -14,18 +15,60 @@ class ProductController extends Controller
 
     public function product()
     {
-        $products = DB::table('product')
-            ->join('category', 'product.category_id', '=', 'category.id')
-            ->join('perishable', 'product.perishable_id', '=', 'perishable.id')
-            ->select('product.*', 'category.category_name', 'perishable.perishable_type')
-            ->orderBy('product.id', 'DESC')
-            ->get();
-
+        $products = DB::table('product')->get();
         $categories = DB::table('category')->select('category.*')->get();
         $perishables = DB::table('perishable')->select('perishable.*')->get();
 
         return view('product', compact('products', 'categories', 'perishables'));
     }
+
+
+    public function view_product(Request $request)
+    {
+        $query = DB::table('product')
+            ->join('category', 'product.category_id', '=', 'category.id')
+            ->join('perishable', 'product.perishable_id', '=', 'perishable.id')
+            ->select(
+                'product.id as product_ID',
+                'product.product_name',
+                'product.bundle_quantity',
+                'product.bundle_size',
+                'product.category_id',
+                'product.perishable_id',
+                'category.category_name',
+                'perishable.perishable_type'
+            );
+
+        return DataTables::of($query)
+            ->addColumn('action', function ($row) {
+                return '
+                    <div class="d-flex justify-content-center align-items-center">
+                    <button class="action-btn btn-edit mx-1"
+                            data-id="' . $row->product_ID . '"
+                            data-product-name="' . $row->product_name . '"
+                            data-category-name="' . $row->category_name . '"
+                            data-category-id="' . $row->category_id . '"
+                            data-perishable-type="' . $row->perishable_type . '"
+                            data-perishable-id="' . $row->perishable_id . '"
+                            data-bundle-quantity="' . $row->bundle_quantity . '"
+                            data-bundle-size="' . $row->bundle_size . '"
+                            title="Edit">
+                        <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button class="action-btn btn-delete mx-1"
+                            data-id="' . $row->product_ID . '"
+                            title="Delete">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                    </div>
+                ';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+    }
+
+
+
 
     public function save_product(Request $request)
     {
@@ -84,32 +127,32 @@ class ProductController extends Controller
         }
     }
 
-  public function get_products_by_category(Request $request)
-{
-    $request->validate([
-        'category_id' => 'required|integer|exists:category,id',
-    ]);
+    public function get_products_by_category(Request $request)
+    {
+        $request->validate([
+            'category_id' => 'required|integer|exists:category,id',
+        ]);
 
-    $products = DB::table('product')
-        ->leftJoin('batch', 'batch.product_id', '=', 'product.id')
-        ->where('product.category_id', $request->category_id)
-        ->select(
-            'product.id as product_ID',
-            'product.product_name',
-            DB::raw('COALESCE(SUM(batch.batch_quantity), 0) as batch_quantity'),
-            DB::raw('(
-                SELECT pi.unit_price
-                FROM purchase_items pi
-                INNER JOIN batch b ON b.purchase_item_id = pi.id
-                WHERE b.product_id = product.id
-                ORDER BY b.id DESC
-                LIMIT 1
-            ) as unit_cost')
-        )
-        ->groupBy('product.id', 'product.product_name')
-        ->orderBy('product.product_name')
-        ->get();
+        $products = DB::table('product')
+            ->leftJoin('batch', 'batch.product_id', '=', 'product.id')
+            ->where('product.category_id', $request->category_id)
+            ->select(
+                'product.id as product_ID',
+                'product.product_name',
+                DB::raw('COALESCE(SUM(batch.batch_quantity), 0) as batch_quantity'),
+                DB::raw('(
+                    SELECT pi.unit_price
+                    FROM purchase_items pi
+                    INNER JOIN batch b ON b.purchase_item_id = pi.id
+                    WHERE b.product_id = product.id
+                    ORDER BY b.id DESC
+                    LIMIT 1
+                ) as unit_cost')
+            )
+            ->groupBy('product.id', 'product.product_name')
+            ->orderBy('product.product_name')
+            ->get();
 
-    return response()->json($products);
-}
+        return response()->json($products);
+    }
 }

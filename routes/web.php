@@ -31,8 +31,9 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin']], function () 
     
     // Product Management Routes
     Route::get('/product', [ProductController::class, 'product'])->name('product');
-    Route::get('/product-data', [ProductController::class, 'get_products_datatable'])->name('get_products_datatable');
+    Route::get('/product-data', [ProductController::class, 'view_product'])->name('view_product');
     Route::get('/get-products-by-category', [ProductController::class, 'get_products_by_category'])->name('get_products_by_category');
+    Route::post('/update_product', [ProductController::class, 'update_product'])->name('update_product');
     Route::post('/save_product', [ProductController::class, 'save_product'])->name('save_product');
     
     // Inventory Management Routes
