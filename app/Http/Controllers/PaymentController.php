@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Services\ActivityLogger;
+use App\Helpers\BranchFilter;
 
 class PaymentController extends Controller
 {
@@ -13,7 +14,7 @@ class PaymentController extends Controller
     }
     public function paymentTracker(Request $request)
     {
-        $query = DB::table('purchase')
+        $query = BranchFilter::apply(DB::table('purchase'), 'purchase')
             ->join('supplier', 'purchase.supplier_id', '=', 'supplier.id')
             ->select([
                 'purchase.id as purchase_id',
@@ -27,7 +28,7 @@ class PaymentController extends Controller
 
         $purchases = $query->orderBy('purchase.id', 'desc')->get();
 
-        $purchase_items = DB::table('purchase_items')
+        $purchase_items = BranchFilter::apply(DB::table('purchase_items'), 'purchase_items')
             ->join('product', 'purchase_items.product_id', '=', 'product.id')
             ->select([
                 'purchase_items.*',
@@ -59,6 +60,7 @@ class PaymentController extends Controller
             DB::transaction(function () use ($request) {
                 DB::table('payment')->insert([
                     'purchase_id' => $request->purchase_id,
+                    'branch_id' => session('branch_id'),
                     'amount_paid' => $request->amount_paid,
                     'payment_date' => $request->payment_date,
                     'payment_method' => $request->payment_method,
@@ -68,7 +70,7 @@ class PaymentController extends Controller
                     'updated_at' => now(),
                 ]);
 
-                $purchase = DB::table('purchase')->where('id', $request->purchase_id)->first();
+                $purchase = BranchFilter::apply(DB::table('purchase'), 'purchase')->where('id', $request->purchase_id)->first();
                 $totalPaid = ($purchase->invoice_totalPaid ?? 0) + $request->amount_paid;
                 $status = ($totalPaid >= $purchase->invoice_netAmount) ? 'Paid' : 'Partial';
 

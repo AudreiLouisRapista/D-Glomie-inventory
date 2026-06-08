@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\ActivityLogger;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\BranchFilter;
 
 class InvoiceController extends Controller
 {
@@ -14,12 +15,12 @@ class InvoiceController extends Controller
 
     public function invoiceEncoder()
     {
-        $invoiceInfo = DB::table('purchase')
+        $invoiceInfo = BranchFilter::apply(DB::table('purchase'), 'purchase')
             ->join('supplier', 'purchase.supplier_id', '=', 'supplier.id')
             ->select('purchase.*', 'purchase.id as purchase_id', 'supplier.supplier_name')
             ->get();
 
-        $purchase_items = DB::table('purchase_items')
+        $purchase_items = BranchFilter::apply(DB::table('purchase_items'), 'purchase_items')
             ->join('product', 'purchase_items.product_id', '=', 'product.id')
             ->select(['purchase_items.*', 'product.product_name'])
             ->orderBy('purchase_items.purchase_id', 'desc')
@@ -68,6 +69,7 @@ class InvoiceController extends Controller
         try {
             $invoiceId = DB::table('purchase')->insertGetId([
                 'supplier_id' => $request->supplierId,
+                'branch_id' => session('branch_id'),
                 'invoice_number' => $request->invoiceNumber,
                 'invoice_date' => $request->invoiceDate,
                 'invoice_duo_date' => $request->invoiceduoDate,
@@ -93,6 +95,7 @@ class InvoiceController extends Controller
 
                 $purchaseItemId = DB::table('purchase_items')->insertGetId([
                     'purchase_id' => $invoiceId,
+                    'branch_id' => session('branch_id'),
                     'product_id' => $productId,
                     'supply_qty' => $request->CSquantity[$key],
                     'unit_price' => $request->unitPrice[$key],
@@ -116,6 +119,7 @@ class InvoiceController extends Controller
 
                 DB::table('batch')->insert([
                     'purchase_item_id' => $purchaseItemId,
+                    'branch_id' => session('branch_id'),
                     'product_id' => $productId,
                     'exp_date' => $isPerishable ? $request->expdate[$key] : null,
                     'batch_quantity' => $batchQty,

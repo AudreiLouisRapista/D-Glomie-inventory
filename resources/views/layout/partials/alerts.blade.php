@@ -15,20 +15,7 @@
     </script>
 @endif
 
-@if (session('error'))
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                icon: "warning",
-                title: "Schedule Conflict!",
-                text: "{{ session('error') }}",
-                confirmButtonColor: "#4e73df",
-                timer: 5000,
-                timerProgressBar: true
-            });
-        });
-    </script>
-@endif
+
 
 @if (session('duplicate'))
     <script>

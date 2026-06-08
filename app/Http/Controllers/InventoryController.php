@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Services\ActivityLogger;
+use App\Helpers\BranchFilter;
 use Yajra\DataTables\Facades\DataTables;
 
 class InventoryController extends Controller
@@ -17,10 +18,10 @@ class InventoryController extends Controller
     {
         $categories = DB::table('category')->select('category.*')->get();
         $status = DB::table('status')->select('status.*')->get();
-        $totalInventory = DB::table('inventory')->whereNull('deleted_at')->count();
-        $totalAvailableStock = DB::table('inventory')->whereNull('deleted_at')->select('inventory_remainingQty')->sum('inventory_remainingQty');
-        $totalLowStock = DB::table('inventory')->where('status_id', 2)->whereNull('deleted_at')->count();
-        $totalOutOfStock = DB::table('inventory')->where('status_id', 3)->whereNull('deleted_at')->count();
+        $totalInventory = BranchFilter::apply(DB::table('inventory'), 'inventory')->whereNull('deleted_at')->count();
+        $totalAvailableStock = BranchFilter::apply(DB::table('inventory'), 'inventory')->whereNull('deleted_at')->select('inventory_remainingQty')->sum('inventory_remainingQty');
+        $totalLowStock = BranchFilter::apply(DB::table('inventory'), 'inventory')->where('status_id', 2)->whereNull('deleted_at')->count();
+        $totalOutOfStock = BranchFilter::apply(DB::table('inventory'), 'inventory')->where('status_id', 3)->whereNull('deleted_at')->count();
 
         return view('themes.inventory.inventory', compact(
             'categories',
@@ -34,7 +35,7 @@ class InventoryController extends Controller
 
     public function view_inventory(Request $request)
     {
-        $query = DB::table('inventory')
+        $query = BranchFilter::apply(DB::table('inventory'), 'inventory')
             ->join('category', 'inventory.category_id', '=', 'category.id')
             ->join('product', 'inventory.product_id', '=', 'product.id')
             ->join('status', 'inventory.status_id', '=', 'status.id')
@@ -102,7 +103,7 @@ class InventoryController extends Controller
             'category_id' => 'required|integer|exists:category,id',
         ]);
 
-        $products = DB::table('product')
+        $products = BranchFilter::apply(DB::table('product'), 'product')
             ->leftJoin('batch', 'batch.product_id', '=', 'product.id')
             ->where('product.category_id', $request->category_id)
             ->select(
@@ -140,7 +141,7 @@ class InventoryController extends Controller
         try {
             DB::beginTransaction();
 
-            $existing = DB::table('inventory')
+            $existing = BranchFilter::apply(DB::table('inventory'), 'inventory')
                 ->where('product_id', $request->product)
                 ->first();
 
@@ -160,6 +161,7 @@ class InventoryController extends Controller
                 DB::table('inventory')->insert([
                     'category_id' => $request->category,
                     'product_id' => $request->product,
+                    'branch_id' => session('branch_id'),
                     'status_id' => $this->resolveStatusId($qty),
                     'inventory_startingQty' => $qty,
                     'inventory_newQty' => 0,
@@ -173,7 +175,7 @@ class InventoryController extends Controller
 
             $toDeduct = $qty;
 
-            $batches = DB::table('batch')
+            $batches = BranchFilter::apply(DB::table('batch'), 'batch')
                 ->where('product_id', $request->product)
                 ->where('batch_quantity', '>', 0)
                 ->orderBy('id', 'asc')
@@ -214,10 +216,10 @@ class InventoryController extends Controller
                 ucfirst($inventoryAction) . " Inventory | Product ID: {$request->product} | Category ID: {$request->category} | Quantity: {$qty} | Responsible: {$userName}"
             );
 
-            return response()->json(['save' => 'Inventory registered successfully!', 'total' => ['totalInventory' => DB::table('inventory')->count(), 
-            'totalAvailableStock' => DB::table('inventory')->select('inventory_remainingQty')->sum('inventory_remainingQty'), 
-            'totalLowStock' => DB::table('inventory')->where('status_id', 2)->count(), 
-            'totalOutOfStock' => DB::table('inventory')->where('status_id', 3)->count()]]);
+            return response()->json(['save' => 'Inventory registered successfully!', 'total' => ['totalInventory' => BranchFilter::apply(DB::table('inventory'), 'inventory')->count(), 
+            'totalAvailableStock' => BranchFilter::apply(DB::table('inventory'), 'inventory')->select('inventory_remainingQty')->sum('inventory_remainingQty'), 
+            'totalLowStock' => BranchFilter::apply(DB::table('inventory'), 'inventory')->where('status_id', 2)->count(), 
+            'totalOutOfStock' => BranchFilter::apply(DB::table('inventory'), 'inventory')->where('status_id', 3)->count()]]);
 
 
         } catch (\Throwable $e) {
@@ -232,7 +234,7 @@ class InventoryController extends Controller
 
     public function soft_delete_inventory($id)
     {
-        $inventory = DB::table('inventory')->where('id', $id)->first();
+        $inventory = BranchFilter::apply(DB::table('inventory'), 'inventory')->where('id', $id)->first();
 
         if (!$inventory) {
             return response()->json(['error' => 'Record not found.'], 404);
@@ -258,7 +260,7 @@ class InventoryController extends Controller
             
             DB::beginTransaction();
             // 1. Get the current record from the database
-            $inventory = DB::table('inventory')
+            $inventory = BranchFilter::apply(DB::table('inventory'), 'inventory')
                 ->where('id', $request->id)
                 ->first();
 
@@ -314,7 +316,7 @@ class InventoryController extends Controller
     // DataTable data
     public function view_inventory_archive(Request $request)
     {
-        $query = DB::table('inventory')
+        $query = BranchFilter::apply(DB::table('inventory'), 'inventory')
             ->join('category', 'inventory.category_id', '=', 'category.id')
             ->join('product', 'inventory.product_id', '=', 'product.id')
             ->whereNotNull('inventory.deleted_at')
@@ -401,7 +403,7 @@ class InventoryController extends Controller
         try {
             DB::beginTransaction();
 
-            $inventory = DB::table('inventory')
+            $inventory = BranchFilter::apply(DB::table('inventory'), 'inventory')
                 ->where('product_id', $request->product_id)
                 ->whereNull('deleted_at')
                 ->first();
@@ -423,6 +425,7 @@ class InventoryController extends Controller
             // 1. Save to inventorySales
             DB::table('inventorySales')->insert([
                 'inventory_id'  => $inventory->id,
+                'branch_id'     => session('branch_id'),
                 'total_amount'  => $request->total_amount,
                 'created_at'    => now(),
                 'updated_at'    => now(),
@@ -457,7 +460,7 @@ class InventoryController extends Controller
 
     public function get_inventory_by_product($productId)
     {
-        $inventory = DB::table('inventory')
+        $inventory = BranchFilter::apply(DB::table('inventory'), 'inventory')
             ->where('product_id', $productId)
             ->whereNull('deleted_at')
             ->select(
@@ -482,7 +485,7 @@ class InventoryController extends Controller
 
     public function view_sales_history(Request $request)
     {
-        $query = DB::table('inventorySales')
+        $query = BranchFilter::apply(DB::table('inventorySales'), 'inventorySales')
             ->join('inventory', 'inventorySales.inventory_id', '=', 'inventory.id')
             ->join('product', 'inventory.product_id', '=', 'product.id')
             ->join('category', 'inventory.category_id', '=', 'category.id')

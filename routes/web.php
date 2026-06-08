@@ -24,7 +24,7 @@ Route::get('/', [AuthController::class, 'main'])->name('login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/authenticate', [AuthController::class, 'auth_user'])->name('auth_user');
 
-Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin']], function () {
+Route::group(['prefix' => 'Admin,SuperAdmin', 'middleware' => ['role:Admin,SuperAdmin', 'branch']], function () {
     // Dashboard & Profiles
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/admin_profile', [AdminProfileController::class, 'admin_profile'])->name('admin_profile');

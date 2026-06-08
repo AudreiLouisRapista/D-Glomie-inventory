@@ -15,35 +15,38 @@ class AuthController extends Controller
         return view('themes.welcome.welcome');
     }
 
-    public function auth_user(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:6',
+public function auth_user(Request $request)
+{
+    $request->validate([
+        'email' => 'required|string',
+        'password' => 'required|string',
+    ]);
+
+    $user = DB::table('users')
+        ->join('role', 'users.role_id', '=', 'role.id')
+        ->where('users.email', $request->email)
+        ->select('users.*', 'role.role as user_role')
+        ->first();
+        // dd($user);
+
+    if ($user && Hash::check($request->password, $user->password)) {
+
+        session()->regenerate();
+
+        session([
+            'id'        => $user->id,
+            'email'      => $user->email,
+            'user_role' => $user->user_role,  
+            'branch_id' => $user->branch_id,   
         ]);
 
-        $user = DB::table('users')->where('email', $request->email)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return back()->with('errorMessage', 'Invalid email or password.');
-        }
-
-        if ($user->role_id != 1) {
-            return back()->with('errorMessage', 'Unauthorized access.');
-        }
-
-        $request->session()->regenerate();
-
-        Session::put([
-            'id' => $user->id,
-            'name' => $user->usr_name,
-            'email' => $user->email,
-            'role_id' => $user->role_id,
-            'user_role' => 'Admin',
-        ]);
+        // dd(session()->all());
 
         return redirect()->route('dashboard');
     }
+
+    return redirect()->back()->with('errorMessage', 'Invalid credentials.');
+}
 
     public function logout(Request $request)
     {
