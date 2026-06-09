@@ -53,7 +53,7 @@
                 <div class="sc-body">
                     <div class="sc-top">
                         <div class="sc-icon-wrap"><i class="bi bi-bar-chart-fill"></i></div>
-                        <h3 class="sc-value">53<sup>%</sup></h3>
+                        <h3 class="sc-value">{{ $totalAvailableStock }}</h3>
                     </div>
                     <p class="sc-label">Available Stock</p>
                 </div>
@@ -69,7 +69,7 @@
                 <div class="sc-body">
                     <div class="sc-top">
                         <div class="sc-icon-wrap"><i class="bi bi-exclamation-triangle-fill"></i></div>
-                        <h3 class="sc-value">44</h3>
+                        <h3 class="sc-value">{{ $totalLowStock }}</h3>
                     </div>
                     <p class="sc-label">Low Stock</p>
                 </div>
@@ -79,18 +79,18 @@
             </div>
         </div>
 
-        {{-- Invoice Balance --}}
+        {{-- low Stock --}}
         <div class="col-lg-3 col-6">
             <div class="card sc sc-invoice">
                 <div class="sc-body">
                     <div class="sc-top">
                         <div class="sc-icon-wrap"><i class="bi bi-pie-chart-fill"></i></div>
-                        <h3 class="sc-value">65</h3>
+                        <h3 class="sc-value">{{ $totalOutOfStock }}</h3>
                     </div>
-                    <p class="sc-label">Invoice Balance</p>
+                    <p class="sc-label">Out of Stock</p>
                 </div>
                 <div class="sc-foot">
-                    <a href="#">View invoices &rarr;</a>
+                    <a href="#">View Out of stock &rarr;</a>
                 </div>
             </div>
         </div>
