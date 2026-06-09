@@ -35,6 +35,7 @@ Route::group(['prefix' => 'Admin,SuperAdmin', 'middleware' => ['role:Admin,Super
     Route::get('/get-products-by-category', [ProductController::class, 'get_products_by_category'])->name('get_products_by_category');
     Route::post('/update_product', [ProductController::class, 'update_product'])->name('update_product');
     Route::post('/save_product', [ProductController::class, 'save_product'])->name('save_product');
+    Route::post('/update_product', [ProductController::class, 'update_product'])->name('update_product');
     
     // Inventory Management Routes
     Route::get('/inventory', [InventoryController::class, 'inventory'])->name('inventory');

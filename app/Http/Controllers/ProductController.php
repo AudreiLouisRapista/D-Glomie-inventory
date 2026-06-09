@@ -127,6 +127,7 @@ class ProductController extends Controller
         }
     }
 
+
     public function get_products_by_category(Request $request)
     {
         $request->validate([
@@ -154,5 +155,43 @@ class ProductController extends Controller
             ->get();
 
         return response()->json($products);
+    }
+
+    
+    public function update_product(Request $request)
+    {
+        $request->validate([
+            'product_id'      => 'required|integer|exists:product,id',
+            'productName'     => 'required|string|max:255',
+            'category'        => 'required|integer|exists:category,id',
+            'perishableType'  => 'required|integer|exists:perishable,id',
+            'quantity'        => 'required|numeric|min:0',
+            'packSize'        => 'required|numeric|min:0',
+        ]);
+
+        try {
+            DB::table('product')
+                ->where('id', $request->product_id)
+                ->update([
+                    'product_name'    => $request->productName,
+                    'category_id'     => $request->category,
+                    'perishable_id'   => $request->perishableType,
+                    'bundle_quantity' => $request->quantity,
+                    'bundle_size'     => $request->packSize,
+                    'updated_at'      => now(),
+                ]);
+
+            $userName = session('name');
+            $this->activityLogger->log(
+                'updated',
+                "Updated Product | ID: {$request->product_id} | Name: {$request->productName} | Responsible: {$userName}"
+            );
+
+            return response()->json(['save' => 'Product updated successfully.']);
+
+        } catch (\Exception $e) {
+            report($e);
+            return response()->json(['errorMessage' => 'An error occurred while updating the product.'], 500);
+        }
     }
 }
