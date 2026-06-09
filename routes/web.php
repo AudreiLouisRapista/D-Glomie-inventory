@@ -33,11 +33,16 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin', 'branch']], fu
     Route::get('/product', [ProductController::class, 'product'])->name('product');
     Route::get('/product-data', [ProductController::class, 'view_product'])->name('view_product');
     Route::get('/get-products-by-category', [ProductController::class, 'get_products_by_category'])->name('get_products_by_category');
+    Route::get('/product-archives', [ProductController::class, 'product_archive'])->name('product_archive');
+    Route::get('/view-product-archives', [ProductController::class, 'view_product_archive'])->name('view_product_archive');
+
     Route::post('/update_product', [ProductController::class, 'update_product'])->name('update_product');
     Route::post('/save_product', [ProductController::class, 'save_product'])->name('save_product');
     Route::post('/update_product', [ProductController::class, 'update_product'])->name('update_product');
     Route::post('/soft-delete-product/{id}', [ProductController::class, 'soft_delete_product'])->name('soft_delete_product');
-    
+    Route::post('/restore-product/{id}', [ProductController::class, 'restore_product'])->name('restore_product');
+    Route::delete('/force-delete-product/{id}', [ProductController::class, 'force_delete_product'])->name('force_delete_product');
+
     // Inventory Management Routes
     Route::get('/inventory', [InventoryController::class, 'inventory'])->name('inventory');
     Route::get('/inventory-data', [InventoryController::class, 'view_inventory'])->name('view_inventory');
@@ -46,6 +51,7 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin', 'branch']], fu
     Route::get('/view-inventory-archives', [InventoryController::class, 'view_inventory_archive'])->name('view_inventory_archive');
     Route::get('/inventory-sales-history', [InventoryController::class, 'inventory_sales_history'])->name('inventory_sales_history');
     Route::get('/view-sales-history', [InventoryController::class, 'view_sales_history'])->name('view_sales_history');
+
     Route::post('/soft-delete-inventory/{id}', [InventoryController::class, 'soft_delete_inventory'])->name('soft_delete_inventory');
     Route::post('/save_inventory', [InventoryController::class, 'save_inventory'])->name('save_inventory');
     Route::post('/update_inventory', [InventoryController::class, 'update_inventory'])->name('update_inventory');

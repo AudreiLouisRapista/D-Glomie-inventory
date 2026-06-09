@@ -59,17 +59,32 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('product') }}"
-                        class="nav-link {{ request()->routeIs('product') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->routeIs('product', 'product_archive') ? 'menu-open' : '' }}">
+                    <a href="#"
+                        class="nav-link {{ request()->routeIs('product', 'product_archive') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-box"></i>
                         <p>
-                            Product
-
+                            Products
+                            <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('product') }}"
+                                class="nav-link {{ request()->routeIs('product') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Product Management</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('product_archive') }}"
+                                class="nav-link {{ request()->routeIs('product_archive') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Product Archives</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-
 
 
                 <li

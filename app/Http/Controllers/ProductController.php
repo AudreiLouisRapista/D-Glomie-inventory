@@ -218,85 +218,70 @@ class ProductController extends Controller
         return response()->json(['save' => 'Product record archived successfully.']);
     }
 
-    // // Page loader
-    // public function inventory_archive()
-    // {
-    //     return view('themes.inventory.inventoryArchive');
-    // }
+    // Page loader
+    public function product_archive()
+    {
+        return view('themes.product.productArchive');
+    }
 
-    // // DataTable data
-    // public function view_inventory_archive(Request $request)
-    // {
-    //     $query = BranchFilter::apply(DB::table('inventory'), 'inventory')
-    //         ->join('category', 'inventory.category_id', '=', 'category.id')
-    //         ->join('product', 'inventory.product_id', '=', 'product.id')
-    //         ->whereNotNull('inventory.deleted_at')
-    //         ->select(
-    //             'inventory.id as inventory_ID',
-    //             'inventory.deleted_at as deleted_at',
-    //             'inventory.inventory_sellingPrice as invt_sellingPrice',
-    //             'inventory.inventory_startingQty as invt_startingQuantity',
-    //             'inventory.inventory_newQty as invt_newQuantity',
-    //             'inventory.inventory_remainingQty as remaining_stock',
-    //             'inventory.inventory_totalSold as total_sold',
-    //             'product.product_name as product_name',
-    //             'category.category_name as category_name',
-    //             DB::raw('(
-    //                 SELECT pi.unit_price
-    //                 FROM purchase_items pi
-    //                 INNER JOIN batch b ON b.purchase_item_id = pi.id
-    //                 WHERE b.product_id = inventory.product_id
-    //                 ORDER BY b.id DESC
-    //                 LIMIT 1
-    //             ) as unit_price'),
-               
-    //         );
+    // DataTable data
+    public function view_product_archive(Request $request)
+    {
+        $query = DB::table('Product')
+            ->join('category', 'product.category_id', '=', 'category.id')
+            ->whereNotNull('product.deleted_at')
+            ->select(
+                'product.id as product_ID',
+                'product.product_name as product_name',
+                'product.deleted_at as deleted_at',
+                'category.category_name as category_name',
+            );
 
 
-    //     return DataTables::of($query)
-    //         ->addColumn('action', function ($row) {
-    //             return '
-    //                 <button class="action-btn btn-restore mx-1" data-id="' . $row->inventory_ID . '" title="Restore">
-    //                     <i class="bi bi-arrow-counterclockwise"></i>
-    //                 </button>
-    //                 <button class="action-btn btn-force-delete mx-1" data-id="' . $row->inventory_ID . '" title="Permanently Delete">
-    //                       <i class="bi bi-trash3"></i>
-    //                 </button>
-    //             ';
-    //         })
-    //         ->rawColumns(['action'])
-    //         ->make(true);
-    // }
+        return DataTables::of($query)
+            ->addColumn('action', function ($row) {
+                return '
+                    <button class="action-btn btn-restore mx-1" data-id="' . $row->product_ID . '" title="Restore">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                    </button>
+                    <button class="action-btn btn-force-delete mx-1" data-id="' . $row->product_ID . '" title="Permanently Delete">
+                          <i class="bi bi-trash3"></i>
+                    </button>
+                ';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+    }
 
-    // // Restore
-    // public function restore_inventory($id)
-    // {
-    //     DB::table('inventory')
-    //         ->where('id', $id)
-    //         ->update(['deleted_at' => null]);
+    // Restore
+    public function restore_product($id)
+    {
+        DB::table('product')
+            ->where('id', $id)
+            ->update(['deleted_at' => null]);
 
-    //     $userName = session('name');
-    //     $this->activityLogger->log(
-    //         'restored',
-    //         "Restored Inventory | Inventory ID: {$id} | Responsible: {$userName}"
-    //     );
+        $userName = session('name');
+        $this->activityLogger->log(
+            'restored',
+            "Restored Product | Product ID: {$id} | Responsible: {$userName}"
+        );
 
-    //     return response()->json(['save' => 'Inventory restored successfully.']);
-    // }
+        return response()->json(['save' => 'Product restored successfully.']);
+    }
 
-    // // Permanently delete
-    // public function force_delete_inventory($id)
-    // {
-    //     DB::table('inventory')
-    //         ->where('id', $id)
-    //         ->delete();
+    // Permanently delete
+    public function force_delete_product($id)
+    {
+        DB::table('product')
+            ->where('id', $id)
+            ->delete();
 
-    //     $userName = session('name');
-    //     $this->activityLogger->log(
-    //         'deleted',
-    //         "Permanently deleted Inventory | Inventory ID: {$id} | Responsible: {$userName}"
-    //     );
+        $userName = session('name');
+        $this->activityLogger->log(
+            'deleted',
+            "Permanently deleted Product | Product ID: {$id} | Responsible: {$userName}"
+        );
 
-    //     return response()->json(['save' => 'Inventory permanently deleted.']);
-    // }
+        return response()->json(['save' => 'Product permanently deleted.']);
+    }
 }
