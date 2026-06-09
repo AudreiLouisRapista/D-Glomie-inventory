@@ -24,7 +24,7 @@ Route::get('/', [AuthController::class, 'main'])->name('login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/authenticate', [AuthController::class, 'auth_user'])->name('auth_user');
 
-Route::group(['prefix' => 'Admin,SuperAdmin', 'middleware' => ['role:Admin,SuperAdmin', 'branch']], function () {
+Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin', 'branch']], function () {
     // Dashboard & Profiles
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/admin_profile', [AdminProfileController::class, 'admin_profile'])->name('admin_profile');
@@ -36,6 +36,7 @@ Route::group(['prefix' => 'Admin,SuperAdmin', 'middleware' => ['role:Admin,Super
     Route::post('/update_product', [ProductController::class, 'update_product'])->name('update_product');
     Route::post('/save_product', [ProductController::class, 'save_product'])->name('save_product');
     Route::post('/update_product', [ProductController::class, 'update_product'])->name('update_product');
+    Route::post('/soft-delete-product/{id}', [ProductController::class, 'soft_delete_product'])->name('soft_delete_product');
     
     // Inventory Management Routes
     Route::get('/inventory', [InventoryController::class, 'inventory'])->name('inventory');

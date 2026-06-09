@@ -70,6 +70,8 @@
                     </a>
                 </li>
 
+
+
                 <li
                     class="nav-item {{ request()->routeIs('inventory', 'inventory_archive', 'inventory_sales_history') ? 'menu-open' : '' }}">
                     <a href="#"

@@ -232,26 +232,7 @@ class InventoryController extends Controller
         }
     }
 
-    public function soft_delete_inventory($id)
-    {
-        $inventory = BranchFilter::apply(DB::table('inventory'), 'inventory')->where('id', $id)->first();
 
-        if (!$inventory) {
-            return response()->json(['error' => 'Record not found.'], 404);
-        }
-
-        DB::table('inventory')
-            ->where('id', $id)
-            ->update(['deleted_at' => now()]);
-
-        $userName = session('name');
-        $this->activityLogger->log(
-            'archived',
-            "Archived Inventory | Inventory ID: {$id} | Responsible: {$userName}"
-        );
-
-        return response()->json(['save' => 'Inventory record archived successfully.']);
-    }
 
         
     public function update_inventory(Request $request) {
@@ -306,6 +287,26 @@ class InventoryController extends Controller
         }
     }
 
+    public function soft_delete_inventory($id)
+    {
+        $inventory = BranchFilter::apply(DB::table('inventory'), 'inventory')->where('id', $id)->first();
+
+        if (!$inventory) {
+            return response()->json(['error' => 'Record not found.'], 404);
+        }
+
+        DB::table('inventory')
+            ->where('id', $id)
+            ->update(['deleted_at' => now()]);
+
+        $userName = session('name');
+        $this->activityLogger->log(
+            'archived',
+            "Archived Inventory | Inventory ID: {$id} | Responsible: {$userName}"
+        );
+
+        return response()->json(['save' => 'Inventory record archived successfully.']);
+    }
 
     // Page loader
     public function inventory_archive()

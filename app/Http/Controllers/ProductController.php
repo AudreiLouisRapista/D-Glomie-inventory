@@ -28,6 +28,7 @@ class ProductController extends Controller
         $query = DB::table('product')
             ->join('category', 'product.category_id', '=', 'category.id')
             ->join('perishable', 'product.perishable_id', '=', 'perishable.id')
+            ->whereNull('product.deleted_at')
             ->select(
                 'product.id as product_ID',
                 'product.product_name',
@@ -157,7 +158,7 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
-    
+
     public function update_product(Request $request)
     {
         $request->validate([
@@ -194,4 +195,108 @@ class ProductController extends Controller
             return response()->json(['errorMessage' => 'An error occurred while updating the product.'], 500);
         }
     }
+
+
+    public function soft_delete_product($id)
+    {
+        $product = DB::table('Product')->where('id', $id)->first();
+
+        if (!$product) {
+            return response()->json(['error' => 'Record not found.'], 404);
+        }
+
+        DB::table('product')
+            ->where('id', $id)
+            ->update(['deleted_at' => now()]);
+
+        $userName = session('name');
+        $this->activityLogger->log(
+            'archived',
+            "Archived Product | Product ID: {$id} | Responsible: {$userName}"
+        );
+
+        return response()->json(['save' => 'Product record archived successfully.']);
+    }
+
+    // // Page loader
+    // public function inventory_archive()
+    // {
+    //     return view('themes.inventory.inventoryArchive');
+    // }
+
+    // // DataTable data
+    // public function view_inventory_archive(Request $request)
+    // {
+    //     $query = BranchFilter::apply(DB::table('inventory'), 'inventory')
+    //         ->join('category', 'inventory.category_id', '=', 'category.id')
+    //         ->join('product', 'inventory.product_id', '=', 'product.id')
+    //         ->whereNotNull('inventory.deleted_at')
+    //         ->select(
+    //             'inventory.id as inventory_ID',
+    //             'inventory.deleted_at as deleted_at',
+    //             'inventory.inventory_sellingPrice as invt_sellingPrice',
+    //             'inventory.inventory_startingQty as invt_startingQuantity',
+    //             'inventory.inventory_newQty as invt_newQuantity',
+    //             'inventory.inventory_remainingQty as remaining_stock',
+    //             'inventory.inventory_totalSold as total_sold',
+    //             'product.product_name as product_name',
+    //             'category.category_name as category_name',
+    //             DB::raw('(
+    //                 SELECT pi.unit_price
+    //                 FROM purchase_items pi
+    //                 INNER JOIN batch b ON b.purchase_item_id = pi.id
+    //                 WHERE b.product_id = inventory.product_id
+    //                 ORDER BY b.id DESC
+    //                 LIMIT 1
+    //             ) as unit_price'),
+               
+    //         );
+
+
+    //     return DataTables::of($query)
+    //         ->addColumn('action', function ($row) {
+    //             return '
+    //                 <button class="action-btn btn-restore mx-1" data-id="' . $row->inventory_ID . '" title="Restore">
+    //                     <i class="bi bi-arrow-counterclockwise"></i>
+    //                 </button>
+    //                 <button class="action-btn btn-force-delete mx-1" data-id="' . $row->inventory_ID . '" title="Permanently Delete">
+    //                       <i class="bi bi-trash3"></i>
+    //                 </button>
+    //             ';
+    //         })
+    //         ->rawColumns(['action'])
+    //         ->make(true);
+    // }
+
+    // // Restore
+    // public function restore_inventory($id)
+    // {
+    //     DB::table('inventory')
+    //         ->where('id', $id)
+    //         ->update(['deleted_at' => null]);
+
+    //     $userName = session('name');
+    //     $this->activityLogger->log(
+    //         'restored',
+    //         "Restored Inventory | Inventory ID: {$id} | Responsible: {$userName}"
+    //     );
+
+    //     return response()->json(['save' => 'Inventory restored successfully.']);
+    // }
+
+    // // Permanently delete
+    // public function force_delete_inventory($id)
+    // {
+    //     DB::table('inventory')
+    //         ->where('id', $id)
+    //         ->delete();
+
+    //     $userName = session('name');
+    //     $this->activityLogger->log(
+    //         'deleted',
+    //         "Permanently deleted Inventory | Inventory ID: {$id} | Responsible: {$userName}"
+    //     );
+
+    //     return response()->json(['save' => 'Inventory permanently deleted.']);
+    // }
 }

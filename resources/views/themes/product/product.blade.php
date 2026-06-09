@@ -328,6 +328,8 @@
                 viewProductUrl: "{{ route('view_product') }}",
                 getProductsUrl: "{{ route('get_products_by_category') }}",
                 updateProductUrl: "{{ route('update_product') }}",
+                softDeleteProductUrl: "{{ url('Admin/soft-delete-product') }}",
+
             });
         });
     </script>

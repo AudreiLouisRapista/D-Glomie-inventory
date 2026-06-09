@@ -10,9 +10,9 @@ class BranchMiddleware
     public function handle(Request $request, Closure $next)
     {
         // SuperAdmin sees all branches — no filter injected
-        if (session('user_role') === 'SuperAdmin') {
-            return $next($request);
-        }
+        // if (session('user_role') === 'SuperAdmin') {
+        //     return $next($request);
+        // }
 
         // Inject branch_id into every request from server-side session
         // User cannot manipulate this — it comes from session, not input
