@@ -500,7 +500,7 @@ class InventoryController extends Controller
                 'product.product_name',
                 'category.category_name'
             )
-            ->orderBy('inventorySales.created_at', 'desc');
+            ->orderBy('inventorySales.id', 'desc');
 
         return DataTables::of($query)
             ->addColumn('sale_ID', function ($row) {

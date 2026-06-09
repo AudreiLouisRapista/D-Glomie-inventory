@@ -10,7 +10,7 @@ function initSalesHistory(routes) {
             serverSide: true,
             searching: true,
             lengthChange: false,
-            // scrollX: true,
+            scrollX: false,
             autoWidth: false,
             ajax: {
                 url: routes.viewSalesHistoryUrl,

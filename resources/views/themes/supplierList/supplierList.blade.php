@@ -29,7 +29,7 @@
                     <h3 class="table-card-title">Supplier List</h3>
                     <p class="table-card-subtitle">Supplier contact details and account status.</p>
                 </div>
-                <button type="button" class="btn btn-add-supplier table-card-action shadow" data-toggle="modal"
+                <button type="button" class="btn btn-primary table-card-action" data-toggle="modal"
                     data-target="#registerSupplierModal">
                     <i class="fas fa-plus"></i> Add Supplier
                 </button>
