@@ -229,10 +229,14 @@ class ProductController extends Controller
     {
         $query = DB::table('Product')
             ->join('category', 'product.category_id', '=', 'category.id')
+            ->join('perishable', 'product.perishable_id', '=', 'perishable.id')
             ->whereNotNull('product.deleted_at')
             ->select(
                 'product.id as product_ID',
                 'product.product_name as product_name',
+                'perishable.perishable_type as perishable_type',
+                'product.bundle_quantity as bundle_quantity',
+                'product.bundle_size as bundle_size',
                 'product.deleted_at as deleted_at',
                 'category.category_name as category_name',
             );

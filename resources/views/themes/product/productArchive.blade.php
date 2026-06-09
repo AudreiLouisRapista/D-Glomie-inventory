@@ -13,6 +13,7 @@
             <h1 class="m-0 font-weight-bold">Product Archive</h1>
             <p>List of archived/deleted product records</p>
         </div>
+
     </div>
 
     <div class="main-card">
@@ -23,6 +24,9 @@
                         <th>Product ID</th>
                         <th>Product Name</th>
                         <th>Category</th>
+                        <th>Perishable Type</th>
+                        <th>Quantity</th>
+                        <th>Pack Size</th>
                         <th>Deleted At</th>
                         <th>Actions</th>
                     </tr>

@@ -15,7 +15,7 @@
 
     <div class="inv-hero">
         <div class="inv-hero-text">
-            <h2><i class="fas fa-file-invoice mr-2"></i>Product Management</h2>
+            <h2 class="m-0 font-weight-bold">Product Management</h2>
             <p>List of the products and information</p>
         </div>
         <div class="inv-hero-icon">
@@ -42,8 +42,8 @@
                         <th>Name</th>
                         <th>Category</th>
                         <th>Perishable Type</th>
-                        <th>Quantity</th>
-                        <th>Pack Size</th>
+                        <th>Bundle Quantity</th>
+                        <th>Bundle Size</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

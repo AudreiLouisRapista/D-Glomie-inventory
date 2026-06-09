@@ -14,6 +14,9 @@ function initProductArchive(routes) {
             },
             { data: 'product_name',    name: 'product.product_name' },
             { data: 'category_name', name: 'category.category_name' },
+            { data: 'perishable_type', name: 'perishable.perishable_type' },
+            { data: 'bundle_quantity', name: 'product.bundle_quantity' },
+            { data: 'bundle_size', name: 'product.bundle_size' },
             { data: 'deleted_at',      name: 'product.deleted_at' },
             { data: 'action',          name: 'action', orderable: false, searchable: false }
         ]

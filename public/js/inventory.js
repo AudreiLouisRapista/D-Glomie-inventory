@@ -10,7 +10,7 @@ function initInventory(routes) {
             serverSide: true,
             searching: true,
             lengthChange: false,
-            scrollX: true,
+            // scrollX: true,
             autoWidth: false,
             ajax: {
                 url: routes.viewInventoryUrl,

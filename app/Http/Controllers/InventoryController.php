@@ -504,11 +504,12 @@ class InventoryController extends Controller
 
         return DataTables::of($query)
             ->addColumn('sale_ID', function ($row) {
-                return 'SALE-' . $row->sale_ID;
+                return  $row->sale_ID;
             })
             ->rawColumns(['sale_ID'])
             ->make(true);
     }
+
     private function resolveStatusId(int $qty): int
     {
         if ($qty <= 0) {
