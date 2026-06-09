@@ -37,12 +37,12 @@
                 <div class="sc-body">
                     <div class="sc-top">
                         <div class="sc-icon-wrap"><i class="bi bi-box-seam"></i></div>
-                        <h3 class="sc-value">{{ $totalProduct }}</h3>
+                        <h3 class="sc-value">{{ $totalInventory }}</h3>
                     </div>
-                    <p class="sc-label">Total Product</p>
+                    <p class="sc-label">Total Inventory</p>
                 </div>
                 <div class="sc-foot">
-                    <a href="{{ route('product') }}">View all products &rarr;</a>
+                    <a href="{{ route('inventory') }}">View all inventory &rarr;</a>
                 </div>
             </div>
         </div>
