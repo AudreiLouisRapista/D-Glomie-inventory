@@ -39,6 +39,10 @@
     <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/ui-theme.css') }}">
 
+
+    {{-- Chart Js --}}
+    <link rel="stylesheet" href="{{ asset('plugins/chart.js/Chart.min.css') }}">
+
     <script>
         (function() {
             if (localStorage.getItem('theme') === 'dark') {
@@ -51,4 +55,5 @@
     <link rel="stylesheet" href="{{ asset('css/admin_dp.css') }}"> --}}
 
     @yield('styles')
+
 </head>
