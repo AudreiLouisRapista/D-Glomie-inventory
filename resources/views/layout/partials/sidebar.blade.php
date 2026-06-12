@@ -122,42 +122,18 @@
                     </ul>
                 </li>
 
-                {{-- <li class="nav-item">
-                    <a href="{{ route('inventory') }}"
-                        class="nav-link {{ request()->routeIs('inventory') ? 'active' : '' }}">
-
-                        <i class="nav-icon fas fa-boxes"></i>
-                        <p>
-                            Inventory
-
-                        </p>
-                    </a>
-                </li> --}}
-
-                <li class="nav-header font-weight-bold">Reports</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="bi bi-clipboard-data-fill"></i>
+                    <a href="{{ route('finance') }}"
+                        class="nav-link {{ request()->routeIs('finance') ? 'active' : '' }}">
+
+                        <i class="nav-icon bi bi-graph-up-arrow"></i>
                         <p>
-                            Inventory Report
-                            <i class="fas fa-angle-left right"></i>
+                            Finance
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="pages/UI/timeline.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Stock Report</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/UI/ribbons.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Inventory Sales Report</p>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
+
+
 
 
                 <li class="nav-header font-weight-bold">Supplier & Invoice</li>

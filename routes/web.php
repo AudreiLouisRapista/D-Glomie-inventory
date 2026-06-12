@@ -9,6 +9,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\FinanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,4 +70,10 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin', 'branch']], fu
     Route::get('/paymentTracker', [PaymentController::class, 'paymentTracker'])->name('paymentTracker');
     Route::get('/getPaymentHistory/{id}', [PaymentController::class, 'getPaymentHistory'])->name('getPaymentHistory');
     Route::post('/save_payment', [PaymentController::class, 'save_payment'])->name('save_payment');
+
+    // Finance 
+    Route::get('/finance', [FinanceController::class, 'finance'])->name('finance');
+
+
+
 });
