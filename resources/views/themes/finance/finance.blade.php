@@ -177,10 +177,9 @@
             <div>
                 <h3 class="table-card-title">Daily Transaction</h3>
             </div>
-            <button type="button" class="btn btn-primary table-card-action" data-toggle="modal"
-                data-target="#addDailyTransactionModal">
+            <a href="{{ route('DailyTransction') }}" class="btn btn-primary table-card-action">
                 <i class="fas fa-plus"></i> Add Transaction
-            </button>
+            </a>
         </div>
         <div class="table-responsive">
             <table id="example2" class="table table-modern">
