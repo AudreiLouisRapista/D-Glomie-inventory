@@ -177,7 +177,7 @@
             <div>
                 <h3 class="table-card-title">Daily Transaction</h3>
             </div>
-            <a href="{{ route('DailyTransction') }}" class="btn btn-primary table-card-action">
+            <a href="{{ route('DailySalesReport') }}" class="btn btn-primary table-card-action">
                 <i class="fas fa-plus"></i> Add Transaction
             </a>
         </div>

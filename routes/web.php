@@ -73,7 +73,7 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin', 'branch']], fu
 
     // Finance 
     Route::get('/finance', [FinanceController::class, 'finance'])->name('finance');
-    Route::get('/daily-transaction', [FinanceController::class, 'DailyTransction'])->name('DailyTransction');
+    Route::get('/daily-transaction', [FinanceController::class, 'DailySalesReport'])->name('DailySalesReport');
 
 
 

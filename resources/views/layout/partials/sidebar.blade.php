@@ -122,16 +122,34 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a href="{{ route('finance') }}"
-                        class="nav-link {{ request()->routeIs('finance') ? 'active' : '' }}">
-
+                <li class="nav-item {{ request()->routeIs('finance', 'DailySalesReport') ? 'menu-open' : '' }}">
+                    <a href="#"
+                        class="nav-link {{ request()->routeIs('finance', 'DailySalesReport') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-graph-up-arrow"></i>
+
                         <p>
                             Finance
+                            <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('finance') }}"
+                                class="nav-link {{ request()->routeIs('finance') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Finance Management</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('DailySalesReport') }}"
+                                class="nav-link {{ request()->routeIs('DailySalesReport') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Daily Sales Report</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+
 
 
 

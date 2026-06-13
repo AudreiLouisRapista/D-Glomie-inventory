@@ -19,8 +19,8 @@ class FinanceController extends Controller
         return view('themes.finance.finance', []);
     }
 
-    public function DailyTransction(){
-        return view('themes.finance.DailyTransaction', []);
+    public function DailySalesReport(){
+        return view('themes.finance.DailySalesReport', []);
 
     }
 }

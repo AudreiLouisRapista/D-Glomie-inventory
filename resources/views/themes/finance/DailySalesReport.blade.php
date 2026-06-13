@@ -10,14 +10,9 @@
 
 
     <!-- Content Header -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0">Add Daily Transaction</h1>
-                </div>
-            </div>
-        </div>
+    <div class="col-sm-6">
+        <h1 class="m-0 font-weight-bold">Daily Sales Report</h1>
+        <p> Report your everyday sales </p>
     </div>
 
     <!-- Main content -->
@@ -136,11 +131,52 @@
                                                 <option value="direct">Direct Purchase</option>
                                             </select>
                                         </td>
+
                                         <td><input type="number" name="purchases[0][amount]"
                                                 class="form-control form-control-sm purchase-amount" placeholder="0.00"
                                                 value="0.00" step="0.01" min="0"></td>
                                         <td><button type="button" class="btn btn-xs btn-danger remove-row"><i
                                                     class="fas fa-times"></i></button></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <select name="purchases[0][supplier]"
+                                                class="form-control form-control-sm select2bs4-supplier" style="width:100%">
+                                                <option value="">— Supplier —</option>
+                                                <option value="lone1_nanok" selected>From Lone 1 (Nanok)</option>
+                                                <option value="lone2">From Lone 2</option>
+                                                <option value="distributor">Distributor</option>
+                                                <option value="direct">Direct Purchase</option>
+                                            </select>
+                                        </td>
+
+                                        <td><input type="number" name="purchases[0][amount]"
+                                                class="form-control form-control-sm purchase-amount" placeholder="0.00"
+                                                value="0.00" step="0.01" min="0"></td>
+                                        <td><button type="button" class="btn btn-xs btn-danger remove-row"><i
+                                                    class="fas fa-times"></i></button></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <select name="purchases[0][supplier]"
+                                                class="form-control form-control-sm select2bs4-supplier"
+                                                style="width:100%">
+                                                <option value="">— Supplier —</option>
+                                                <option value="lone1_nanok" selected>From Lone 1 (Nanok)</option>
+                                                <option value="lone2">From Lone 2</option>
+                                                <option value="distributor">Distributor</option>
+                                                <option value="direct">Direct Purchase</option>
+                                            </select>
+                                        </td>
+
+                                        <td><input type="number" name="purchases[0][amount]"
+                                                class="form-control form-control-sm purchase-amount" placeholder="0.00"
+                                                value="0.00" step="0.01" min="0"></td>
+                                        <td><button type="button" class="btn btn-xs btn-danger remove-row"><i
+                                                    class="fas fa-times"></i></button></td>
+
                                     </tr>
                                 </tbody>
                                 <tfoot>
@@ -156,74 +192,60 @@
                     </div>
                 </div>
 
-                {{-- Expenses --}}
+                {{-- Stock Out --}}
                 <div class="col-md-6">
-                    <div class="card card-danger card-outline">
+                    <div class="card card-secondary card-outline">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-receipt mr-2"></i>Expenses</h3>
+                            <h3 class="card-title"><i class="fas fa-truck-loading mr-2"></i>Stock Out</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool btn-sm" id="addStockOutRow" title="Add row">
+                                    <i class="fas fa-plus text-secondary"></i>
+                                </button>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div class="form-section-title">Operating Expenses</div>
-
-                            @php
-                                $expenses = [
-                                    [
-                                        'id' => 'cfRegSales',
-                                        'name' => 'cf_reg_sales',
-                                        'label' => 'CF for Reg. Sales (5%)',
-                                    ],
-                                    ['id' => 'maintenance', 'name' => 'maintenance', 'label' => 'Maintenance'],
-                                    ['id' => 'taxPayment', 'name' => 'tax_payment', 'label' => 'Tax Payment'],
-                                    [
-                                        'id' => 'mayorsPermit',
-                                        'name' => 'mayors_permit',
-                                        'label' => "Mayor's Permit",
-                                    ],
-                                    ['id' => 'expPete', 'name' => 'exp_pete', 'label' => 'Pete'],
-                                    ['id' => 'expSypot', 'name' => 'exp_sypot', 'label' => 'Sypot'],
-                                ];
-                            @endphp
-
-                            @foreach ($expenses as $exp)
-                                <div class="form-group row mb-2">
-                                    <label class="col-sm-6 col-form-label col-form-label-sm">{{ $exp['label'] }}</label>
-                                    <div class="col-sm-6">
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend"><span class="input-group-text">₱</span>
-                                            </div>
-                                            <input type="number" id="{{ $exp['id'] }}" name="{{ $exp['name'] }}"
-                                                class="form-control expense-item" placeholder="0.00"
-                                                value="{{ old($exp['name'], '0.00') }}" step="0.01" min="0">
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-
-                            <div class="form-section-title mt-3">Other Expenses</div>
-                            <div class="form-group row mb-2">
-                                <label class="col-sm-6 col-form-label col-form-label-sm">Other / Miscellaneous</label>
-                                <div class="col-sm-6">
-                                    <div class="input-group input-group-sm">
-                                        <div class="input-group-prepend"><span class="input-group-text">₱</span></div>
-                                        <input type="number" name="other_expenses" id="otherExpenses"
-                                            class="form-control expense-item" placeholder="0.00"
-                                            value="{{ old('other_expenses', '0.00') }}" step="0.01" min="0">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-0">
-                                <label class="col-sm-6 col-form-label col-form-label-sm font-weight-bold">TOTAL
-                                    EXPENSES</label>
-                                <div class="col-sm-6">
-                                    <div class="input-group input-group-sm">
-                                        <div class="input-group-prepend"><span class="input-group-text">₱</span></div>
-                                        <input type="number" class="form-control font-weight-bold" id="totalExpenses"
-                                            readonly placeholder="0.00">
-                                    </div>
-                                </div>
-                            </div>
-
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-hover mb-0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Destination</th>
+                                        <th style="width:130px">Amount (₱)</th>
+                                        <th style="width:40px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="stockOutTbody">
+                                    @foreach (['bayugan3' => 'Bayugan 3', 'barobo' => 'Barobo', 'rosario' => 'Rosario'] as $val => $label)
+                                        <tr>
+                                            <td>
+                                                <select name="stock_out[{{ $loop->index }}][destination]"
+                                                    class="form-control form-control-sm select2bs4-dest"
+                                                    style="width:100%">
+                                                    <option value="bayugan3" {{ $val == 'bayugan3' ? 'selected' : '' }}>
+                                                        Bayugan 3</option>
+                                                    <option value="barobo" {{ $val == 'barobo' ? 'selected' : '' }}>
+                                                        Barobo</option>
+                                                    <option value="rosario" {{ $val == 'rosario' ? 'selected' : '' }}>
+                                                        Rosario</option>
+                                                    <option value="other">Other</option>
+                                                </select>
+                                            </td>
+                                            <td><input type="number" name="stock_out[{{ $loop->index }}][amount]"
+                                                    class="form-control form-control-sm stockout-amount"
+                                                    placeholder="0.00" value="0.00" step="0.01" min="0">
+                                            </td>
+                                            <td><button type="button" class="btn btn-xs btn-danger remove-row"><i
+                                                        class="fas fa-times"></i></button></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                                <tfoot>
+                                    <tr class="total-row">
+                                        <td class="text-right">TOTAL STOCK OUT</td>
+                                        <td><input type="number" class="form-control form-control-sm font-weight-bold"
+                                                id="totalStockOut" readonly placeholder="0.00"></td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -413,61 +435,74 @@
             </div>{{-- /ROW 3 --}}
 
             <div class="row">
-
-                {{-- Stock Out --}}
+                {{-- Expenses --}}
                 <div class="col-md-6">
-                    <div class="card card-secondary card-outline">
+                    <div class="card card-danger card-outline">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-truck-loading mr-2"></i>Stock Out</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool btn-sm" id="addStockOutRow" title="Add row">
-                                    <i class="fas fa-plus text-secondary"></i>
-                                </button>
-                            </div>
+                            <h3 class="card-title"><i class="fas fa-receipt mr-2"></i>Expenses</h3>
                         </div>
-                        <div class="card-body p-0">
-                            <table class="table table-sm table-hover mb-0">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>Destination</th>
-                                        <th style="width:130px">Amount (₱)</th>
-                                        <th style="width:40px"></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="stockOutTbody">
-                                    @foreach (['bayugan3' => 'Bayugan 3', 'barobo' => 'Barobo', 'rosario' => 'Rosario'] as $val => $label)
-                                        <tr>
-                                            <td>
-                                                <select name="stock_out[{{ $loop->index }}][destination]"
-                                                    class="form-control form-control-sm select2bs4-dest"
-                                                    style="width:100%">
-                                                    <option value="bayugan3" {{ $val == 'bayugan3' ? 'selected' : '' }}>
-                                                        Bayugan 3</option>
-                                                    <option value="barobo" {{ $val == 'barobo' ? 'selected' : '' }}>
-                                                        Barobo</option>
-                                                    <option value="rosario" {{ $val == 'rosario' ? 'selected' : '' }}>
-                                                        Rosario</option>
-                                                    <option value="other">Other</option>
-                                                </select>
-                                            </td>
-                                            <td><input type="number" name="stock_out[{{ $loop->index }}][amount]"
-                                                    class="form-control form-control-sm stockout-amount"
-                                                    placeholder="0.00" value="0.00" step="0.01" min="0">
-                                            </td>
-                                            <td><button type="button" class="btn btn-xs btn-danger remove-row"><i
-                                                        class="fas fa-times"></i></button></td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                                <tfoot>
-                                    <tr class="total-row">
-                                        <td class="text-right">TOTAL STOCK OUT</td>
-                                        <td><input type="number" class="form-control form-control-sm font-weight-bold"
-                                                id="totalStockOut" readonly placeholder="0.00"></td>
-                                        <td></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                        <div class="card-body">
+                            <div class="form-section-title">Operating Expenses</div>
+
+                            @php
+                                $expenses = [
+                                    [
+                                        'id' => 'cfRegSales',
+                                        'name' => 'cf_reg_sales',
+                                        'label' => 'CF for Reg. Sales (5%)',
+                                    ],
+                                    ['id' => 'maintenance', 'name' => 'maintenance', 'label' => 'Maintenance'],
+                                    ['id' => 'taxPayment', 'name' => 'tax_payment', 'label' => 'Tax Payment'],
+                                    [
+                                        'id' => 'mayorsPermit',
+                                        'name' => 'mayors_permit',
+                                        'label' => "Mayor's Permit",
+                                    ],
+                                    ['id' => 'expPete', 'name' => 'exp_pete', 'label' => 'Pete'],
+                                    ['id' => 'expSypot', 'name' => 'exp_sypot', 'label' => 'Sypot'],
+                                ];
+                            @endphp
+
+                            @foreach ($expenses as $exp)
+                                <div class="form-group row mb-2">
+                                    <label class="col-sm-6 col-form-label col-form-label-sm">{{ $exp['label'] }}</label>
+                                    <div class="col-sm-6">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend"><span class="input-group-text">₱</span>
+                                            </div>
+                                            <input type="number" id="{{ $exp['id'] }}" name="{{ $exp['name'] }}"
+                                                class="form-control expense-item" placeholder="0.00"
+                                                value="{{ old($exp['name'], '0.00') }}" step="0.01" min="0">
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+
+                            <div class="form-section-title mt-3">Other Expenses</div>
+                            <div class="form-group row mb-2">
+                                <label class="col-sm-6 col-form-label col-form-label-sm">Other / Miscellaneous</label>
+                                <div class="col-sm-6">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend"><span class="input-group-text">₱</span></div>
+                                        <input type="number" name="other_expenses" id="otherExpenses"
+                                            class="form-control expense-item" placeholder="0.00"
+                                            value="{{ old('other_expenses', '0.00') }}" step="0.01" min="0">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-6 col-form-label col-form-label-sm font-weight-bold">TOTAL
+                                    EXPENSES</label>
+                                <div class="col-sm-6">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend"><span class="input-group-text">₱</span></div>
+                                        <input type="number" class="form-control font-weight-bold" id="totalExpenses"
+                                            readonly placeholder="0.00">
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -523,7 +558,9 @@
                     </div>
                 </div>
 
-            </div>{{-- /ROW 4 --}}
+            </div>
+
+            {{-- /ROW 4 --}}
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="card card-outline">
@@ -547,9 +584,6 @@
     </div>
 @endsection
 
-@section('JS scr')
-    <script>
-        < script src = "{{ asset('js/dailyTransaction.js') }}" >
-    </script>
-    </script>
+@section('JS src')
+    <script src="{{ asset('js/dailyTransaction.js') }}"></script>
 @endsection
