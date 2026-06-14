@@ -38,11 +38,12 @@
                         <div class="col-md-4 form-group">
                             <label class="ds-label">Branch <span class="req">*</span></label>
                             <input type="text" class="form-control ds-input bg-light"
-                                value="{{ $query->first()->branch_name ?? session('branch_name', 'N/A') }}" readonly>
+                                value="{{ session('branch_name') }}" readonly>
                         </div>
                         <div class="col-md-4 form-group">
                             <label class="ds-label">Prepared By <span class="req">*</span></label>
-                            <input type="text" class="form-control ds-input bg-light" value="Admin" readonly>
+                            <input type="text" class="form-control ds-input bg-light" value="{{ session('user_role') }}"
+                                readonly>
                         </div>
                     </div>
 
@@ -64,6 +65,7 @@
                             <thead>
                                 <tr>
                                     <th style="width: 40%;">PRODUCT</th>
+                                    <th style="width: 18%;">SELLING PRICE</th>
                                     <th style="width: 18%;">QUANTITY SOLD</th>
                                     <th style="width: 22%;">TOTAL AMOUNT</th>
                                     <th style="width: 10%;">ROW TOTAL</th>
@@ -78,6 +80,10 @@
                                         </select>
                                     </td>
                                     <td>
+                                        <input type="number" name="selling_price[]" class="form-control selling-price"
+                                            placeholder="0" min="1">
+                                    </td>
+                                    <td>
                                         <input type="number" name="quantity_sold[]" class="form-control sale-quantity"
                                             placeholder="0" min="1">
                                     </td>
@@ -87,7 +93,7 @@
                                                 <span class="input-group-text">₱</span>
                                             </div>
                                             <input type="number" name="total_amount[]" class="form-control sale-amount"
-                                                step="0.01" placeholder="0.00">
+                                                step="0.01" placeholder="0.00" readonly>
                                         </div>
                                     </td>
                                     <td class="sale-row-total font-weight-bold text-primary">₱0.00</td>

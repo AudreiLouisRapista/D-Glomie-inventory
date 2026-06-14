@@ -24,8 +24,9 @@ public function auth_user(Request $request)
 
     $user = DB::table('users')
         ->join('role', 'users.role_id', '=', 'role.id')
+        ->join('branches', 'users.branch_id', '=', 'branches.id') 
         ->where('users.email', $request->email)
-        ->select('users.*', 'role.role as user_role')
+        ->select('users.*', 'role.role as user_role', 'branches.branch_name as branch_name')
         ->first();
         // dd($user);
 
@@ -37,7 +38,8 @@ public function auth_user(Request $request)
             'id'        => $user->id,
             'email'      => $user->email,
             'user_role' => $user->user_role,  
-            'branch_id' => $user->branch_id,   
+            'branch_id' => $user->branch_id,
+            'branch_name' => $user->branch_name,   
         ]);
 
         // dd(session()->all());

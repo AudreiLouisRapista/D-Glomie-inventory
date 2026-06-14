@@ -19,18 +19,16 @@ class SalesTransactionController extends Controller
     public function sales_transaction(){
 
      $query = BranchFilter::apply(DB::table('daily_sales'), 'daily_sales')
-     ->join('branches', 'daily_sales.branch_id', '=', 'branches.id')
      ->where('daily_sales.branch_id', session('branch_id'))
      ->select('daily_sales.sale_date as sale_date', 
-     'daily_sales.total_amount as total_amount', 
-     'branches.branch_name')
-     ->whereNull('deleted_at')
-    ->orderBy('daily_sales.id','desc')
-     ->get();
+     'daily_sales.total_amount as total_amount')
+        ->whereNull('deleted_at')
+        ->orderBy('daily_sales.id','desc')
+        ->get();
 
-    return view ('themes.Add_Sales.salesTransaction', compact('query'));
-
+        return view ('themes.Add_Sales.salesTransaction', compact('query'));
     }
+
     public function get_products(Request $request)
     {
         $products = DB::table('inventory')
@@ -41,7 +39,9 @@ class SalesTransactionController extends Controller
             ->select(
                 'inventory.id as inventory_id',
                 'product.product_name',
-                'inventory.inventory_remainingQty'
+                'inventory.inventory_remainingQty',
+                'inventory.inventory_sellingPrice'
+
             )
             ->limit(10)
             ->get();

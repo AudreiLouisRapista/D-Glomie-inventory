@@ -153,9 +153,9 @@
                 <li class="nav-item">
                     <a href="{{ route('sales_transaction') }}"
                         class="nav-link {{ request()->routeIs('sales_transaction') ? 'active' : '' }}">
-                        <i class="nav-icon bi bi-card-heading"></i>
+                        <i class="nav-icon bi bi-receipt"></i>
                         <p>
-                            Add aily Sales
+                            Add Daily Sales
                         </p>
                     </a>
                 </li>
