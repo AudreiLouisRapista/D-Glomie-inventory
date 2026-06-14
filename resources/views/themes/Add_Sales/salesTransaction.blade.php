@@ -37,7 +37,8 @@
                         </div>
                         <div class="col-md-4 form-group">
                             <label class="ds-label">Branch <span class="req">*</span></label>
-                            <input type="text" class="form-control ds-input bg-light" value="Main Branch" readonly>
+                            <input type="text" class="form-control ds-input bg-light"
+                                value="{{ $query->first()->branch_name ?? session('branch_name', 'N/A') }}" readonly>
                         </div>
                         <div class="col-md-4 form-group">
                             <label class="ds-label">Prepared By <span class="req">*</span></label>
