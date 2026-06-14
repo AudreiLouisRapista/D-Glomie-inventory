@@ -112,13 +112,13 @@
                                 <p>Inventory Archives</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="{{ route('inventory_sales_history') }}"
                                 class="nav-link {{ request()->routeIs('inventory_sales_history') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Inventory Sales History</p>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
 
@@ -150,6 +150,15 @@
                     </ul>
                 </li>
 
+                <li class="nav-item">
+                    <a href="{{ route('invoiceEncoder') }}"
+                        class="nav-link {{ request()->routeIs('invoiceEncoder') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-card-heading"></i>
+                        <p>
+                            Stock in
+                        </p>
+                    </a>
+                </li>
 
 
 

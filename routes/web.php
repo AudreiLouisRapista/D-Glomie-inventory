@@ -10,6 +10,8 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\FinanceController;
+use App\Http\Controllers\SalesTransactionController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -57,7 +59,6 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin', 'branch']], fu
     Route::post('/save_inventory', [InventoryController::class, 'save_inventory'])->name('save_inventory');
     Route::post('/update_inventory', [InventoryController::class, 'update_inventory'])->name('update_inventory');
     Route::post('/restore-inventory/{id}', [InventoryController::class, 'restore_inventory'])->name('restore_inventory');
-    Route::post('/add-sale', [InventoryController::class, 'add_sale_record'])->name('add_sale_record');
     Route::delete('/force-delete-inventory/{id}', [InventoryController::class, 'force_delete_inventory'])->name('force_delete_inventory');
     
     // Invoices, Suppliers & Payments
@@ -74,6 +75,10 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin', 'branch']], fu
     // Finance 
     Route::get('/finance', [FinanceController::class, 'finance'])->name('finance');
     Route::get('/daily-transaction', [FinanceController::class, 'DailySalesReport'])->name('DailySalesReport');
+
+    //Sales
+    Route::get('/sales-transaction', [SalesTransactionController::class, 'sales_transaction'])->name('sales_transaction');
+
 
 
 

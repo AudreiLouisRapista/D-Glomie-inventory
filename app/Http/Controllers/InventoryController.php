@@ -390,125 +390,37 @@ class InventoryController extends Controller
         return response()->json(['save' => 'Inventory permanently deleted.']);
     }
 
-    // Add sales record
-    public function add_sale_record(Request $request)
-    {
-        $request->validate([
-            'category_id'    => 'required|exists:category,id',
-            'product_id'     => 'required|exists:product,id',
-            'total_amount'   => 'required|numeric|min:0',
-        ]);
 
-        $qty = (int) $request->total_quantity;
+    // public function inventory_sales_history()
+    // {
+    //     return view('themes.inventory.inventorySalesHistory');
+    // }
 
-        try {
-            DB::beginTransaction();
+    // public function view_sales_history(Request $request)
+    // {
+    //     $query = BranchFilter::apply(DB::table('inventorySales'), 'inventorySales')
+    //         ->join('inventory', 'inventorySales.inventory_id', '=', 'inventory.id')
+    //         ->join('product', 'inventory.product_id', '=', 'product.id')
+    //         ->join('category', 'inventory.category_id', '=', 'category.id')
+    //         ->select(
+    //             'inventorySales.id as sale_ID',
+    //             'inventorySales.inventory_id',
+    //             'inventorySales.total_amount',
+    //             'inventorySales.created_at as sale_date',
+    //             'inventory.inventory_sellingPrice as selling_price',
+    //             'inventory.inventory_totalSold as quantity_sold',
+    //             'product.product_name',
+    //             'category.category_name'
+    //         )
+    //         ->orderBy('inventorySales.id', 'desc');
 
-            $inventory = BranchFilter::apply(DB::table('inventory'), 'inventory')
-                ->where('product_id', $request->product_id)
-                ->whereNull('deleted_at')
-                ->first();
-
-            if (!$inventory) {
-                return response()->json(['error' => 'No inventory record found for this product.'], 404);
-            }
-
-            // Prevent overselling
-            if ($qty > $inventory->inventory_remainingQty) {
-                return response()->json([
-                    'error' => 'Quantity exceeds remaining stock of ' . $inventory->inventory_remainingQty
-                ], 422);
-            }
-
-            $newTotalSold    = $inventory->inventory_totalSold + $qty;
-            $newRemainingQty = $inventory->inventory_remainingQty - $qty;
-
-            // 1. Save to inventorySales
-            DB::table('inventorySales')->insert([
-                'inventory_id'  => $inventory->id,
-                'branch_id'     => session('branch_id'),
-                'total_amount'  => $request->total_amount,
-                'created_at'    => now(),
-                'updated_at'    => now(),
-            ]);
-
-            // 2. Update inventory
-            DB::table('inventory')
-                ->where('id', $inventory->id)
-                ->update([
-                    'inventory_totalSold'    => $newTotalSold,
-                    'inventory_remainingQty' => $newRemainingQty,
-                    'status_id'              => $this->resolveStatusId($newRemainingQty),
-                    'updated_at'             => now(),
-                ]);
-
-            DB::commit();
-
-            $userName = session('name');
-            $this->activityLogger->log(
-                'sales recorded',
-                "Sales recorded | Inventory ID: {$inventory->id} | Responsible: {$userName}"
-            );
-
-            return response()->json(['save' => 'Sales recorded successfully!']);
-
-        } catch (\Throwable $e) {
-            DB::rollBack();
-            report($e);
-            return response()->json(['errorMessage' => 'An error occurred. Please try again.'], 500);
-        }
-    }
-
-    public function get_inventory_by_product($productId)
-    {
-        $inventory = BranchFilter::apply(DB::table('inventory'), 'inventory')
-            ->where('product_id', $productId)
-            ->whereNull('deleted_at')
-            ->select(
-                'id as inventory_id',
-                'inventory_remainingQty as remaining_qty',
-                'inventory_totalSold as total_sold',
-                'inventory_sellingPrice as selling_price'
-            )
-            ->first();
-
-        if (!$inventory) {
-            return response()->json(['error' => 'No inventory record found for this product.'], 404);
-        }
-
-        return response()->json($inventory);
-    }
-
-    public function inventory_sales_history()
-    {
-        return view('themes.inventory.inventorySalesHistory');
-    }
-
-    public function view_sales_history(Request $request)
-    {
-        $query = BranchFilter::apply(DB::table('inventorySales'), 'inventorySales')
-            ->join('inventory', 'inventorySales.inventory_id', '=', 'inventory.id')
-            ->join('product', 'inventory.product_id', '=', 'product.id')
-            ->join('category', 'inventory.category_id', '=', 'category.id')
-            ->select(
-                'inventorySales.id as sale_ID',
-                'inventorySales.inventory_id',
-                'inventorySales.total_amount',
-                'inventorySales.created_at as sale_date',
-                'inventory.inventory_sellingPrice as selling_price',
-                'inventory.inventory_totalSold as quantity_sold',
-                'product.product_name',
-                'category.category_name'
-            )
-            ->orderBy('inventorySales.id', 'desc');
-
-        return DataTables::of($query)
-            ->addColumn('sale_ID', function ($row) {
-                return  $row->sale_ID;
-            })
-            ->rawColumns(['sale_ID'])
-            ->make(true);
-    }
+    //     return DataTables::of($query)
+    //         ->addColumn('sale_ID', function ($row) {
+    //             return  $row->sale_ID;
+    //         })
+    //         ->rawColumns(['sale_ID'])
+    //         ->make(true);
+    // }
 
     private function resolveStatusId(int $qty): int
     {

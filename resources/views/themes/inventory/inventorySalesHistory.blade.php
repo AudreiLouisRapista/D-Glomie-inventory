@@ -1,4 +1,4 @@
-@extends('themes.main')
+{{-- @extends('themes.main')
 
 @section('title', 'Inventory Sales History')
 
@@ -52,4 +52,4 @@
             });
         });
     </script>
-@endsection
+@endsection --}}
