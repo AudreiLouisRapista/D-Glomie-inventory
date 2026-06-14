@@ -1,165 +1,236 @@
-$(function() {
+        function initDailySales(routes) {
+            $(document).ready(function() {
 
-                // ── Init Select2 ──────────────────────────────────────────────────────────
-                function initSelect2(ctx) {
-                    $(ctx || document).find('.select2bs4').select2({
-                        theme: 'bootstrap4',
-                        width: '100%'
-                    });
-                    $(ctx || document).find('.select2bs4-supplier').select2({
-                        theme: 'bootstrap4',
+                // ==========================================
+                // HELPER — Initialize Select2 AJAX per row
+                // ==========================================
+                function initSelect2Product($select) {
+                    if ($select.hasClass('select2-hidden-accessible')) {
+                        $select.select2('destroy');
+                    }
+                    $select.select2({
+                        placeholder: 'Search product...',
+                        allowClear: true,
                         width: '100%',
-                        placeholder: '— Supplier —'
-                    });
-                    $(ctx || document).find('.select2bs4-dest').select2({
-                        theme: 'bootstrap4',
-                        width: '100%'
+                        minimumInputLength: 1,
+                        ajax: {
+                            url: routes.getProductsUrl,
+                            method: 'GET',
+                            delay: 300,
+                            data: function(params) {
+                                return {
+                                    search: params.term
+                                };
+                            },
+                            processResults: function(data) {
+                                return {
+                                    results: data.map(function(item) {
+                                        return {
+                                            id: item.inventory_id,
+                                            text: item.product_name,
+                                            remaining: item.inventory_remainingQty
+                                        };
+                                    })
+                                };
+                            },
+                            cache: true
+                        },
+                        templateResult: function(item) {
+                            if (item.loading) return item.text;
+                            return $('<span>' + item.text + ' <small class="text-muted">(' + (item
+                                .remaining || 0) + ' remaining)</small></span>');
+                        },
+                        templateSelection: function(item) {
+                            return item.text || item.id;
+                        }
                     });
                 }
-                initSelect2();
 
-                // ── Helpers ───────────────────────────────────────────────────────────────
-                function numVal(selector) {
-                    return parseFloat($(selector).val()) || 0;
-                }
+                // Init Select2 on first row on page load
+                initSelect2Product($('.select2-product').first());
 
-                function fmt(n) {
-                    return '₱' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                }
 
-                // ── Recalculate all derived fields ────────────────────────────────────────
-                function recalc() {
+                // ==========================================
+                // ADD ROW
+                // ==========================================
+                $('#addSaleRow').on('click', function() {
+                    var newRow = `
+                <tr class="sale-row">
+                    <td>
+                        <select name="inventory_id[]" class="form-control sale-product select2-product"
+                            style="width: 100%;">
+                        </select>
+                    </td>
+                    <td>
+                        <input type="number" name="quantity_sold[]"
+                            class="form-control sale-quantity" placeholder="0" min="1">
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">₱</span>
+                            </div>
+                            <input type="number" name="total_amount[]"
+                                class="form-control sale-amount" step="0.01" placeholder="0.00">
+                        </div>
+                    </td>
+                    <td class="sale-row-total font-weight-bold text-primary">₱0.00</td>
+                    <td>
+                        <button type="button" class="btn btn-outline-danger btn-sm border-0 remove-sale-row">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
+                </tr>
+            `;
+                    var $newRow = $(newRow);
+                    $('#saleRows').append($newRow);
+                    initSelect2Product($newRow.find('.select2-product'));
+                });
 
-                    // Purchases total
-                    let purchTotal = 0;
-                    $('.purchase-amount').each(function() {
-                        purchTotal += parseFloat($(this).val()) || 0;
-                    });
-                    $('#totalPurchases').val(purchTotal.toFixed(2));
 
-                    // Expenses total
-                    let expTotal = 0;
-                    $('.expense-item').each(function() {
-                        expTotal += parseFloat($(this).val()) || 0;
-                    });
-                    $('#totalExpenses').val(expTotal.toFixed(2));
-
-                    // Gross Sales
-                    let grossSales = 0;
-                    $('.sale-item').each(function() {
-                        grossSales += parseFloat($(this).val()) || 0;
-                    });
-                    $('#grossSales').val(grossSales.toFixed(2));
-
-                    // Net Sales
-                    $('#netSales').val((grossSales - numVal('#lessExpensesStock')).toFixed(2));
-
-                    // Denominations
-                    let denomTotal = 0;
-                    $('.denom-count').each(function() {
-                        const denom = parseInt($(this).data('denom'));
-                        const count = parseInt($(this).val()) || 0;
-                        const total = denom * count;
-                        $(this).closest('tr').find('.denom-total').val(total);
-                        denomTotal += total;
-                    });
-                    const totalCash = denomTotal + numVal('#coinsAmount');
-                    $('#totalCashSales').val(totalCash.toFixed(2));
-
-                    // GCash + total
-                    const totalAllSales = totalCash + numVal('#gcashInitDeposit');
-                    $('#totalAllSales').val(totalAllSales.toFixed(2));
-
-                    // Over / Short
-                    const diff = totalAllSales - grossSales;
-                    $('#cashDifference').val(diff.toFixed(2));
-                    if (diff > 0) {
-                        $('#cashDifference').removeClass('text-danger').addClass('text-success');
-                        $('#diffLabel').text('Difference (OVER)');
-                    } else if (diff < 0) {
-                        $('#cashDifference').removeClass('text-success').addClass('text-danger');
-                        $('#diffLabel').text('Difference (SHORT)');
+                // ==========================================
+                // REMOVE ROW
+                // ==========================================
+                $(document).on('click', '.remove-sale-row', function() {
+                    if ($('.sale-row').length > 1) {
+                        var $row = $(this).closest('.sale-row');
+                        if ($row.find('.select2-product').hasClass('select2-hidden-accessible')) {
+                            $row.find('.select2-product').select2('destroy');
+                        }
+                        $row.remove();
+                        recalculate();
                     } else {
-                        $('#cashDifference').removeClass('text-success text-danger');
-                        $('#diffLabel').text('Difference');
+                        Swal.fire('Warning', 'At least one row is required.', 'warning');
+                    }
+                });
+
+
+                // ==========================================
+                // RECALCULATE
+                // ==========================================
+                function recalculate() {
+                    var grandTotal = 0;
+                    var totalQty = 0;
+                    var totalItems = 0;
+
+                    $('.sale-row').each(function() {
+                        var qty = parseFloat($(this).find('.sale-quantity').val()) || 0;
+                        var amount = parseFloat($(this).find('.sale-amount').val()) || 0;
+
+                        $(this).find('.sale-row-total').text('₱' + amount.toFixed(2));
+
+                        grandTotal += amount;
+                        totalQty += qty;
+                        if (qty > 0 || amount > 0) totalItems++;
+                    });
+
+                    $('#grand_total').text('₱' + grandTotal.toFixed(2));
+                    $('#grand_total_raw').val(grandTotal.toFixed(2));
+                    $('#total_quantity').text(totalQty);
+                    $('#total_items').text(totalItems);
+                }
+
+
+                // ==========================================
+                // LISTEN FOR INPUT
+                // ==========================================
+                $(document).on('input', '.sale-quantity, .sale-amount', function() {
+                    recalculate();
+                });
+
+
+                // ==========================================
+                // FORM SUBMIT
+                // ==========================================
+                $('#dailySalesForm').on('submit', function(e) {
+                    e.preventDefault();
+
+                    var hasEmptyProduct = false;
+                    $('.sale-row').each(function() {
+                        if (!$(this).find('.select2-product').val()) {
+                            hasEmptyProduct = true;
+                        }
+                    });
+
+                    if (hasEmptyProduct) {
+                        Swal.fire('Incomplete', 'Please select a product for all rows.', 'warning');
+                        return;
                     }
 
-                    // Stock Out total
-                    let stockOutTotal = 0;
-                    $('.stockout-amount').each(function() {
-                        stockOutTotal += parseFloat($(this).val()) || 0;
-                    });
-                    $('#totalStockOut').val(stockOutTotal.toFixed(2));
+                    Swal.fire({
+                        title: 'Save Daily Sales?',
+                        text: 'Are you sure you want to save these sales records?',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#1a56db',
+                        confirmButtonText: 'Yes, Save it',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: routes.saveDailySalesUrl,
+                                method: 'POST',
+                                data: $(this).serialize(),
+                                beforeSend: function() {
+                                    Swal.fire({
+                                        title: 'Saving...',
+                                        allowOutsideClick: false,
+                                        didOpen: () => {
+                                            Swal.showLoading();
+                                        }
+                                    });
+                                },
+                                success: function(response) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Saved!',
+                                        text: response.save,
+                                        timer: 2000,
+                                        showConfirmButton: false
+                                    }).then(function() {
+                                        // Reset form
+                                        $('#dailySalesForm')[0].reset();
 
-                    // Net Income
-                    const netIncome = grossSales - stockOutTotal - purchTotal - expTotal;
-                    $('#summGrossSales').text(fmt(grossSales));
-                    $('#summStockOut').text(fmt(stockOutTotal));
-                    $('#summPurchases').text(fmt(purchTotal));
-                    $('#summExpenses').text(fmt(expTotal));
-                    $('#netIncomeDisplay').text(fmt(netIncome)).toggleClass('negative', netIncome < 0);
-                }
+                                        // Reset to one empty row
+                                        $('#saleRows .sale-row').each(function(
+                                            i) {
+                                            if (i > 0) {
+                                                $(this).find(
+                                                    '.select2-product'
+                                                    ).select2(
+                                                    'destroy');
+                                                $(this).remove();
+                                            }
+                                        });
 
-                $(document).on('input change', 'input[type="number"], select', recalc);
-                recalc();
+                                        // Reset first row Select2
+                                        var $firstSelect = $(
+                                                '#saleRows .select2-product')
+                                            .first();
+                                        if ($firstSelect.hasClass(
+                                                'select2-hidden-accessible')) {
+                                            $firstSelect.select2('destroy');
+                                        }
+                                        $firstSelect.val(null);
+                                        initSelect2Product($firstSelect);
 
-                // ── Dynamic row index helper ───────────────────────────────────────────────
-                function reindexRows(tbodyId, namePrefix) {
-                    $('#' + tbodyId + ' tr').each(function(i) {
-                        $(this).find('select, input').each(function() {
-                            const name = $(this).attr('name') || '';
-                            $(this).attr('name', name.replace(/\[\d+\]/, '[' + i + ']'));
-                        });
-                    });
-                }
-
-                // ── Add Purchase row ──────────────────────────────────────────────────────
-                $('#addPurchaseRow').on('click', function() {
-                    const idx = $('#purchasesTbody tr').length;
-                    const row = $(`
-                <tr>
-                    <td>
-                    <select name="purchases[${idx}][supplier]" class="form-control form-control-sm select2bs4-supplier" style="width:100%">
-                        <option value="">— Supplier —</option>
-                        <option value="lone1_nanok">From Lone 1 (Nanok)</option>
-                        <option value="lone2">From Lone 2</option>
-                        <option value="distributor">Distributor</option>
-                        <option value="direct">Direct Purchase</option>
-                    </select>
-                    </td>
-                    <td><input type="number" name="purchases[${idx}][amount]" class="form-control form-control-sm purchase-amount" placeholder="0.00" value="0" step="0.01" min="0"></td>
-                    <td><button type="button" class="btn btn-xs btn-danger remove-row"><i class="fas fa-times"></i></button></td>
-                </tr>`);
-                                $('#purchasesTbody').append(row);
-                                initSelect2(row);
-                                recalc();
+                                        recalculate();
+                                    });
+                                },
+                                error: function(xhr) {
+                                    var msg = xhr.responseJSON?.error ||
+                                        xhr.responseJSON?.errorMessage ||
+                                        'Something went wrong.';
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: msg
+                                    });
+                                }
                             });
-
-                            // ── Add Stock Out row ─────────────────────────────────────────────────────
-                            $('#addStockOutRow').on('click', function() {
-                                const idx = $('#stockOutTbody tr').length;
-                                const row = $(`
-                <tr>
-                    <td>
-                    <select name="stock_out[${idx}][destination]" class="form-control form-control-sm select2bs4-dest" style="width:100%">
-                        <option value="bayugan3">Bayugan 3</option>
-                        <option value="barobo">Barobo</option>
-                        <option value="rosario">Rosario</option>
-                        <option value="other">Other</option>
-                    </select>
-                    </td>
-                    <td><input type="number" name="stock_out[${idx}][amount]" class="form-control form-control-sm stockout-amount" placeholder="0.00" value="0" step="0.01" min="0"></td>
-                    <td><button type="button" class="btn btn-xs btn-danger remove-row"><i class="fas fa-times"></i></button></td>
-                </tr>`);
-                    $('#stockOutTbody').append(row);
-                    initSelect2(row);
-                    recalc();
+                        }
+                    });
                 });
 
-                // ── Remove row ────────────────────────────────────────────────────────────
-                $(document).on('click', '.remove-row', function() {
-                    $(this).closest('tr').remove();
-                    recalc();
-                });
-
-});
+            });
+        }

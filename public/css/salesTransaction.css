@@ -1,0 +1,175 @@
+        .ds-hero {
+            background: linear-gradient(135deg, #1a56db 0%, #1e429f 100%);
+            border-radius: 14px;
+            padding: 28px 32px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .ds-hero h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin: 0 0 4px;
+        }
+
+        .ds-hero p {
+            margin: 0;
+            opacity: 0.85;
+            font-size: 0.95rem;
+        }
+
+        .ds-hero-icon {
+            font-size: 3rem;
+            opacity: 0.2;
+        }
+
+        .ds-form-panel {
+            background: #fff;
+            border-radius: 14px;
+            padding: 28px 32px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+        }
+
+        .ds-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #374151;
+            margin-bottom: 5px;
+        }
+
+        .ds-input {
+            border-radius: 8px;
+            border: 1.5px solid #e5e7eb;
+            font-size: 0.9rem;
+            padding: 8px 12px;
+            transition: border 0.2s;
+        }
+
+        .ds-input:focus {
+            border-color: #1a56db;
+            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.1);
+        }
+
+        .ds-divider {
+            border: none;
+            border-top: 1.5px solid #f3f4f6;
+            margin: 24px 0;
+        }
+
+        .ds-items-hd {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .ds-items-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #1e429f;
+            margin: 0;
+        }
+
+        .btn-add-item {
+            background: #1a56db;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 7px 18px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-add-item:hover {
+            background: #1e429f;
+            color: #fff;
+        }
+
+        .ds-table thead th {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #6b7280;
+            font-weight: 600;
+            background: #f9fafb;
+            border-bottom: 2px solid #e5e7eb;
+            padding: 10px 12px;
+        }
+
+        .ds-table tbody td {
+            padding: 8px 10px;
+            vertical-align: middle;
+        }
+
+        .ds-table .form-control {
+            border-radius: 7px;
+            border: 1.5px solid #e5e7eb;
+            font-size: 0.85rem;
+            padding: 6px 10px;
+        }
+
+        .ds-table .form-control:focus {
+            border-color: #1a56db;
+            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.08);
+        }
+
+        .ds-summary {
+            background: #eff6ff;
+            border-radius: 12px;
+            padding: 20px 24px;
+            border: 1.5px solid #bfdbfe;
+        }
+
+        .ds-summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .ds-summary-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .ds-summary-label {
+            color: #6b7280;
+        }
+
+        .ds-summary-value {
+            font-weight: 700;
+            color: #1e429f;
+            font-size: 1.1rem;
+        }
+
+        .ds-total-divider {
+            border-top: 1.5px solid #bfdbfe;
+            margin: 12px 0;
+        }
+
+        .req {
+            color: #e53e3e;
+        }
+
+        .card-recent {
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+            border: none;
+        }
+
+        .card-recent .card-header {
+            background: #fff;
+            border-bottom: 1.5px solid #f3f4f6;
+            border-radius: 14px 14px 0 0 !important;
+            padding: 14px 18px;
+        }
+
+        .card-recent .card-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1e429f;
+        }

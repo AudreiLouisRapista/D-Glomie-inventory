@@ -78,6 +78,9 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin', 'branch']], fu
 
     //Sales
     Route::get('/sales-transaction', [SalesTransactionController::class, 'sales_transaction'])->name('sales_transaction');
+    Route::get('/get-products', [SalesTransactionController::class, 'get_products'])->name('get_products');
+    Route::post('/save-daily-sales', [SalesTransactionController::class, 'save_daily_sales'])->name('save_daily_sales');
+    Route::get('/daily-sales', [SalesTransactionController::class, 'daily_sales'])->name('daily_sales');
 
 
 

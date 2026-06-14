@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Services\ActivityLogger;
+use App\Services\InventoryService;
 use App\Helpers\BranchFilter;
 use Yajra\DataTables\Facades\DataTables;
 
 class InventoryController extends Controller
 {
-    public function __construct(private ActivityLogger $activityLogger)
-    {
-    }
+    public function __construct(
+        private ActivityLogger $activityLogger,
+        private InventoryService $inventoryService  
+    ) {}
 
     public function inventory()
     {
@@ -103,7 +105,7 @@ class InventoryController extends Controller
             'category_id' => 'required|integer|exists:category,id',
         ]);
 
-        $products = BranchFilter::apply(DB::table('product'), 'product')
+        $products = DB::table('product')
             ->leftJoin('batch', 'batch.product_id', '=', 'product.id')
             ->where('product.category_id', $request->category_id)
             ->select(
@@ -143,6 +145,7 @@ class InventoryController extends Controller
 
             $existing = BranchFilter::apply(DB::table('inventory'), 'inventory')
                 ->where('product_id', $request->product)
+                ->whereNull('deleted_at')
                 ->first();
 
             if ($existing) {
@@ -154,7 +157,7 @@ class InventoryController extends Controller
                     ->update([
                         'inventory_newQty' => $newQty,
                         'inventory_sellingPrice' => $request->selling_price,
-                        'status_id' => $this->resolveStatusId($remaining),
+                        'status_id' => $this->inventoryService->resolveStatusId($remaining),
                         'updated_at' => now(),
                     ]);
             } else {
@@ -162,7 +165,7 @@ class InventoryController extends Controller
                     'category_id' => $request->category,
                     'product_id' => $request->product,
                     'branch_id' => session('branch_id'),
-                    'status_id' => $this->resolveStatusId($qty),
+                    'status_id' => $this->inventoryService->resolveStatusId($qty),
                     'inventory_startingQty' => $qty,
                     'inventory_newQty' => 0,
                     'inventory_remainingQty' => $qty,
@@ -422,16 +425,5 @@ class InventoryController extends Controller
     //         ->make(true);
     // }
 
-    private function resolveStatusId(int $qty): int
-    {
-        if ($qty <= 0) {
-            return 3;
-        }
 
-        if ($qty <= 10) {
-            return 2;
-        }
-
-        return 1;
-    }
 }

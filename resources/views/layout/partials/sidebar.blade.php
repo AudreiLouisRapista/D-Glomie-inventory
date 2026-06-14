@@ -151,11 +151,11 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('invoiceEncoder') }}"
-                        class="nav-link {{ request()->routeIs('invoiceEncoder') ? 'active' : '' }}">
+                    <a href="{{ route('sales_transaction') }}"
+                        class="nav-link {{ request()->routeIs('sales_transaction') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-card-heading"></i>
                         <p>
-                            Stock in
+                            Add aily Sales
                         </p>
                     </a>
                 </li>
