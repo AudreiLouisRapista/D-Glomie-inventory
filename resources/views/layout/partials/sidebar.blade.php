@@ -159,6 +159,13 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('stock_transfer') }}"
+                        class="nav-link {{ request()->routeIs('stock_transfer') ? 'active' : '' }}">
+                        <i class="nav-icon bi-arrow-left-right"></i>
+                        <p>Stock Transfer</p>
+                    </a>
+                </li>
 
 
 

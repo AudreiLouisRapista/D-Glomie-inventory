@@ -29,7 +29,7 @@ class SalesTransactionController extends Controller
         return view ('themes.Add_Sales.salesTransaction', compact('query'));
     }
 
-    public function get_products(Request $request)
+    public function get_products_sales(Request $request)
     {
         $products = DB::table('inventory')
             ->join('product', 'inventory.product_id', '=', 'product.id')

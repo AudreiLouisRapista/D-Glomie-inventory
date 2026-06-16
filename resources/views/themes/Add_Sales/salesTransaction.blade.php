@@ -194,7 +194,7 @@
     <script>
         $(document).ready(function() {
             initDailySales({
-                getProductsUrl: "{{ route('get_products') }}",
+                getProductsUrl: "{{ route('get_products_sales') }}",
                 saveDailySalesUrl: "{{ route('save_daily_sales') }}",
             });
         });

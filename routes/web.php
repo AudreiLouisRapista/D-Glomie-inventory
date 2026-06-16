@@ -11,6 +11,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\SalesTransactionController;
+use App\Http\Controllers\StockOutController;
+
 
 
 /*
@@ -78,10 +80,16 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin', 'branch']], fu
 
     //Sales
     Route::get('/sales-transaction', [SalesTransactionController::class, 'sales_transaction'])->name('sales_transaction');
-    Route::get('/get-products', [SalesTransactionController::class, 'get_products'])->name('get_products');
+    Route::get('/get-products-sales', [SalesTransactionController::class, 'get_products_sales'])->name('get_products_sales');
     Route::post('/save-daily-sales', [SalesTransactionController::class, 'save_daily_sales'])->name('save_daily_sales');
     Route::get('/daily-sales', [SalesTransactionController::class, 'daily_sales'])->name('daily_sales');
 
+
+    //Stock Out
+    Route::get('/stock-out', [StockOutController::class, 'stock_out'])->name('stock_out');
+    Route::get('/get-products-stockOut', [StockOutController::class, 'get_products_stockOut'])->name('get_products_stockOut');
+    Route::get('/stock-transfer', [StockOutController::class, 'stock_transfer'])->name('stock_transfer');
+    Route::post('/save-stock-transfer', [StockOutController::class, 'save_stock_transfer'])->name('save_stock_transfer');
 
 
 
