@@ -52,7 +52,7 @@
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}"
                         class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon bi-grid-fill"></i>
                         <p>
                             Dashboard
 
@@ -62,7 +62,7 @@
                 <li class="nav-item {{ request()->routeIs('product', 'product_archive') ? 'menu-open' : '' }}">
                     <a href="#"
                         class="nav-link {{ request()->routeIs('product', 'product_archive') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-box"></i>
+                        <i class="nav-icon bi-box-seam"></i>
                         <p>
                             Products
                             <i class="fas fa-angle-left right"></i>
@@ -91,7 +91,7 @@
                     class="nav-item {{ request()->routeIs('inventory', 'inventory_archive', 'inventory_sales_history') ? 'menu-open' : '' }}">
                     <a href="#"
                         class="nav-link {{ request()->routeIs('inventory', 'inventory_archive', 'inventory_sales_history') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-boxes"></i>
+                        <i class="nav-icon bi-boxes"></i>
                         <p>
                             Inventory
                             <i class="fas fa-angle-left right"></i>
