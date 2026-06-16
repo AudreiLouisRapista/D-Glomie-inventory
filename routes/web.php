@@ -54,8 +54,7 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin', 'branch']], fu
     Route::get('/inventory-archives', [InventoryController::class, 'inventory_archive'])->name('inventory_archive');
     Route::get('/get-inventory-by-product/{productId}', [InventoryController::class, 'get_inventory_by_product'])->name('get_inventory_by_product');
     Route::get('/view-inventory-archives', [InventoryController::class, 'view_inventory_archive'])->name('view_inventory_archive');
-    Route::get('/inventory-sales-history', [InventoryController::class, 'inventory_sales_history'])->name('inventory_sales_history');
-    Route::get('/view-sales-history', [InventoryController::class, 'view_sales_history'])->name('view_sales_history');
+
 
     Route::post('/soft-delete-inventory/{id}', [InventoryController::class, 'soft_delete_inventory'])->name('soft_delete_inventory');
     Route::post('/save_inventory', [InventoryController::class, 'save_inventory'])->name('save_inventory');
@@ -83,6 +82,8 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin', 'branch']], fu
     Route::get('/get-products-sales', [SalesTransactionController::class, 'get_products_sales'])->name('get_products_sales');
     Route::post('/save-daily-sales', [SalesTransactionController::class, 'save_daily_sales'])->name('save_daily_sales');
     Route::get('/daily-sales', [SalesTransactionController::class, 'daily_sales'])->name('daily_sales');
+    Route::get('/daily-sales-history', [SalesTransactionController::class, 'daily_sales_history'])->name('daily_sales_history');
+    Route::get('/view-sales-history', [SalesTransactionController::class, 'view_sales_history'])->name('view_sales_history');
 
 
     //Stock Out

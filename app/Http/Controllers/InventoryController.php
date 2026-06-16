@@ -394,36 +394,7 @@ class InventoryController extends Controller
     }
 
 
-    // public function inventory_sales_history()
-    // {
-    //     return view('themes.inventory.inventorySalesHistory');
-    // }
 
-    // public function view_sales_history(Request $request)
-    // {
-    //     $query = BranchFilter::apply(DB::table('inventorySales'), 'inventorySales')
-    //         ->join('inventory', 'inventorySales.inventory_id', '=', 'inventory.id')
-    //         ->join('product', 'inventory.product_id', '=', 'product.id')
-    //         ->join('category', 'inventory.category_id', '=', 'category.id')
-    //         ->select(
-    //             'inventorySales.id as sale_ID',
-    //             'inventorySales.inventory_id',
-    //             'inventorySales.total_amount',
-    //             'inventorySales.created_at as sale_date',
-    //             'inventory.inventory_sellingPrice as selling_price',
-    //             'inventory.inventory_totalSold as quantity_sold',
-    //             'product.product_name',
-    //             'category.category_name'
-    //         )
-    //         ->orderBy('inventorySales.id', 'desc');
-
-    //     return DataTables::of($query)
-    //         ->addColumn('sale_ID', function ($row) {
-    //             return  $row->sale_ID;
-    //         })
-    //         ->rawColumns(['sale_ID'])
-    //         ->make(true);
-    // }
 
 
 }

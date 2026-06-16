@@ -9,6 +9,7 @@
     <div class="col-sm-6">
         <h1></h1>
     </div>
+
     {{-- ── Hidden Print Receipt Template (never shown on screen) ── --}}
     <div id="print-receipt-area" style="display:none;">
         <div style="width:100%; font-family:'DM Sans',sans-serif; background:#fff;">
@@ -112,7 +113,7 @@
     {{-- Blue Hero Header --}}
     <div class="inv-hero">
         <div class="inv-hero-text">
-            <h2><i class="fas fa-file-invoice mr-2"></i>Payment Tracker</h2>
+            <h1>Payment Tracker</h1>
             <p>Track the balance of every invoices</p>
         </div>
         <div class="inv-hero-icon">

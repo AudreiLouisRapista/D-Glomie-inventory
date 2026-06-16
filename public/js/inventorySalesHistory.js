@@ -21,29 +21,14 @@ function initSalesHistory(routes) {
             columns: [
                 {
                     data: 'sale_ID',
-                    name: 'inventorySales.id',
+                    name: 'daily_sales.id',
                     render: function (data) {
                         return '<span class="record-id">SALE-' + data + '</span>';
                     }
                 },
-                { data: 'product_name',  name: 'product.product_name' },
-                { data: 'category_name', name: 'category.category_name' },
-                {
-                    data: 'selling_price',
-                    name: 'inventory.inventory_sellingPrice',
-                    render: function (data) {
-                        return '₱' + parseFloat(data).toFixed(2);
-                    }
-                },
-                { data: 'quantity_sold', name: 'inventory.quantity_sold' },
-                {
-                    data: 'total_amount',
-                    name: 'inventorySales.total_amount',
-                    render: function (data) {
-                        return '₱' + parseFloat(data).toFixed(2);
-                    }
-                },
-                { data: 'sale_date',     name: 'inventorySales.created_at' },
+                { data: 'quantity_sold',  name: 'daily_sales.quantity_sold' },
+                { data: 'total_amount', name: 'daily_sales.total_amount' },
+                { data: 'sale_date',     name: 'daily_sales.sale_date' },
             ],
         });
 

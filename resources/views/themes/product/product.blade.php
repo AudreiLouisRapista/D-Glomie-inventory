@@ -15,7 +15,7 @@
 
     <div class="inv-hero">
         <div class="inv-hero-text">
-            <h2 class="m-0 font-weight-bold">Product Management</h2>
+            <h1 class="m-0 font-weight-bold">Product Management</h1>
             <p>List of the products and information</p>
         </div>
         <div class="inv-hero-icon">

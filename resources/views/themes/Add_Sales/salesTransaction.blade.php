@@ -14,7 +14,7 @@
             <p>Record your daily sales</p>
         </div>
         <div class="inv-hero-icon">
-            <i class="bi bi-person-fill"></i>
+            <i class="bi bi-receipt"></i>
         </div>
     </div>
 

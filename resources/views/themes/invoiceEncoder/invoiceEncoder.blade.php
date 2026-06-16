@@ -16,7 +16,7 @@
         <div class="col-12">
             <div class="inv-hero">
                 <div class="inv-hero-text">
-                    <h2> Invoice Management</h2>
+                    <h1> Invoice Management</h1>
                     <p>Create and manage your invoices</p>
                 </div>
                 <div class="inv-hero-icon">

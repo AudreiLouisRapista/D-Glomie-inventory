@@ -10,7 +10,7 @@
     {{-- Hero Header --}}
     <div class="inv-hero">
         <div class="inv-hero-text">
-            <h2 class="font-weight-bold">Stock Transfer</h2>
+            <h1 class="font-weight-bold">Stock Transfer</h1>
             <p>Transfer stock to another branch</p>
         </div>
         <div class="inv-hero-icon">

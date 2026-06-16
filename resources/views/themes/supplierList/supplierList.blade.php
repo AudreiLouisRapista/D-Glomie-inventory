@@ -15,7 +15,7 @@
         {{-- Blue Hero Header --}}
         <div class="inv-hero">
             <div class="inv-hero-text">
-                <h2><i class="fas fa-file-invoice mr-2"></i>Supplier Management</h2>
+                <h1>Supplier Management</h1>
                 <p>List of the supplier and information</p>
             </div>
             <div class="inv-hero-icon">

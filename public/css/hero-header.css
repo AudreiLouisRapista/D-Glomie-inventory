@@ -1,20 +1,20 @@
       .inv-hero {
-           background: linear-gradient(140deg, #6366f1 0%, #a78bfa 100%); 
-           box-shadow: 0 6px 24px rgba(99,102,241,.45);
+           background: linear-gradient(140deg, #ffffff 0%, #ffffff 100%); 
+           box-shadow: 0 6px 24px rgba(204, 204, 204, 0.45);
             border-radius: 10px;
             padding: 28px 30px 22px;
             margin-bottom: 50px;
             top: 20px;
-            color: #fff;
+            color: #000000;
             display: flex;
             align-items: center;
             justify-content: space-between;
             position: relative !important;
-            overflow: hidden !important;/* keeps icon clipped inside the card */
+            overflow: hidden !important;
             
         }
 
-               .inv-hero-icon {
+        .inv-hero-icon {
             position: absolute;
             right: 20px;
             top: 60%;
@@ -25,7 +25,7 @@
 
         .inv-hero-icon i {
             font-size: 170px !important;
-            color: #fff !important;
+            color: #929292 !important;
             opacity: 0.08;
         }
 

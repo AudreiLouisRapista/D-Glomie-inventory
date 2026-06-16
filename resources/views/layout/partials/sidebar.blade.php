@@ -112,13 +112,6 @@
                                 <p>Inventory Archives</p>
                             </a>
                         </li>
-                        {{-- <li class="nav-item">
-                            <a href="{{ route('inventory_sales_history') }}"
-                                class="nav-link {{ request()->routeIs('inventory_sales_history') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Inventory Sales History</p>
-                            </a>
-                        </li> --}}
                     </ul>
                 </li>
 
@@ -166,7 +159,13 @@
                         <p>Stock Transfer</p>
                     </a>
                 </li>
-
+                <li class="nav-item">
+                    <a href="{{ route('daily_sales_history') }}"
+                        class="nav-link {{ request()->routeIs('daily_sales_history') ? 'active' : '' }}">
+                        <i class="bi bi-clock-history nav-icon"></i>
+                        <p>Daily Sales History</p>
+                    </a>
+                </li>
 
 
 

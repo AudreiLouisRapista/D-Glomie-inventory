@@ -138,4 +138,29 @@ class SalesTransactionController extends Controller
             ], 500);
         }
     }
+
+    public function daily_sales_history()
+    {
+        return view('themes.Add_Sales.DailySalesHistory');
+    }
+
+    public function view_sales_history(Request $request)
+    {
+        $query = BranchFilter::apply(DB::table('daily_sales'), 'daily_sales')
+            ->select(
+                'daily_sales.id as sale_ID',
+                'daily_sales.quantity_sold as quantity_sold',
+                'daily_sales.total_amount as total_amount',
+                'daily_sales.sale_date as sale_date',
+
+            )
+            ->orderBy('daily_sales.id', 'desc');
+
+        return DataTables::of($query)
+            ->addColumn('sale_ID', function ($row) {
+                return  $row->sale_ID;
+            })
+            ->rawColumns(['sale_ID'])
+            ->make(true);
+    }
 }
