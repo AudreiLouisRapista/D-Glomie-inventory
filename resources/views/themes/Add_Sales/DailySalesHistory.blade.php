@@ -40,7 +40,7 @@
 @endsection
 
 @section('JS src')
-    <script src="{{ asset('js/inventorySalesHistory.js') }}"></script>
+    <script src="{{ asset('js/DailySalesHistory.js') }}"></script>
     <script>
         $(document).ready(function() {
             initSalesHistory({
