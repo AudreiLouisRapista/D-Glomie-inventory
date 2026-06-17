@@ -138,7 +138,7 @@ class StockOutController extends Controller
             ->where('id', '!=', session('branch_id'))  // ← exclude current branch
             ->get();
 
-        return view('themes.Stock_Out.stockOut', compact('branches'));
+        return view('themes.StockOut.stockOut', compact('branches'));
     }
 
 }
