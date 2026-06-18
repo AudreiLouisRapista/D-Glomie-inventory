@@ -12,6 +12,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\SalesTransactionController;
 use App\Http\Controllers\StockOutController;
+use App\Http\Controllers\DailyReportController;
 
 
 
@@ -75,7 +76,13 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin', 'branch']], fu
 
     // Finance 
     Route::get('/finance', [FinanceController::class, 'finance'])->name('finance');
-    Route::get('/daily-transaction', [FinanceController::class, 'DailySalesReport'])->name('DailySalesReport');
+
+    //Daily sales report
+    Route::get('/daily-report', [DailyReportController::class, 'dailyReport'])->name('dailyReport');
+    Route::get('/get-purchases-by-date', [DailyReportController::class, 'get_purchases_by_date'])->name('get_purchases_by_date');
+    Route::get('/get-daily-sales-by-date', [DailyReportController::class, 'get_daily_sales_by_date'])->name('get_daily_sales_by_date');
+    Route::get('/get-stock-out-by-date', [DailyReportController::class, 'get_stock_out_by_date'])->name('get_stock_out_by_date');
+    Route::post('/save-daily-report', [DailyReportController::class, 'save_daily_report'])->name('save_daily_report');
 
     //Sales
     Route::get('/sales-transaction', [SalesTransactionController::class, 'sales_transaction'])->name('sales_transaction');

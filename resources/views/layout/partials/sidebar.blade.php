@@ -114,58 +114,59 @@
                         </li>
                     </ul>
                 </li>
-
-                <li class="nav-item {{ request()->routeIs('finance', 'DailySalesReport') ? 'menu-open' : '' }}">
-                    <a href="#"
-                        class="nav-link {{ request()->routeIs('finance', 'DailySalesReport') ? 'active' : '' }}">
+                <li class="nav-item">
+                    <a href="{{ route('finance') }}"
+                        class="nav-link {{ request()->routeIs('finance') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-graph-up-arrow"></i>
+                        <p>Finance Management</p>
+                    </a>
+                </li>
+
+                <li
+                    class="nav-item {{ request()->routeIs('sales_transaction', 'dailyReport', 'stock_transfer', 'daily_sales_history') ? 'menu-open' : '' }}">
+                    <a href="#"
+                        class="nav-link {{ request()->routeIs('sales_transaction', 'dailyReport', 'stock_transfer', 'daily_sales_history') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-receipt"></i>
 
                         <p>
-                            Finance
+                            Daily Transaction
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('finance') }}"
-                                class="nav-link {{ request()->routeIs('finance') ? 'active' : '' }}">
+                            <a href="{{ route('dailyReport') }}"
+                                class="nav-link {{ request()->routeIs('dailyReport') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Finance Management</p>
+                                <p>Add Daily Sales Report</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('DailySalesReport') }}"
-                                class="nav-link {{ request()->routeIs('DailySalesReport') ? 'active' : '' }}">
+                            <a href="{{ route('sales_transaction') }}"
+                                class="nav-link {{ request()->routeIs('sales_transaction') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Add Daily Sales Report</p>
+                                <p>
+                                    Add Daily Sales
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('stock_transfer') }}"
+                                class="nav-link {{ request()->routeIs('stock_transfer') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Stock Transfer</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('daily_sales_history') }}"
+                                class="nav-link {{ request()->routeIs('daily_sales_history') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Daily Sales History</p>
                             </a>
                         </li>
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a href="{{ route('sales_transaction') }}"
-                        class="nav-link {{ request()->routeIs('sales_transaction') ? 'active' : '' }}">
-                        <i class="nav-icon bi bi-receipt"></i>
-                        <p>
-                            Add Daily Sales
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('stock_transfer') }}"
-                        class="nav-link {{ request()->routeIs('stock_transfer') ? 'active' : '' }}">
-                        <i class="nav-icon bi-arrow-left-right"></i>
-                        <p>Stock Transfer</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('daily_sales_history') }}"
-                        class="nav-link {{ request()->routeIs('daily_sales_history') ? 'active' : '' }}">
-                        <i class="bi bi-clock-history nav-icon"></i>
-                        <p>Daily Sales History</p>
-                    </a>
-                </li>
 
 
 
