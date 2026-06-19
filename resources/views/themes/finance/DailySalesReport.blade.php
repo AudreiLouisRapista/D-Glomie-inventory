@@ -585,5 +585,5 @@
 @endsection
 
 @section('JS src')
-    <script src="{{ asset('js/dailyTransaction.js') }}"></script>
+    <script src="{{ asset('js/dailySalesReport.js') }}"></script>
 @endsection
