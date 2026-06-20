@@ -111,9 +111,8 @@
 
                     {{-- ADD ITEM BUTTON: Repositioned directly below the dropdown table row --}}
                     <div class="mt-2">
-                        <button type="button" id="addSaleRow" class="btn-add-item btn-sm">
-                            <i class="fas fa-plus mr-1"></i> Add Item
-                        </button>
+                        <button type="button" id="addSaleRow" class="btn btn-outline-primary btn-sm"><i
+                                class="fas fa-plus mr-1"></i> Add Item</button>
                     </div>
 
                 </div>

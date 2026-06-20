@@ -125,9 +125,8 @@
 
                     {{-- ADD ITEM BUTTON (Repositioned below the dropdown line) --}}
                     <div class="mt-2">
-                        <button type="button" id="addTransferRow" class="btn-add-item btn-sm">
-                            <i class="fas fa-plus mr-1"></i> Add Item
-                        </button>
+                        <button type="button" id="addTransferRow" class="btn btn-outline-primary btn-sm"><i
+                                class="fas fa-plus mr-1"></i> Add Item</button>
                     </div>
 
                 </div>
