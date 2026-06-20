@@ -1,70 +1,16 @@
-/* Modern Card Styling */
-.card.sc {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border-radius: 12px;
-}
+.custom-stat-card { border-radius: 16px !important; overflow: hidden; }
+.custom-stat-card .card-header { border-radius: 14px 14px 0 0 !important; font-size: 0.9rem; }
+.tracking-wide { letter-spacing: 0.03em; }
+.text-xs { font-size: 0.75rem; }
 
-.card.sc:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
-}
+.stat-hdr-blue { background-color: #eaf2fd !important; color: #1565c0 !important; }
+.stat-badge-blue { background-color: #eaf2fd !important; color: #1565c0 !important; border-radius: 6px; }
 
-/* Icon Containers */
-.sc-icon-wrap {
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    font-size: 1.25rem;
-}
+.stat-hdr-green { background-color: #eaf7ed !important; color: #2e7d32 !important; }
+.stat-badge-green { background-color: #eaf7ed !important; color: #2e7d32 !important; border-radius: 6px; }
 
-.sc-icon {
-    font-size: 2rem;
-}
+.stat-hdr-yellow { background-color: #fdf5e6 !important; color: #b58105 !important; }
+.stat-badge-yellow { background-color: #fdf5e6 !important; color: #b58105 !important; border-radius: 6px; }
 
-/* Modern Soft Colors */
-.bg-soft-primary { background-color: #e2dffa !important; }
-.bg-soft-success { background-color: #e8fadf !important; }
-.bg-soft-warning { background-color: #fff4e1 !important; }
-.bg-soft-danger  { background-color: #ffe5e5 !important; }
-
-/* SCOPED to .card.sc only — won't affect DataTables or AdminLTE */
-.card.sc .text-primary { color: #3c45e7 !important; }
-.card.sc .text-success { color: #28a745 !important; }
-.card.sc .text-warning { color: #f39c12 !important; }
-.card.sc .text-danger  { color: #e74c3c !important; }
-
-.sc-value {
-    letter-spacing: -0.5px;
-    color: #2c3e50;
-}
-
-.sc-label {
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.modern-border-success {
-    border: none;
-    border-left: 5px solid #28a745 !important;
-}
-
-.modern-border-warning {
-    border: none;
-    border-left: 5px solid #f39c12 !important;
-}
-
-.modern-border-danger {
-    border: none;
-    border-left: 5px solid #e74c3c !important;
-}
-
-.modern-border-primary {
-    border: none;
-    border-left: 5px solid #3c45e7 !important;
-}
-
-
+.stat-hdr-red { background-color: #fcebee !important; color: #c62828 !important; }
+.stat-badge-red { background-color: #fcebee !important; color: #c62828 !important; border-radius: 6px; }

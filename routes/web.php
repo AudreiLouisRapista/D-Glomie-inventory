@@ -76,6 +76,9 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin', 'branch']], fu
 
     // Finance 
     Route::get('/finance', [FinanceController::class, 'finance'])->name('finance');
+    Route::get('/view-finance', [FinanceController::class, 'view_finance'])->name('view_finance');
+    Route::get('/get-graph-data', [FinanceController::class, 'get_graph_data'])->name('get_graph_data');
+    Route::get('/view-report-details/{id}', [FinanceController::class, 'view_report_details'])->name('view_report_details');
 
     //Daily sales report
     Route::get('/daily-report', [DailyReportController::class, 'dailyReport'])->name('dailyReport');

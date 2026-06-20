@@ -28,69 +28,89 @@
     <!-- Main content -->
 
 
-    <!-- Small boxes (Stat box) -->
-    <div class="row g-3">
+    <!-- Info boxes (Stat box) -->
+    <div class="row">
 
-        {{-- Total Product --}}
-        <div class="col-lg-3 col-6">
-            <div class="card sc sc-product">
-                <div class="sc-body">
-                    <div class="sc-top">
-                        <div class="sc-icon-wrap"><i class="bi bi-box-seam"></i></div>
-                        <h3 class="sc-value">{{ $totalInventory }}</h3>
-                    </div>
-                    <p class="sc-label">Total Inventory</p>
+        {{-- Total Inventory (Green Tint) --}}
+        <div class="col-lg-3 col-sm-6 mb-4">
+            <div class="card h-100 border-0 shadow-sm custom-stat-card">
+                <div class="card-header border-0 stat-hdr-green d-flex align-items-center">
+                    <i class="fas fa-box-open mr-2"></i>
+                    <span class="font-weight-bold tracking-wide">Total Inventory</span>
                 </div>
-                <div class="sc-foot">
-                    <a href="{{ route('inventory') }}">View all inventory &rarr;</a>
+                <div class="card-body d-flex flex-column justify-content-between p-3">
+                    <h3 class="display-5 font-weight-bold mb-1 text-dark">{{ $totalInventory }}</h3>
+                    <div class="d-flex align-items-center justify-content-between mt-2">
+                        <a href="{{ route('inventory') }}" class="text-xs text-primary text-muted font-weight-medium">
+                            View all inventory <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                        <span class="badge stat-badge-green py-1 px-2">
+                            <i class="fas fa-arrow-up mr-1 text-xs"></i>20%
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        {{-- Available Stock --}}
-        <div class="col-lg-3 col-6">
-            <div class="card sc sc-stock">
-                <div class="sc-body">
-                    <div class="sc-top">
-                        <div class="sc-icon-wrap"><i class="bi bi-bar-chart-fill"></i></div>
-                        <h3 class="sc-value">{{ $totalAvailableStock }}</h3>
-                    </div>
-                    <p class="sc-label">Available Stock</p>
+        {{-- Available Stock (Cream Tint) --}}
+        <div class="col-lg-3 col-sm-6 mb-4">
+            <div class="card h-100 border-0 shadow-sm custom-stat-card">
+                <div class="card-header border-0 stat-hdr-yellow d-flex align-items-center">
+                    <i class="fas fa-chart-bar mr-2"></i>
+                    <span class="font-weight-bold tracking-wide">Available Stock</span>
                 </div>
-                <div class="sc-foot">
-                    <a href="#">View stock levels &rarr;</a>
+                <div class="card-body d-flex flex-column justify-content-between p-3">
+                    <h3 class="display-5 font-weight-bold mb-1 text-dark">{{ $totalAvailableStock }}</h3>
+                    <div class="d-flex align-items-center justify-content-between mt-2">
+                        <a href="#" class="text-xs text-muted font-weight-medium">
+                            View stock levels <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                        <span class="badge stat-badge-yellow py-1 px-2">
+                            <i class="fas fa-arrow-up mr-1 text-xs"></i>12%
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        {{-- Low Stock --}}
-        <div class="col-lg-3 col-6">
-            <div class="card sc sc-low">
-                <div class="sc-body">
-                    <div class="sc-top">
-                        <div class="sc-icon-wrap"><i class="bi bi-exclamation-triangle-fill"></i></div>
-                        <h3 class="sc-value">{{ $totalLowStock }}</h3>
-                    </div>
-                    <p class="sc-label">Low Stock</p>
+        {{-- Low Stock (Red/Pink Tint) --}}
+        <div class="col-lg-3 col-sm-6 mb-4">
+            <div class="card h-100 border-0 shadow-sm custom-stat-card">
+                <div class="card-header border-0 stat-hdr-red d-flex align-items-center">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                    <span class="font-weight-bold tracking-wide">Low Stock</span>
                 </div>
-                <div class="sc-foot">
-                    <a href="#">View low stock items &rarr;</a>
+                <div class="card-body d-flex flex-column justify-content-between p-3">
+                    <h3 class="display-5 font-weight-bold mb-1 text-dark">{{ $totalLowStock }}</h3>
+                    <div class="d-flex align-items-center justify-content-between mt-2">
+                        <a href="#" class="text-xs text-muted font-weight-medium">
+                            View low stock items <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                        <span class="badge stat-badge-red py-1 px-2">
+                            <i class="fas fa-arrow-down mr-1 text-xs"></i>9%
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        {{-- low Stock --}}
-        <div class="col-lg-3 col-6">
-            <div class="card sc sc-invoice">
-                <div class="sc-body">
-                    <div class="sc-top">
-                        <div class="sc-icon-wrap"><i class="bi bi-pie-chart-fill"></i></div>
-                        <h3 class="sc-value">{{ $totalOutOfStock }}</h3>
-                    </div>
-                    <p class="sc-label">Out of Stock</p>
+        {{-- Out of Stock (Purple Tint) --}}
+        <div class="col-lg-3 col-sm-6 mb-4">
+            <div class="card h-100 border-0 shadow-sm custom-stat-card">
+                <div class="card-header border-0 stat-hdr-purple d-flex align-items-center">
+                    <i class="fas fa-pie-chart mr-2"></i>
+                    <span class="font-weight-bold tracking-wide">Out of Stock</span>
                 </div>
-                <div class="sc-foot">
-                    <a href="#">View Out of stock &rarr;</a>
+                <div class="card-body d-flex flex-column justify-content-between p-3">
+                    <h3 class="display-5 font-weight-bold mb-1 text-dark">{{ $totalOutOfStock }}</h3>
+                    <div class="d-flex align-items-center justify-content-between mt-2">
+                        <a href="#" class="text-xs text-muted font-weight-medium">
+                            View Out of stock <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                        <span class="badge stat-badge-purple py-1 px-2">
+                            <i class="fas fa-arrow-up mr-1 text-xs"></i>13%
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -427,86 +447,6 @@
             </div>
             <!-- /.card -->
 
-            <!-- PRODUCT LIST -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Recently Added Products</h3>
-
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body p-0">
-                    <ul class="products-list product-list-in-card pl-2 pr-2">
-                        <li class="item">
-                            <div class="product-img">
-                                <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                            </div>
-                            <div class="product-info">
-                                <a href="javascript:void(0)" class="product-title">Samsung TV
-                                    <span class="badge badge-warning float-right">$1800</span></a>
-                                <span class="product-description">
-                                    Samsung 32" 1080p 60Hz LED Smart HDTV.
-                                </span>
-                            </div>
-                        </li>
-                        <!-- /.item -->
-                        <li class="item">
-                            <div class="product-img">
-                                <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                            </div>
-                            <div class="product-info">
-                                <a href="javascript:void(0)" class="product-title">Bicycle
-                                    <span class="badge badge-info float-right">$700</span></a>
-                                <span class="product-description">
-                                    26" Mongoose Dolomite Men's 7-speed, Navy Blue.
-                                </span>
-                            </div>
-                        </li>
-                        <!-- /.item -->
-                        <li class="item">
-                            <div class="product-img">
-                                <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                            </div>
-                            <div class="product-info">
-                                <a href="javascript:void(0)" class="product-title">
-                                    Xbox One <span class="badge badge-danger float-right">
-                                        $350
-                                    </span>
-                                </a>
-                                <span class="product-description">
-                                    Xbox One Console Bundle with Halo Master Chief Collection.
-                                </span>
-                            </div>
-                        </li>
-                        <!-- /.item -->
-                        <li class="item">
-                            <div class="product-img">
-                                <img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                            </div>
-                            <div class="product-info">
-                                <a href="javascript:void(0)" class="product-title">PlayStation 4
-                                    <span class="badge badge-success float-right">$399</span></a>
-                                <span class="product-description">
-                                    PlayStation 4 500GB Console (PS4)
-                                </span>
-                            </div>
-                        </li>
-                        <!-- /.item -->
-                    </ul>
-                </div>
-                <!-- /.card-body -->
-                <div class="card-footer text-center">
-                    <a href="javascript:void(0)" class="uppercase">View All Products</a>
-                </div>
-                <!-- /.card-footer -->
-            </div>
             <!-- /.card -->
         </div>
         <!-- /.col -->
