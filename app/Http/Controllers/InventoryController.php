@@ -156,6 +156,7 @@ class InventoryController extends Controller
                     ->where('product_id', $request->product)
                     ->update([
                         'inventory_newQty' => $newQty,
+                        'inventory_remainingQty' => $remaining,
                         'inventory_sellingPrice' => $request->selling_price,
                         'status_id' => $this->inventoryService->resolveStatusId($remaining),
                         'updated_at' => now(),
