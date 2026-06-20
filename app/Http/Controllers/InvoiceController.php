@@ -24,8 +24,7 @@ class InvoiceController extends Controller
             ->join('product', 'purchase_items.product_id', '=', 'product.id')
             ->select(['purchase_items.*', 'product.product_name'])
             ->orderBy('purchase_items.purchase_id', 'desc')
-            ->get()
-            ->groupBy('purchase_id');
+            ->get();
 
         $products = DB::table('product')
             ->join('perishable', 'product.perishable_id', '=', 'perishable.id')

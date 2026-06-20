@@ -10,18 +10,17 @@
     <link rel="stylesheet" href="{{ asset('css/table.css') }}">
     <link rel="stylesheet" href="{{ asset('css/hero-header.css') }}">
 
-    <div class="col-12">
-
-        {{-- Blue Hero Header --}}
-        <div class="inv-hero">
-            <div class="inv-hero-text">
-                <h1>Supplier Management</h1>
-                <p>List of the supplier and information</p>
-            </div>
-            <div class="inv-hero-icon">
-                <i class="bi bi-person-fill"></i>
-            </div>
+    <div class="inv-hero">
+        <div class="inv-hero-text">
+            <h2 class="font-weight-bold">Supplier List</h2>
+            <p>Record your partners</p>
         </div>
+        <div class="inv-hero-icon">
+            <i class="bi bi-receipt"></i>
+        </div>
+    </div>
+
+    <div class="col-12">
 
         <div class="main-card">
             <div class="table-card-header">

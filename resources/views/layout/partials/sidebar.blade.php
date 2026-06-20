@@ -8,7 +8,7 @@
     <a href="{{ route('dashboard') }}" class="brand-link">
         <img src="{{ asset('dist/img/LOME-logo.jpg') }}" alt="LOME Logo" class="brand-image img-circle elevation-5"
             style="opacity: .8 ">
-        <span class="brand-text  font-weight-bold">LOME SHOP MART</span>
+        <span class="brand-text  font-weight-bold">LOME STORE</span>
     </a>
 
     <!-- Sidebar -->

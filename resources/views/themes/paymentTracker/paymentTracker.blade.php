@@ -6,9 +6,8 @@
 {{-- 3. DEFINE MAIN CONTENT --}}
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/paymentTracker.css') }}">
-    <div class="col-sm-6">
-        <h1></h1>
-    </div>
+    <link rel="stylesheet" href="{{ asset('css/hero-header.css') }}">
+
 
     {{-- ── Hidden Print Receipt Template (never shown on screen) ── --}}
     <div id="print-receipt-area" style="display:none;">
@@ -110,17 +109,17 @@
     {{-- ── End Print Receipt Area ── --}}
 
 
-    {{-- Blue Hero Header --}}
     <div class="inv-hero">
         <div class="inv-hero-text">
-            <h1>Payment Tracker</h1>
-            <p>Track the balance of every invoices</p>
+            <h2 class="font-weight-bold">Supplier List</h2>
+            <p>Record your partners</p>
         </div>
         <div class="inv-hero-icon">
-            <i class="bi bi-credit-card-fill"></i>
+            <i class="bi bi-receipt"></i>
         </div>
     </div>
-    <div class="container-fluid px-4">
+
+    <div class="col-12">
         <div class="main-card">
             <div class="filters">
                 <div class="filter-group">
@@ -220,6 +219,7 @@
             </div>
         </div>
     </div>
+
 
 
     {{-- Payment Modal --}}

@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="{{ asset('css/hero-header.css') }}">
     <link rel="stylesheet" href="{{ asset('css/salesTransaction.css') }}">
 
-    {{-- Blue Hero Header --}}
     <div class="inv-hero">
         <div class="inv-hero-text">
             <h2 class="font-weight-bold">Daily Sales</h2>

@@ -7,23 +7,20 @@
 @section('content')
 
     <link rel="stylesheet" href="{{ asset('css/invoiceEncoder.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/hero-header.css') }}">
 
-    <div class="col-sm-6">
-        <h1></h1>
+
+    <div class="inv-hero">
+        <div class="inv-hero-text">
+            <h2 class="font-weight-bold">Stock In</h2>
+            <p>Record your new supply</p>
+        </div>
+        <div class="inv-hero-icon">
+            <i class="bi bi-receipt"></i>
+        </div>
     </div>
 
     <div class="row">
-        <div class="col-12">
-            <div class="inv-hero">
-                <div class="inv-hero-text">
-                    <h1> Invoice Management</h1>
-                    <p>Create and manage your invoices</p>
-                </div>
-                <div class="inv-hero-icon">
-                    <i class="fas fa-file-invoice"></i>
-                </div>
-            </div>
-        </div>{{-- end .col-12 --}}
 
         {{-- White Form Panel --}}
         <div class="col-md-9">
@@ -78,9 +75,9 @@
                     {{-- Invoice Items Header --}}
                     <div class="items-hd">
                         <h5 class="items-title">Invoice Items</h5>
-                        <button type="button" id="addRow" class="btn btn-add-item">
-                            <i class="fas fa-plus"></i> Add Item
-                        </button>
+
+                        <button type="button" id="addRow" class="btn btn-outline-danger btn-sm"><i
+                                class="fas fa-plus mr-1"></i> Add Item</button>
                     </div>
 
                     {{-- Items Table --}}
@@ -191,31 +188,31 @@
                 <!-- /.card-header -->
                 <div class="card-body p-0">
                     <ul class="list-unstyled mb-0">
-                        @foreach ($purchase_items->take(5) as $purchaseId => $items)
-                            @foreach ($items as $item)
-                                <li class="d-flex align-items-center justify-content-between px-3 py-2"
-                                    style="border-bottom: 0.5px solid rgba(0,0,0,0.07);">
-                                    <div class="d-flex align-items-center">
-                                        <div class="mr-3 d-flex align-items-center justify-content-center"
-                                            style="width:34px; height:34px; border-radius:9px; background:#fff0f2; font-size:16px;">
-                                            <i class="bi bi-box2-fill text-danger"></i>
-                                        </div>
-                                        <div>
-                                            <div style="font-size:13.5px; font-weight:600;">{{ $item->product_name }}</div>
-                                            <div class="text-muted" style="font-size:11px;">Beverage · In stock</div>
-                                        </div>
+                        @foreach ($purchase_items->take(5) as $items)
+                            <li class="d-flex align-items-center justify-content-between px-3 py-2"
+                                style="border-bottom: 0.5px solid rgba(0,0,0,0.07);">
+                                <div class="d-flex align-items-center">
+                                    <div class="mr-3 d-flex align-items-center justify-content-center"
+                                        style="width:34px; height:34px; border-radius:9px; background:#fff0f2; font-size:16px;">
+                                        <i class="bi bi-box2-fill text-danger"></i>
                                     </div>
-                                    <span class="badge"
-                                        style="background:#fff3cd; color:#856404; font-size:12px; font-weight:700; padding:4px 10px; border-radius:20px;">
-                                        ₱{{ number_format($item->grand_total, 2) }}
-                                    </span>
-                                </li>
-                            @endforeach
+                                    <div>
+                                        <div style="font-size:13.5px; font-weight:600;">{{ $items->product_name }}
+                                        </div>
+                                        <div class="text-muted" style="font-size:11px;">Beverage · In stock</div>
+                                    </div>
+                                </div>
+                                <span class="badge"
+                                    style="background:#fff3cd; color:#856404; font-size:12px; font-weight:700; padding:4px 10px; border-radius:20px;">
+                                    ₱{{ number_format($items->grand_total, 2) }}
+                                </span>
+                            </li>
                         @endforeach
                     </ul>
 
                     <div class="card-footer text-center">
-                        <a href="{{ route('paymentTracker') }}" class="uppercase text-danger">View All Products</a>
+                        <a href="{{ route('paymentTracker') }}" class="uppercase text-danger">View All Purchases
+                            Supply</a>
                     </div>
                 </div>
             </div>
