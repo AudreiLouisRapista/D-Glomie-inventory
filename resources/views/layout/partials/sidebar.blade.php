@@ -170,13 +170,23 @@
 
 
 
-                <li class="nav-header font-weight-bold">Supplier & Invoice</li>
+                <li class="nav-header font-weight-bold">Supplier & Stock in</li>
                 <li class="nav-item">
                     <a href="{{ route('invoiceEncoder') }}"
                         class="nav-link {{ request()->routeIs('invoiceEncoder') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-card-heading"></i>
                         <p>
                             Stock in
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('stockIn_history') }}"
+                        class="nav-link {{ request()->routeIs('stockIn_history') ? 'active' : '' }}">
+                        <i class="nav-icon  bi-clock-history"></i>
+                        <p>
+                            Stock In history
                         </p>
                     </a>
                 </li>
@@ -187,16 +197,6 @@
                         bi bi-person-fill"></i>
                         <p>
                             Supplier list
-                        </p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{{ route('paymentTracker') }}"
-                        class="nav-link {{ request()->routeIs('paymentTracker') ? 'active' : '' }}">
-                        <i class="nav-icon bi bi-credit-card-fill"></i>
-                        <p>
-                            Payment Tracker
                         </p>
                     </a>
                 </li>

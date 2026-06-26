@@ -6,7 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\StockInHistroy;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\FinanceController;
@@ -70,9 +70,8 @@ Route::group(['prefix' => 'Admin', 'middleware' => ['role:Admin', 'branch']], fu
     Route::get('/supplierList', [SupplierController::class, 'supplierList'])->name('supplierList');
     Route::post('/save_supplier', [SupplierController::class, 'save_supplier'])->name('save_supplier');
     
-    Route::get('/paymentTracker', [PaymentController::class, 'paymentTracker'])->name('paymentTracker');
-    Route::get('/getPaymentHistory/{id}', [PaymentController::class, 'getPaymentHistory'])->name('getPaymentHistory');
-    Route::post('/save_payment', [PaymentController::class, 'save_payment'])->name('save_payment');
+    Route::get('/stockIn_history', [StockInHistroy::class, 'stockIn_history'])->name('stockIn_history');
+
 
     // Finance 
     Route::get('/finance', [FinanceController::class, 'finance'])->name('finance');
