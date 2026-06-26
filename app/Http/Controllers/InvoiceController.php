@@ -47,8 +47,8 @@ class InvoiceController extends Controller
             'gross_total_raw' => 'required|numeric|min:0',
             'vat_amount_raw' => 'required|numeric|min:0',
             'grand_total_raw' => 'required|numeric|min:0',
-            'productName' => 'required|array|min:1',
-            'productName.*' => 'required|string|max:255',
+            'productId' => 'required|array|min:1',              // ← changed from productName
+            'productId.*' => 'required|integer|exists:product,id', // ← changed validation rule
             'CSquantity' => 'required|array|min:1',
             'CSquantity.*' => 'required|integer|min:1',
             'Quantinumber' => 'required|array|min:1',
@@ -79,23 +79,12 @@ class InvoiceController extends Controller
                 'updated_at' => now(),
             ]);
 
-            foreach ($request->productName as $key => $name) {
-                $product = DB::table('product')->where('product_name', $name)->first();
-
-                if (!$product) {
-                    DB::rollback();
-                    return back()->withInput()->with(
-                        'errorMessage',
-                        "Product '{$name}' does not exist. Please add it in Product Management first."
-                    );
-                }
-
-                $productId = $product->id;
+            foreach ($request->productId as $key => $productId) {
 
                 $purchaseItemId = DB::table('purchase_items')->insertGetId([
                     'purchase_id' => $invoiceId,
                     'branch_id' => session('branch_id'),
-                    'product_id' => $productId,
+                    'product_id' => $productId,   // ← use directly, no lookup needed
                     'supply_qty' => $request->CSquantity[$key],
                     'unit_price' => $request->unitPrice[$key],
                     'total_price' => $request->Quantinumber[$key] * $request->productSize[$key] * $request->unitPrice[$key],

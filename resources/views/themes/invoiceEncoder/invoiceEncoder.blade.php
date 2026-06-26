@@ -6,13 +6,13 @@
 {{-- 2. DEFINE CONTENT --}}
 @section('content')
 
-    <link rel="stylesheet" href="{{ asset('css/invoiceEncoder.css') }}">
     <link rel="stylesheet" href="{{ asset('css/hero-header.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/salesTransaction.css') }}">
 
-
+    {{-- Hero Header --}}
     <div class="inv-hero">
         <div class="inv-hero-text">
-            <h2 class="font-weight-bold">Stock In</h2>
+            <h1 class="font-weight-bold">Stock In</h1>
             <p>Record your new supply</p>
         </div>
         <div class="inv-hero-icon">
@@ -20,34 +20,31 @@
         </div>
     </div>
 
-    <div class="row">
+    @include('layout.partials.alerts')
 
-        {{-- White Form Panel --}}
-        <div class="col-md-9">
-            <div class="form-panel elevation-2">
-                @include('layout.partials.alerts')
-                {{-- @if ($errors->any())
-                    {{-- <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif --}}
-                <form id="invoiceEncoderForm" action="{{ route('save_invoiceDetails') }}" method="POST">
-                    @csrf
+    <form id="invoiceEncoderForm" action="{{ route('save_invoiceDetails') }}" method="POST">
+        @csrf
+
+        <div class="row">
+            {{-- LEFT SIDE: Main Form Panel & Line Items Selection (8 Columns) --}}
+            <div class="col-lg-9">
+                <div class="ds-form-panel mb-4">
+
+                    {{-- Invoice Info Section --}}
+                    <p class="form-section-title">Invoice Information</p>
+
                     {{-- Row 1: Invoice Number + Supplier --}}
                     <div class="row">
                         <div class="col-md-6 form-group">
-                            <label class="inv-label">Invoice Number <span class="req">*</span></label>
-                            <input type="text" id="invoice_number" name="invoiceNumber" class="form-control inv-input"
+                            <label class="ds-label">Invoice Number <span class="req">*</span></label>
+                            <input type="text" id="invoice_number" name="invoiceNumber" class="form-control ds-input"
                                 placeholder="INV-001"
                                 oninput="if(this.value.length > 11) this.value = this.value.slice(0, 12);" required>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="inv-label">Supplier Name <span class="req">*</span></label>
-                            <select id="supplier_select" name="supplierId" class="form-control inv-input">
+                            <label class="ds-label">Supplier Name <span class="req">*</span></label>
+                            <select id="supplier_select" name="supplierId" class="form-control ds-input select2-supplier"
+                                style="width: 100%;" required>
                                 <option value="">Choose a supplier...</option>
                                 @foreach ($supplier as $sup)
                                     <option value="{{ $sup->id }}">{{ $sup->supplier_name }}</option>
@@ -59,69 +56,77 @@
                     {{-- Row 2: Date + Due Date --}}
                     <div class="row">
                         <div class="col-md-6 form-group">
-                            <label class="inv-label">Date <span class="req">*</span></label>
-                            <input type="date" id="invoice_date" name="invoiceDate" class="form-control inv-input"
+                            <label class="ds-label">Date <span class="req">*</span></label>
+                            <input type="date" id="invoice_date" name="invoiceDate" class="form-control ds-input"
                                 value="{{ date('Y-m-d') }}" required>
                         </div>
                         <div class="col-md-6 form-group">
-                            <label class="inv-label">Due Date <span class="req">*</span></label>
-                            <input type="date" id="due_date" name="invoiceduoDate" class="form-control inv-input"
+                            <label class="ds-label">Due Date <span class="req">*</span></label>
+                            <input type="date" id="due_date" name="invoiceduoDate" class="form-control ds-input"
                                 value="{{ date('Y-m-d') }}" required>
                         </div>
                     </div>
 
-                    <hr class="inv-divider">
+                    <hr class="ds-divider">
 
-                    {{-- Invoice Items Header --}}
-                    <div class="items-hd">
-                        <h5 class="items-title">Invoice Items</h5>
-
-                        <button type="button" id="addRow" class="btn btn-outline-danger btn-sm"><i
-                                class="fas fa-plus mr-1"></i> Add Item</button>
+                    {{-- Invoice Items Header Section --}}
+                    <div class="ds-items-hd mb-3">
+                        <h5 class="ds-items-title">
+                            <i class="bi bi-box-seam mr-1"></i> Invoice Items
+                        </h5>
                     </div>
 
                     {{-- Items Table --}}
                     <div class="table-responsive">
-                        <table class="table inv-table" id="inv-table">
-                            <thead class="table-light">
-                                <tr class="small text-uppercase text-muted">
-                                    <th style="width: 9%;">QTY</th>
-                                    <th style="width: 22%;">DESCRIPTION (PRODUCT)</th>
-                                    <th style="width: 6%;"> Bundle Qty</th>
-                                    <th style="width: 6%;">Bundle Size</th>
+                        <table class="table ds-table mb-2" id="inv-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">QTY</th>
+                                    <th style="width: 30%;">DESCRIPTION (PRODUCT)</th>
+                                    <th style="width: 10%;">BNDL QTY</th>
+                                    <th style="width: 10%;">BNDL SIZE</th>
                                     <th style="width: 15%;">TYPE</th>
-                                    <th class="expiry-column" style="width: 12%; display: none;">EXPIRY DATE</th>
-                                    <th style="width: 10%;">UNIT PRICE</th>
-                                    <th style="width: 8%;">PRICE</th>
-                                    <th style="width: 10%;">AMOUNT</th>
-                                    <th style="width: 6%;"></th>
+                                    <th class="expiry-column" style="width: 15%; display: none;">EXPIRY DATE</th>
+                                    <th style="width: 15%;">UNIT PRICE</th>
+                                    <th style="width: 10%;">PRICE</th>
+                                    <th style="width: 15%;">AMOUNT</th>
+                                    <th style="width: 5%;"></th>
                                 </tr>
                             </thead>
                             <tbody id="itemRows">
                                 <tr class="item-row">
-                                    <td><input type="number" name="CSquantity[]" class="form-control CSquantity"
-                                            value="1">
+                                    <td>
+                                        <input type="number" name="CSquantity[]" class="form-control ds-input CSquantity"
+                                            value="1" min="1">
                                     </td>
-                                    <td><input type="text" name="productName[]" list="productData"
-                                            class="form-control productName" required></td>
-                                    <td><input type="number" name="Quantinumber[]" class="form-control Quantinumber"
-                                            value="0" readonly></td>
-                                    <td><input type="number" name="productSize[]" class="form-control productSize"
-                                            value="1" readonly></td>
+                                    <td>
+                                        <select name="productId[]" class="form-control ds-input productName select2-product"
+                                            style="width: 100%;">
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="number" name="Quantinumber[]"
+                                            class="form-control ds-input Quantinumber bg-light" value="0" readonly>
+                                    </td>
+                                    <td>
+                                        <input type="number" name="productSize[]"
+                                            class="form-control ds-input productSize bg-light" value="1" readonly>
+                                    </td>
                                     <td>
                                         <input type="text" name="perishableType[]"
-                                            class="form-control perishableType bg-light" readonly placeholder="-">
+                                            class="form-control ds-input perishableType bg-light" readonly placeholder="-">
                                     </td>
                                     <td class="expiry-column" style="display: none;">
                                         <div class="expiry-wrapper" style="display: none;">
-                                            <input type="date" name="expdate[]" class="form-control expdate">
+                                            <input type="date" name="expdate[]" class="form-control ds-input expdate">
                                         </div>
                                     </td>
-                                    <td><input type="number" name="unitPrice[]" class="form-control unitPrice"
-                                            step="0.01">
+                                    <td>
+                                        <input type="number" name="unitPrice[]" class="form-control ds-input unitPrice"
+                                            step="0.01" placeholder="0.00">
                                     </td>
-                                    <td class="totalPrice fw-bold">0.00</td>
-                                    <td class="row-total fw-bold text-primary">0.00</td>
+                                    <td class="totalPrice font-weight-bold align-middle">0.00</td>
+                                    <td class="row-total font-weight-bold text-primary align-middle">0.00</td>
                                     <td>
                                         <button type="button" class="btn btn-outline-danger btn-sm border-0 remove-row">
                                             <i class="fas fa-trash-alt"></i>
@@ -130,106 +135,80 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <datalist id="productData">
-                            {{-- Dynamically populated by JS to show only top 10 --}}
-                        </datalist>
                     </div>
 
-                    {{-- Summary --}}
-                    <div class="row justify-content-end">
-                        <div class="col-md-4 p-4 bg-light rounded-4">
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Gross Amount:</span>
-                                <span id="gross_total" class="fw-bold text-dark">₱0.00</span>
+                    {{-- Dynamic Interaction Controls --}}
+                    <div class="mt-2">
+                        <button type="button" id="addRow" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-plus mr-1"></i> Add Item
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            {{-- RIGHT SIDE: Tightened, Compact Invoice Summary Sidebar (4 Columns) --}}
+            <div class="col-lg-3">
+                <div class="position-sticky" style="top: 20px;">
+
+                    {{-- Adjusted padding (py-3 px-3) and margin bottom (mb-3) for a slimmer footprint --}}
+                    <div class="ds-form-panel py-3 px-3 mb-3">
+                        <p class="form-section-title mb-2" style="font-size: 0.9rem; letter-spacing: 0.5px;">Invoice
+                            Summary</p>
+
+                        {{-- Added small class for streamlined typography --}}
+                        <div class="ds-summary small">
+                            <div class="ds-summary-row d-flex justify-content-between mb-1.5">
+                                <span class="ds-summary-label text-muted">Gross Amount</span>
+                                <span id="gross_total" class="font-weight-bold text-dark">₱0.00</span>
                             </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Vatable Sales:</span>
-                                <span id="vatable_sales" class="fw-bold text-dark">₱0.00</span>
+                            <div class="ds-summary-row d-flex justify-content-between mb-1.5">
+                                <span class="ds-summary-label text-muted">Vatable Sales</span>
+                                <span id="vatable_sales" class="font-weight-bold text-dark">₱0.00</span>
                             </div>
-                            <div class="d-flex justify-content-between mb-3">
-                                <span class="text-muted">VAT (12%):</span>
-                                <span id="vat_amount" class="fw-bold text-dark">₱0.00</span>
+                            <div class="ds-summary-row d-flex justify-content-between mb-2">
+                                <span class="ds-summary-label text-muted">VAT (12%)</span>
+                                <span id="vat_amount" class="font-weight-bold text-dark">₱0.00</span>
                             </div>
-                            <div
-                                class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary border-opacity-10">
-                                <span class="h6 fw-bold mb-0">Grand Total (Net):</span>
-                                <span id="grand_total" class="h4 fw-bold text-primary mb-0">₱0.00</span>
+
+                            <div class="ds-total-divider my-2 style-dashed" style="border-top: 1px dashed #dee2e6;"></div>
+
+                            {{-- Kept readable but cleaned up the sizing parameters --}}
+                            <div class="ds-summary-row d-flex justify-content-between align-items-center my-2">
+                                <span class="ds-summary-label font-weight-bold text-dark"
+                                    style="font-size: 0.85rem;">Grand Total (Net)</span>
+                                <span id="grand_total"
+                                    class="ds-summary-value text-primary font-weight-bold h5 mb-0">₱0.00</span>
                             </div>
+
                             <input type="hidden" name="gross_total_raw" id="gross_total_raw">
                             <input type="hidden" name="vat_amount_raw" id="vat_amount_raw">
                             <input type="hidden" name="grand_total_raw" id="grand_total_raw">
                         </div>
+
+                        {{-- Action button matches the streamlined height profile --}}
+                        <div class="mt-3">
+                            <button type="submit" class="btn-add-item btn-block w-100 py-2 btn-sm font-weight-bold">
+                                <i class="fas fa-save mr-1"></i> Save Invoice
+                            </button>
+                        </div>
                     </div>
 
-                    {{-- Save Button --}}
-
-                    <button type="submit" class="btn btn-add-item">
-                        <i class="fas fa-save"></i> Save Invoice
-                    </button>
-
-                </form>
-            </div>{{-- end .form-panel --}}
-        </div>
-
-
-        {{-- RECENT ADDED SUPPLY --}}
-        <div class="col-md-3">
-            <div class="card elevation-2 card-recent-added">
-                <div class="card-header">
-                    <h3 class="card-title font-weight-bold">Recently Added Supply</h3>
-
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-
-                    </div>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body p-0">
-                    <ul class="list-unstyled mb-0">
-                        @foreach ($purchase_items->take(5) as $items)
-                            <li class="d-flex align-items-center justify-content-between px-3 py-2"
-                                style="border-bottom: 0.5px solid rgba(0,0,0,0.07);">
-                                <div class="d-flex align-items-center">
-                                    <div class="mr-3 d-flex align-items-center justify-content-center"
-                                        style="width:34px; height:34px; border-radius:9px; background:#fff0f2; font-size:16px;">
-                                        <i class="bi bi-box2-fill text-danger"></i>
-                                    </div>
-                                    <div>
-                                        <div style="font-size:13.5px; font-weight:600;">{{ $items->product_name }}
-                                        </div>
-                                        <div class="text-muted" style="font-size:11px;">Beverage · In stock</div>
-                                    </div>
-                                </div>
-                                <span class="badge"
-                                    style="background:#fff3cd; color:#856404; font-size:12px; font-weight:700; padding:4px 10px; border-radius:20px;">
-                                    ₱{{ number_format($items->grand_total, 2) }}
-                                </span>
-                            </li>
-                        @endforeach
-                    </ul>
-
-                    <div class="card-footer text-center">
-                        <a href="{{ route('paymentTracker') }}" class="uppercase text-danger">View All Purchases
-                            Supply</a>
-                    </div>
                 </div>
             </div>
         </div>
 
+    </form>
 
+@endsection
 
-    @endsection
+@section('JS src')
+    <script src="{{ asset('js/invoiceEncoder.js') }}"></script>
+    <script>
+        const allProducts = @json($products);
 
-
-    @section('JS src')
-        <script src="{{ asset('js/invoiceEncoder.js') }}"></script>
-        <script>
-            const allProducts = @json($products);
-
-            $(document).ready(function() {
-                initInvoiceEncoder(allProducts);
-            });
-        </script>
-    @endsection
+        $(document).ready(function() {
+            initInvoiceEncoder(allProducts);
+        });
+    </script>
+@endsection

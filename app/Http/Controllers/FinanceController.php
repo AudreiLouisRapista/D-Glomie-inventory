@@ -64,7 +64,9 @@ class FinanceController extends Controller
             'gross_sales',
             'total_expenses',
             'net_income'
-        );
+        )   ->orderBy('daily_sales_report.id','desc')
+            ->get();
+
 
         return DataTables::of($query)
             ->editColumn('report_date', function ($row) {

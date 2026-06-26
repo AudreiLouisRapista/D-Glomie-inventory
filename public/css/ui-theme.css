@@ -190,7 +190,7 @@ html.dark-mode .theme-switch-knob {
     transform: translateX(22px);
 }
 
-.skeleton-card {
+/* .skeleton-card {
     position: relative;
 }
 
@@ -249,4 +249,4 @@ html.dark-mode .skeleton-table-loading::before {
     100% {
         transform: translateX(100%);
     }
-}
+} */
