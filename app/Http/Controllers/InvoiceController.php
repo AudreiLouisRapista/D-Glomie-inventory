@@ -47,8 +47,8 @@ class InvoiceController extends Controller
             'gross_total_raw' => 'required|numeric|min:0',
             'vat_amount_raw' => 'required|numeric|min:0',
             'grand_total_raw' => 'required|numeric|min:0',
-            'productId' => 'required|array|min:1',              // ← changed from productName
-            'productId.*' => 'required|integer|exists:product,id', // ← changed validation rule
+            'productId' => 'required|array|min:1',            
+            'productId.*' => 'required|integer|exists:product,id', 
             'CSquantity' => 'required|array|min:1',
             'CSquantity.*' => 'required|integer|min:1',
             'Quantinumber' => 'required|array|min:1',
@@ -84,7 +84,7 @@ class InvoiceController extends Controller
                 $purchaseItemId = DB::table('purchase_items')->insertGetId([
                     'purchase_id' => $invoiceId,
                     'branch_id' => session('branch_id'),
-                    'product_id' => $productId,   // ← use directly, no lookup needed
+                    'product_id' => $productId,  
                     'supply_qty' => $request->CSquantity[$key],
                     'unit_price' => $request->unitPrice[$key],
                     'total_price' => $request->Quantinumber[$key] * $request->productSize[$key] * $request->unitPrice[$key],
